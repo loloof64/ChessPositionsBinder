@@ -33,7 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final selectedData = await Navigator.of(context).push<String>(
       MaterialPageRoute(
         builder: (context) {
-          return PositionEditorPage();
+          return PositionEditorPage(initialFen: Chess.initial.fen);
         },
       ),
     );
