@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:chess_position_binder/core/read_positions.dart';
+import 'package:chess_position_binder/pages/position_editor.dart';
 import 'package:chessground/chessground.dart';
 import 'package:dartchess/dartchess.dart';
 import 'package:flutter/material.dart';
@@ -23,9 +24,22 @@ class _MyHomePageState extends State<MyHomePage> {
     _setupCurrentDirectory();
   }
 
-  void _setupCurrentDirectory() async {
+  Future<void> _setupCurrentDirectory() async {
     _currentDirectory = await getApplicationDocumentsDirectory();
     _contentFuture = readPositions(_currentDirectory!);
+  }
+
+  Future<void> _purposeCreatePosition() async {
+    final selectedData = await Navigator.of(context).push<String>(
+      MaterialPageRoute(
+        builder: (context) {
+          return PositionEditorPage();
+        },
+      ),
+    );
+    if (selectedData == null) {
+      return;
+    }
   }
 
   @override
@@ -74,6 +88,14 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text("Main page"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.insert_drive_file_outlined),
+            onPressed: () {
+              _purposeCreatePosition();
+            },
+          ),
+        ],
       ),
       body: Center(child: content),
     );
