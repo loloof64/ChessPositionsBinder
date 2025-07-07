@@ -22,9 +22,9 @@ class _PositionEditorPageState extends State<PositionEditorPage> {
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           bottom: const TabBar(
             tabs: [
-              Tab(text: "Edit"),
-              Tab(text: "Informations"),
-              Tab(text: "Shortcuts"),
+              Tab(icon: Icon(Icons.edit)),
+              Tab(icon: Icon(Icons.info)),
+              Tab(icon: Icon(Icons.double_arrow)),
             ],
           ),
         ),
