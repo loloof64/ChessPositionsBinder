@@ -12,6 +12,11 @@ class PositionEditorPage extends StatefulWidget {
 }
 
 class _PositionEditorPageState extends State<PositionEditorPage> {
+  void _returnPgn() {
+    final pgn = "";
+    Navigator.of(context).pop(pgn);
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -27,6 +32,9 @@ class _PositionEditorPageState extends State<PositionEditorPage> {
               Tab(icon: Icon(Icons.double_arrow)),
             ],
           ),
+          actions: [
+            IconButton(icon: const Icon(Icons.save), onPressed: _returnPgn),
+          ],
         ),
         body: TabBarView(
           children: [

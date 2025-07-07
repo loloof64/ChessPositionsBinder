@@ -45,6 +45,24 @@ class _PositionInformationsFormState extends State<PositionInformationsForm> {
             decoration: const InputDecoration(labelText: "Black player"),
           ),
         ),
+        Flexible(
+          child: TextField(
+            controller: _eventController,
+            decoration: const InputDecoration(labelText: "Event"),
+          ),
+        ),
+        Flexible(
+          child: TextField(
+            controller: _dateController,
+            decoration: const InputDecoration(labelText: "Date"),
+          ),
+        ),
+        Flexible(
+          child: TextField(
+            controller: _exerciceController,
+            decoration: const InputDecoration(labelText: "Exercice"),
+          ),
+        ),
       ],
     );
   }
