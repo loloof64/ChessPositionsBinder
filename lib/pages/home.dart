@@ -84,6 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     return ListTile(
                       leading: Text(itemName),
                       title: StaticChessboard(
+                        pieceAssets: PieceSet.meridaAssets,
                         size: boardSize,
                         fen: position.fen,
                         orientation: itemOrientation,
