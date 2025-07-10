@@ -6,7 +6,6 @@ import 'package:chessground/chessground.dart';
 import 'package:dartchess/dartchess.dart' as chess;
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:file_picker/file_picker.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -25,35 +24,35 @@ class _MyHomePageState extends State<MyHomePage> {
     _setupCurrentDirectory();
   }
 
+  Future<void> _reloadContent() async {
+    setState(() {
+      _contentFuture = readPositions(_currentDirectory!);
+    });
+  }
+
   Future<void> _setupCurrentDirectory() async {
     _currentDirectory = await getApplicationDocumentsDirectory();
     _contentFuture = readPositions(_currentDirectory!);
   }
 
   Future<void> _purposeCreatePosition() async {
-    final pgn = await Navigator.of(context).push<String>(
+    final result = await Navigator.of(context).push<(String, String)?>(
       MaterialPageRoute(
         builder: (context) {
           return PositionEditorPage(initialFen: chess.Chess.initial.fen);
         },
       ),
     );
-    if (pgn == null) {
+    if (result == null) {
       return;
     }
 
-    final selectedOutput = await FilePicker.platform.saveFile(
-      dialogTitle: 'Please select an output file:',
-      allowedExtensions: ['pgn'],
-      fileName: 'output-file.pgn',
-      initialDirectory: _currentDirectory?.path,
-    );
-    if (selectedOutput == null) {
-      return;
-    }
+    final (pgn, selectedName) = result;
 
-    final savedFile = File(selectedOutput);
+    final savedFile = File("${_currentDirectory!.path}/$selectedName");
     await savedFile.writeAsString(pgn);
+
+    _reloadContent();
   }
 
   @override

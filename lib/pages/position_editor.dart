@@ -53,12 +53,46 @@ class _PositionEditorPageState extends State<PositionEditorPage> {
     super.dispose();
   }
 
+  Future<String?> _getSavedFileName() {
+    String? inputValue;
+    return showDialog<String?>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Select saved file name"),
+          content: TextField(
+            autofocus: true,
+            decoration: InputDecoration(labelText: "File name"),
+            onChanged: (value) {
+              inputValue = value;
+            },
+          ),
+          actions: [
+            TextButton(
+              child: const Text("Cancel"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text("Save"),
+              onPressed: () {
+                Navigator.of(context).pop(inputValue);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void _showPasteError(String message) {
     final snackBar = SnackBar(content: Text(message));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  void _returnPgn() {
+  void _returnPgn() async {
     var headers = {
       "White": _positionMetadataController?.whitePlayer ?? "",
       "Black": _positionMetadataController?.blackPlayer ?? "",
@@ -75,7 +109,15 @@ class _PositionEditorPageState extends State<PositionEditorPage> {
       comments: [],
     );
     final pgn = pgnHolder.makePgn();
-    Navigator.of(context).pop(pgn);
+    final savedName = await _getSavedFileName();
+    if (savedName == null) return;
+    String fileName = savedName;
+    if (!fileName.endsWith('pgn')) {
+      fileName += '.pgn';
+    }
+    if (context.mounted) {
+      Navigator.of(context).pop((pgn, fileName));
+    }
   }
 
   @override
