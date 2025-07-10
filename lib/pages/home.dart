@@ -6,6 +6,7 @@ import 'package:chessground/chessground.dart';
 import 'package:dartchess/dartchess.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:file_picker/file_picker.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -30,16 +31,23 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _purposeCreatePosition() async {
-    final selectedData = await Navigator.of(context).push<String>(
+    final pgn = await Navigator.of(context).push<String>(
       MaterialPageRoute(
         builder: (context) {
           return PositionEditorPage(initialFen: Chess.initial.fen);
         },
       ),
     );
-    if (selectedData == null) {
+    if (pgn == null) {
       return;
     }
+
+    await FilePicker.platform.saveFile(
+      dialogTitle: 'Please select an output file:',
+      allowedExtensions: ['pgn'],
+      fileName: 'output-file.pgn',
+      initialDirectory: _currentDirectory?.path,
+    );
   }
 
   @override

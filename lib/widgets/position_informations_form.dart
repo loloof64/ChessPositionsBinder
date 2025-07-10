@@ -1,7 +1,9 @@
+import 'package:chess_position_binder/widgets/position_metadata_controller.dart';
 import 'package:flutter/material.dart';
 
 class PositionInformationsForm extends StatefulWidget {
-  const PositionInformationsForm({super.key});
+  final PositionMetadataControlller? metadataController;
+  const PositionInformationsForm({super.key, this.metadataController});
 
   @override
   State<PositionInformationsForm> createState() =>
@@ -9,11 +11,37 @@ class PositionInformationsForm extends StatefulWidget {
 }
 
 class _PositionInformationsFormState extends State<PositionInformationsForm> {
-  TextEditingController _whitePlayerController = TextEditingController();
-  TextEditingController _blackPlayerController = TextEditingController();
-  TextEditingController _eventController = TextEditingController();
-  TextEditingController _dateController = TextEditingController();
-  TextEditingController _exerciceController = TextEditingController();
+  final TextEditingController _whitePlayerController = TextEditingController();
+  final TextEditingController _blackPlayerController = TextEditingController();
+  final TextEditingController _eventController = TextEditingController();
+  final TextEditingController _dateController = TextEditingController();
+  final TextEditingController _exerciceController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _whitePlayerController.text = widget.metadataController?.whitePlayer ?? "";
+    _blackPlayerController.text = widget.metadataController?.blackPlayer ?? "";
+    _eventController.text = widget.metadataController?.event ?? "";
+    _dateController.text = widget.metadataController?.date ?? "";
+    _exerciceController.text = widget.metadataController?.exercice ?? "";
+
+    _whitePlayerController.addListener(() {
+      widget.metadataController?.updateWhitePlayer(_whitePlayerController.text);
+    });
+    _blackPlayerController.addListener(() {
+      widget.metadataController?.updateBlackPlayer(_blackPlayerController.text);
+    });
+    _eventController.addListener(() {
+      widget.metadataController?.updateEvent(_eventController.text);
+    });
+    _dateController.addListener(() {
+      widget.metadataController?.updateDate(_dateController.text);
+    });
+    _exerciceController.addListener(() {
+      widget.metadataController?.updateExercice(_exerciceController.text);
+    });
+  }
 
   @override
   void dispose() {
