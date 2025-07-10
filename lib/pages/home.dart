@@ -82,8 +82,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         ? chess.Side.white
                         : chess.Side.black;
                     return ListTile(
-                      leading: Text(itemName),
-                      title: StaticChessboard(
+                      title: Text(itemName),
+                      subtitle: StaticChessboard(
                         pieceAssets: PieceSet.meridaAssets,
                         size: boardSize,
                         fen: position.fen,
