@@ -17,6 +17,8 @@ class _BoardEditorState extends State<BoardEditor> {
   /// The piece to add when a square is touched. If null, will delete the piece.
   Piece? _pieceToAddOnTouch;
 
+  bool _blackAtBottom = false;
+
   @override
   void initState() {
     super.initState();
@@ -40,8 +42,8 @@ class _BoardEditorState extends State<BoardEditor> {
       children: [
         ChessboardEditor(
           size: screenMinSize * 0.60,
-          settings: ChessboardSettings(enableCoordinates: false),
-          orientation: Side.white,
+          settings: ChessboardSettings(enableCoordinates: true),
+          orientation: _blackAtBottom ? Side.black : Side.white,
           pieces: _pieces,
           pointerMode: EditorPointerMode.edit,
           onEditedSquare: (squareId) => setState(() {
@@ -213,17 +215,14 @@ class _BoardEditorState extends State<BoardEditor> {
                     setState(() => _pieceToAddOnTouch = Piece.blackKing),
               ),
               InkWell(
-                child: Container(
-                  width: pieceButtonSize,
-                  height: pieceButtonSize,
-                  color: _pieceToAddOnTouch == null ? Colors.lightBlue : null,
-                  child: Icon(
-                    Icons.delete,
-                    color: Colors.red,
-                    size: pieceButtonSize,
+                child: IconButton(
+                  icon: Icon(
+                    _blackAtBottom ? Icons.toggle_on : Icons.toggle_off,
+                    size: pieceButtonSize * 0.7,
                   ),
+                  onPressed: () =>
+                      setState(() => _blackAtBottom = !_blackAtBottom),
                 ),
-                onTap: () => setState(() => _pieceToAddOnTouch = null),
               ),
             ],
           ),
