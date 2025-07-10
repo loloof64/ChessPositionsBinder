@@ -1,11 +1,12 @@
+import 'package:chess_position_binder/widgets/position_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:chessground/chessground.dart';
 import 'package:dartchess/dartchess.dart';
 import 'package:chess_vectors_flutter/chess_vectors_flutter.dart';
 
 class BoardEditor extends StatefulWidget {
-  final String initialFen;
-  const BoardEditor({super.key, required this.initialFen});
+  final PositionController? positionController;
+  const BoardEditor({super.key, required this.positionController});
 
   @override
   State<BoardEditor> createState() => _BoardEditorState();
@@ -17,33 +18,64 @@ class _BoardEditorState extends State<BoardEditor> {
   /// The piece to add when a square is touched. If null, will delete the piece.
   Piece? _pieceToAddOnTouch;
 
-  bool _blackAtBottom = false;
+  bool _isBlackTurn = false;
 
   @override
   void initState() {
     super.initState();
+    _isBlackTurn = !isWhiteTurn();
     setState(() {
-      _pieces = readFen(widget.initialFen);
+      _pieces = readFen(
+        widget.positionController?.fen ??
+            "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      );
     });
+  }
+
+  bool isWhiteTurn() {
+    final turnPart = widget.positionController?.fen.split(" ")[1];
+    return turnPart == "w";
   }
 
   @override
   Widget build(BuildContext context) {
     final screenMinSize = MediaQuery.of(context).size.shortestSide;
-    final pieceButtonSize = screenMinSize * 0.08;
-    final piecesButtonsRowSize = screenMinSize * 0.085;
-    final piecesButtonsRowSpacing = 5.0;
+    final pieceButtonSize = screenMinSize * 0.065;
+    final piecesButtonsRowSize = screenMinSize * 0.07;
+    final piecesButtonsRowSpacing = 4.0;
 
     return Column(
-      spacing: 4,
+      spacing: 8,
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        SizedBox(
+          height: piecesButtonsRowSize,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            spacing: 8,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text("Black turn:"),
+              IconButton(
+                icon: Icon(
+                  _isBlackTurn ? Icons.toggle_on : Icons.toggle_off,
+                  color: _isBlackTurn ? Colors.blue : Colors.black12,
+                ),
+                onPressed: () => setState(() {
+                  _isBlackTurn = !_isBlackTurn;
+                  widget.positionController?.toggleTurn();
+                }),
+              ),
+            ],
+          ),
+        ),
         ChessboardEditor(
           size: screenMinSize * 0.60,
           settings: ChessboardSettings(enableCoordinates: true),
-          orientation: _blackAtBottom ? Side.black : Side.white,
+          orientation: _isBlackTurn ? Side.black : Side.white,
           pieces: _pieces,
           pointerMode: EditorPointerMode.edit,
           onEditedSquare: (squareId) => setState(() {
@@ -52,14 +84,17 @@ class _BoardEditorState extends State<BoardEditor> {
             } else {
               _pieces.remove(squareId);
             }
+            widget.positionController?.updateBoardPart(writeFen(_pieces));
           }),
           onDiscardedPiece: (squareId) => setState(() {
             _pieces.remove(squareId);
+            widget.positionController?.updateBoardPart(writeFen(_pieces));
           }),
           onDroppedPiece: (origin, destination, piece) => setState(() {
             _pieces[destination] = piece;
             if (origin != null && origin != destination) {
               _pieces.remove(origin);
+              widget.positionController?.updateBoardPart(writeFen(_pieces));
             }
           }),
         ),
@@ -215,14 +250,17 @@ class _BoardEditorState extends State<BoardEditor> {
                     setState(() => _pieceToAddOnTouch = Piece.blackKing),
               ),
               InkWell(
-                child: IconButton(
-                  icon: Icon(
-                    _blackAtBottom ? Icons.toggle_on : Icons.toggle_off,
-                    size: pieceButtonSize * 0.7,
+                child: Container(
+                  width: pieceButtonSize,
+                  height: pieceButtonSize,
+                  color: _pieceToAddOnTouch == null ? Colors.lightBlue : null,
+                  child: Icon(
+                    Icons.delete,
+                    color: Colors.red,
+                    size: pieceButtonSize,
                   ),
-                  onPressed: () =>
-                      setState(() => _blackAtBottom = !_blackAtBottom),
                 ),
+                onTap: () => setState(() => _pieceToAddOnTouch = null),
               ),
             ],
           ),

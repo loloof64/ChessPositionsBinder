@@ -1,17 +1,56 @@
+import 'package:chess_position_binder/widgets/position_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:dartchess/dartchess.dart' as chess;
 
 class PositionShortcutButtons extends StatelessWidget {
-  const PositionShortcutButtons({super.key});
+  final String startFen;
+  final PositionController? positionController;
+  final void Function(String message)? onPasteError;
 
-  void _pasteFromClipboard() {}
+  const PositionShortcutButtons({
+    super.key,
+    this.onPasteError,
+    required this.startFen,
+    required this.positionController,
+  });
 
-  void _copyToClipboard() {}
+  void _pasteFromClipboard() async {
+    final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
+    String? fen = clipboardData?.text;
+    if (fen == null) {
+      return;
+    }
+    try {
+      final newChessLogic = chess.Chess.fromSetup(chess.Setup.parseFen(fen));
+      positionController?.replaceFen(newChessLogic.fen);
+    } catch (e) {
+      debugPrint(e.toString());
+      if (onPasteError != null) {
+        onPasteError!("Failed to paste FEN !");
+      }
+      return;
+    }
+  }
 
-  void _clearBoard() {}
+  void _copyToClipboard() async {
+    if (positionController == null) return;
+    await Clipboard.setData(ClipboardData(text: positionController!.value));
+  }
 
-  void _resetFen() {}
+  void _clearBoard() {
+    positionController?.replaceFen("8/8/8/8/8/8/8/8 w - - 0 1");
+  }
 
-  void _setupStartPosition() {}
+  void _resetFen() {
+    positionController?.replaceFen(startFen);
+  }
+
+  void _setupStartPosition() {
+    positionController?.replaceFen(
+      "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
