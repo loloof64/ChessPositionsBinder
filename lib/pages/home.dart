@@ -101,7 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
       builder: (context) {
         return AlertDialog(
           title: const Text("Delete position ?"),
-          content: Text("Are you sure you want to delete position$name ?"),
+          content: Text("Are you sure you want to delete position $name ?"),
           actions: [
             TextButton(
               child: const Text("Cancel"),
