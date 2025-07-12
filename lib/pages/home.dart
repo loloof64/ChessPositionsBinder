@@ -158,8 +158,8 @@ class _MyHomePageState extends State<MyHomePage> {
               ? const Text("No item")
               : Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: ListView.builder(
-                    padding: const EdgeInsets.all(4.0),
+                  child: ListView.separated(
+                    separatorBuilder: (context, index) => const Divider(),
                     itemCount: snapshot.data!.length,
                     itemBuilder: (context, index) {
                       final currentItem = snapshot.data![index];
