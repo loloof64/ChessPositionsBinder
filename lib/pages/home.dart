@@ -16,6 +16,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Directory? _currentDirectory;
+  Directory? _baseDirectory;
   Future<List<(String, String, bool)>> _contentFuture = Future.value([]);
 
   @override
@@ -32,6 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> _setupCurrentDirectory() async {
     _currentDirectory = await getApplicationDocumentsDirectory();
+    _baseDirectory = _currentDirectory;
     _contentFuture = readElements(_currentDirectory!);
   }
 
@@ -145,6 +147,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var pathText = _currentDirectory?.path ?? "";
+    if (_currentDirectory != null && _baseDirectory != null) {
+      pathText = pathText.replaceFirst(_baseDirectory!.path, "[BASE_DIR]");
+    }
     final isPortrait =
         MediaQuery.of(context).orientation == Orientation.portrait;
     final width = MediaQuery.of(context).size.width;
@@ -158,76 +164,95 @@ class _MyHomePageState extends State<MyHomePage> {
               ? const Text("No item")
               : Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: ListView.separated(
-                    separatorBuilder: (context, index) => const Divider(),
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) {
-                      final currentItem = snapshot.data![index];
-                      final itemPath = currentItem.$1;
-                      final itemName = itemPath.split('/').last;
-                      final itemPgn = currentItem.$2;
-                      final isFolder = currentItem.$3;
-                      if (isFolder) {
-                        return Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          spacing: 2,
-                          children: [
-                            Icon(
-                              Icons.folder,
-                              size: 50,
-                              color: Colors.amberAccent,
-                            ),
-                            Text(itemName),
-                          ],
-                        );
-                      } else {
-                        final pgnGame = chess.PgnGame.parsePgn(itemPgn);
-                        final position = chess.PgnGame.startingPosition(
-                          pgnGame.headers,
-                        );
-                        final itemOrientation =
-                            position.turn == chess.Side.white
-                            ? chess.Side.white
-                            : chess.Side.black;
-                        return Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          spacing: 4,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: StaticChessboard(
-                                pieceAssets: PieceSet.meridaAssets,
-                                size: boardSize,
-                                fen: position.fen,
-                                orientation: itemOrientation,
-                              ),
-                            ),
-                            Text(itemName),
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                IconButton(
-                                  icon: Icon(Icons.edit),
-                                  onPressed: () =>
-                                      _purposeEditPosition(itemPath),
-                                ),
-                                IconButton(
-                                  icon: Icon(Icons.delete),
-                                  onPressed: () =>
-                                      _purposeDeletePosition(itemPath),
-                                ),
-                              ],
-                            ),
-                          ],
-                        );
-                      }
-                    },
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        color: Colors.amberAccent,
+                        child: Text(
+                          pathText,
+                          style: const TextStyle(fontSize: 20),
+                        ),
+                      ),
+                      Expanded(
+                        child: ListView.separated(
+                          separatorBuilder: (context, index) => const Divider(),
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (context, index) {
+                            final currentItem = snapshot.data![index];
+                            final itemPath = currentItem.$1;
+                            final itemName = itemPath.split('/').last;
+                            final itemPgn = currentItem.$2;
+                            final isFolder = currentItem.$3;
+                            if (isFolder) {
+                              return Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                spacing: 2,
+                                children: [
+                                  Icon(
+                                    Icons.folder,
+                                    size: 50,
+                                    color: Colors.amberAccent,
+                                  ),
+                                  Text(itemName),
+                                ],
+                              );
+                            } else {
+                              final pgnGame = chess.PgnGame.parsePgn(itemPgn);
+                              final position = chess.PgnGame.startingPosition(
+                                pgnGame.headers,
+                              );
+                              final itemOrientation =
+                                  position.turn == chess.Side.white
+                                  ? chess.Side.white
+                                  : chess.Side.black;
+                              return Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                spacing: 4,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 8.0),
+                                    child: StaticChessboard(
+                                      pieceAssets: PieceSet.meridaAssets,
+                                      size: boardSize,
+                                      fen: position.fen,
+                                      orientation: itemOrientation,
+                                    ),
+                                  ),
+                                  Text(itemName),
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      IconButton(
+                                        icon: Icon(Icons.edit),
+                                        onPressed: () =>
+                                            _purposeEditPosition(itemPath),
+                                      ),
+                                      IconButton(
+                                        icon: Icon(Icons.delete),
+                                        onPressed: () =>
+                                            _purposeDeletePosition(itemPath),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 );
         } else if (snapshot.hasError) {
