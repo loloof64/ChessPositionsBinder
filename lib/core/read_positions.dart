@@ -23,5 +23,17 @@ Future<List<(String, String)>> readPositions(Directory directory) async {
     }
   }
 
+  results.sort((a, b) {
+    final aIsFolder = FileSystemEntity.isDirectorySync(a.$1);
+    final bIsFolder = FileSystemEntity.isDirectorySync(b.$1);
+    if (aIsFolder && !bIsFolder) {
+      return -1;
+    }
+    if (!aIsFolder && bIsFolder) {
+      return 1;
+    }
+    return a.$1.compareTo(b.$1);
+  });
+
   return results;
 }

@@ -111,6 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
               _purposeCreatePosition();
             },
           ),
+          IconButton(onPressed: _reloadContent, icon: Icon(Icons.refresh)),
         ],
       ),
       body: Center(child: content),
