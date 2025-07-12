@@ -89,8 +89,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
       _reloadContent();
     } catch (e) {
-      //TODO proper handling
       debugPrint(e.toString());
+      if (!context.mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Failed to edit position")));
     }
   }
 
@@ -128,8 +133,13 @@ class _MyHomePageState extends State<MyHomePage> {
       await savedFile.delete();
       _reloadContent();
     } catch (e) {
-      //TODO proper handling
       debugPrint(e.toString());
+      if (!context.mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Failed to delete position")));
     }
   }
 
