@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 /*
 Returns a Future of List of Tuple
-Tuple def = (name, content, isFolder)
+Tuple def = (path, content, isFolder)
 */
 Future<List<(String, String, bool)>> readElements(Directory directory) async {
   final filesAndFolders = await directory.list().toList();
@@ -20,11 +20,10 @@ Future<List<(String, String, bool)>> readElements(Directory directory) async {
     try {
       final isFolder = await FileSystemEntity.isDirectory(file.path);
       if (isFolder) {
-        results.add((file.path.split('/').last, '', true));
+        results.add((file.path, '', true));
       } else {
         final content = await (file as File).readAsString();
-        final name = file.path.split('/').last;
-        results.add((name, content, false));
+        results.add((file.path, content, false));
       }
     } catch (e) {
       debugPrint(e.toString());

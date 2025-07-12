@@ -75,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     itemCount: snapshot.data!.length,
                     itemBuilder: (context, index) {
                       final currentItem = snapshot.data![index];
-                      final itemName = currentItem.$1;
+                      final itemName = currentItem.$1.split('/').last;
                       final itemPgn = currentItem.$2;
                       final isFolder = currentItem.$3;
                       if (isFolder) {
