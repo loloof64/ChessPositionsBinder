@@ -13,6 +13,7 @@ class PositionEditorPage extends StatefulWidget {
   final String event;
   final String date;
   final String exercice;
+  final bool editingExistingFile;
 
   const PositionEditorPage({
     super.key,
@@ -23,6 +24,7 @@ class PositionEditorPage extends StatefulWidget {
     this.event = "",
     this.date = "",
     this.exercice = "",
+    required this.editingExistingFile,
   });
 
   @override
@@ -109,14 +111,18 @@ class _PositionEditorPageState extends State<PositionEditorPage> {
       comments: [],
     );
     final pgn = pgnHolder.makePgn();
-    final savedName = await _getSavedFileName();
-    if (savedName == null) return;
-    String fileName = savedName;
-    if (!fileName.endsWith('pgn')) {
-      fileName += '.pgn';
-    }
-    if (context.mounted) {
-      Navigator.of(context).pop((pgn, fileName));
+    if (widget.editingExistingFile) {
+      Navigator.of(context).pop((pgn, ""));
+    } else {
+      final savedName = await _getSavedFileName();
+      if (savedName == null) return;
+      String fileName = savedName;
+      if (!fileName.endsWith('pgn')) {
+        fileName += '.pgn';
+      }
+      if (context.mounted) {
+        Navigator.of(context).pop((pgn, fileName));
+      }
     }
   }
 
