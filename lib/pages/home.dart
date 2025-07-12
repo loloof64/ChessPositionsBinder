@@ -16,7 +16,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Directory? _currentDirectory;
-  Future<List<(String, String)>> _contentFuture = Future.value([]);
+  Future<List<(String, String, bool)>> _contentFuture = Future.value([]);
 
   @override
   void initState() {
@@ -26,13 +26,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> _reloadContent() async {
     setState(() {
-      _contentFuture = readPositions(_currentDirectory!);
+      _contentFuture = readElements(_currentDirectory!);
     });
   }
 
   Future<void> _setupCurrentDirectory() async {
     _currentDirectory = await getApplicationDocumentsDirectory();
-    _contentFuture = readPositions(_currentDirectory!);
+    _contentFuture = readElements(_currentDirectory!);
   }
 
   Future<void> _purposeCreatePosition() async {
@@ -61,36 +61,68 @@ class _MyHomePageState extends State<MyHomePage> {
         MediaQuery.of(context).orientation == Orientation.portrait;
     final width = MediaQuery.of(context).size.width;
     final boardSize = isPortrait ? width * 0.4 : width * 0.28;
-    final content = FutureBuilder<List<(String, String)>>(
+    final content = FutureBuilder<List<(String, String, bool)>>(
       future: _contentFuture,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           final allItems = snapshot.data!;
           return allItems.isEmpty
               ? const Text("No item")
-              : ListView.builder(
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    final currentItem = snapshot.data![index];
-                    final itemName = currentItem.$1;
-                    final itemPgn = currentItem.$2;
-                    final pgnGame = chess.PgnGame.parsePgn(itemPgn);
-                    final position = chess.PgnGame.startingPosition(
-                      pgnGame.headers,
-                    );
-                    final itemOrientation = position.turn == chess.Side.white
-                        ? chess.Side.white
-                        : chess.Side.black;
-                    return ListTile(
-                      title: Text(itemName),
-                      subtitle: StaticChessboard(
-                        pieceAssets: PieceSet.meridaAssets,
-                        size: boardSize,
-                        fen: position.fen,
-                        orientation: itemOrientation,
-                      ),
-                    );
-                  },
+              : Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListView.builder(
+                    padding: const EdgeInsets.all(4.0),
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      final currentItem = snapshot.data![index];
+                      final itemName = currentItem.$1;
+                      final itemPgn = currentItem.$2;
+                      final isFolder = currentItem.$3;
+                      if (isFolder) {
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: 2,
+                          children: [
+                            Icon(
+                              Icons.folder,
+                              size: 50,
+                              color: Colors.amberAccent,
+                            ),
+                            Text(itemName),
+                          ],
+                        );
+                      } else {
+                        final pgnGame = chess.PgnGame.parsePgn(itemPgn);
+                        final position = chess.PgnGame.startingPosition(
+                          pgnGame.headers,
+                        );
+                        final itemOrientation =
+                            position.turn == chess.Side.white
+                            ? chess.Side.white
+                            : chess.Side.black;
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: 4,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: StaticChessboard(
+                                pieceAssets: PieceSet.meridaAssets,
+                                size: boardSize,
+                                fen: position.fen,
+                                orientation: itemOrientation,
+                              ),
+                            ),
+                            Text(itemName),
+                          ],
+                        );
+                      }
+                    },
+                  ),
                 );
         } else if (snapshot.hasError) {
           return Icon(Icons.error, color: Colors.red);
