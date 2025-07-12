@@ -7,6 +7,8 @@ import 'package:dartchess/dartchess.dart' as chess;
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
+const parentFolder = '@ParentFolder@';
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
 
@@ -101,6 +103,8 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  Future<void> _purposeViewPositionDetails(String path) async {}
+
   Future<void> _purposeDeletePosition(String path) async {
     final name = path.split("/").last;
     showDialog(
@@ -145,6 +149,51 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  Future<void> _handleFolderSelection(String name) async {
+    if (name == parentFolder) {
+      setState(() {
+        _currentDirectory = _currentDirectory!.parent;
+      });
+      _reloadContent();
+      return;
+    }
+    try {
+      final matchingFile = File("${_currentDirectory!.path}/$name");
+      if (!await FileSystemEntity.isDirectory(matchingFile.path)) {
+        return;
+      }
+      setState(() {
+        _currentDirectory = Directory(matchingFile.path);
+      });
+      _reloadContent();
+    } catch (e) {
+      debugPrint(e.toString());
+      if (!context.mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Failed to open folder")));
+    }
+  }
+
+  Future<void> _handlePositionSelection(String path) async {
+    try {
+      if (!await FileSystemEntity.isFile(path)) {
+        return;
+      }
+      _purposeViewPositionDetails(path);
+    } catch (e) {
+      debugPrint(e.toString());
+      if (!context.mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Failed to open position")));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var pathText = _currentDirectory?.path ?? "";
@@ -159,100 +208,109 @@ class _MyHomePageState extends State<MyHomePage> {
       future: _contentFuture,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          final allItems = snapshot.data!;
-          return allItems.isEmpty
-              ? const Text("No item")
+          var allItems = snapshot.data!;
+          if (_currentDirectory?.path != _baseDirectory?.path) {
+            allItems = [(parentFolder, "", true), ...allItems];
+          }
+          return allItems.isEmpty && _currentDirectory == _baseDirectory
+              ? Text("No item")
               : Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: double.infinity,
-                        color: Colors.amberAccent,
-                        child: Text(
-                          pathText,
-                          style: const TextStyle(fontSize: 20),
-                        ),
-                      ),
-                      Expanded(
-                        child: ListView.separated(
-                          separatorBuilder: (context, index) => const Divider(),
-                          itemCount: snapshot.data!.length,
-                          itemBuilder: (context, index) {
-                            final currentItem = snapshot.data![index];
-                            final itemPath = currentItem.$1;
-                            final itemName = itemPath.split('/').last;
-                            final itemPgn = currentItem.$2;
-                            final isFolder = currentItem.$3;
-                            if (isFolder) {
-                              return Column(
+                  child: ListView.separated(
+                    separatorBuilder: (context, index) => const Divider(),
+                    itemCount: allItems.length,
+                    itemBuilder: (context, index) {
+                      final currentItem = allItems[index];
+                      final itemPath = currentItem.$1;
+                      final itemName = itemPath.split('/').last;
+                      final itemPgn = currentItem.$2;
+                      final isFolder = currentItem.$3;
+                      final isParentFolder =
+                          isFolder && itemPath == parentFolder;
+                      if (isParentFolder) {
+                        return GestureDetector(
+                          onTap: () => _handleFolderSelection(parentFolder),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.arrow_back,
+                                size: 50,
+                                color: Colors.blueAccent,
+                              ),
+                            ],
+                          ),
+                        );
+                      } else if (isFolder) {
+                        return GestureDetector(
+                          onTap: () => _handleFolderSelection(itemName),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            spacing: 2,
+                            children: [
+                              Icon(
+                                Icons.folder,
+                                size: 50,
+                                color: Colors.amberAccent,
+                              ),
+                              Text(itemName),
+                            ],
+                          ),
+                        );
+                      } else {
+                        final pgnGame = chess.PgnGame.parsePgn(itemPgn);
+                        final position = chess.PgnGame.startingPosition(
+                          pgnGame.headers,
+                        );
+                        final itemOrientation =
+                            position.turn == chess.Side.white
+                            ? chess.Side.white
+                            : chess.Side.black;
+                        return GestureDetector(
+                          onTap: () => _handlePositionSelection(itemPath),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            spacing: 4,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child: StaticChessboard(
+                                  pieceAssets: PieceSet.meridaAssets,
+                                  size: boardSize,
+                                  fen: position.fen,
+                                  orientation: itemOrientation,
+                                ),
+                              ),
+                              Text(itemName),
+                              Row(
                                 mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                spacing: 2,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Icon(
-                                    Icons.folder,
-                                    size: 50,
-                                    color: Colors.amberAccent,
+                                  IconButton(
+                                    icon: Icon(Icons.edit),
+                                    onPressed: () =>
+                                        _purposeEditPosition(itemPath),
                                   ),
-                                  Text(itemName),
-                                ],
-                              );
-                            } else {
-                              final pgnGame = chess.PgnGame.parsePgn(itemPgn);
-                              final position = chess.PgnGame.startingPosition(
-                                pgnGame.headers,
-                              );
-                              final itemOrientation =
-                                  position.turn == chess.Side.white
-                                  ? chess.Side.white
-                                  : chess.Side.black;
-                              return Column(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                spacing: 4,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 8.0),
-                                    child: StaticChessboard(
-                                      pieceAssets: PieceSet.meridaAssets,
-                                      size: boardSize,
-                                      fen: position.fen,
-                                      orientation: itemOrientation,
-                                    ),
-                                  ),
-                                  Text(itemName),
-                                  Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      IconButton(
-                                        icon: Icon(Icons.edit),
-                                        onPressed: () =>
-                                            _purposeEditPosition(itemPath),
-                                      ),
-                                      IconButton(
-                                        icon: Icon(Icons.delete),
-                                        onPressed: () =>
-                                            _purposeDeletePosition(itemPath),
-                                      ),
-                                    ],
+                                  IconButton(
+                                    icon: Icon(Icons.delete),
+                                    onPressed: () =>
+                                        _purposeDeletePosition(itemPath),
                                   ),
                                 ],
-                              );
-                            }
-                          },
-                        ),
-                      ),
-                    ],
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                    },
                   ),
                 );
         } else if (snapshot.hasError) {
@@ -277,7 +335,19 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(onPressed: _reloadContent, icon: Icon(Icons.refresh)),
         ],
       ),
-      body: Center(child: content),
+      body: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: double.infinity,
+            color: Colors.amberAccent,
+            child: Text(pathText, style: const TextStyle(fontSize: 20)),
+          ),
+          Flexible(child: content),
+        ],
+      ),
     );
   }
 }
