@@ -230,9 +230,9 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             TextButton(
               child: const Text("Ok", style: TextStyle(color: Colors.green)),
-              onPressed: () {
-                _deletePosition(path);
+              onPressed: () async {
                 Navigator.of(context).pop();
+                await _deletePosition(path);
               },
             ),
           ],
@@ -292,12 +292,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     style: TextStyle(color: Colors.green),
                   ),
                   onPressed: () async {
+                    Navigator.of(context).pop();
                     String newName = currentValue;
                     if (!newName.endsWith(".pgn")) {
                       newName += ".pgn";
                     }
                     await _renamePosition(path, newName);
-                    Navigator.of(context).pop();
                   },
                 ),
               ],
@@ -325,6 +325,26 @@ class _MyHomePageState extends State<MyHomePage> {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text("Failed to rename position")));
+    }
+  }
+
+  Future<void> _renameFolder(String path, String newName) async {
+    try {
+      final savedFolder = Directory(path);
+      final newSavedFolder = Directory("${_currentDirectory!.path}/$newName");
+      if (await newSavedFolder.exists()) {
+        throw Exception("Folder already exists");
+      }
+      await savedFolder.rename(newSavedFolder.path);
+      _reloadContent();
+    } catch (e) {
+      debugPrint(e.toString());
+      if (!context.mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Failed to rename folder")));
     }
   }
 
@@ -371,6 +391,49 @@ class _MyHomePageState extends State<MyHomePage> {
         context,
       ).showSnackBar(SnackBar(content: Text("Failed to open position")));
     }
+  }
+
+  Future<void> _purposeRenameFolder(String path) async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        String newFolderName = path.split("/").last;
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: Text("Rename folder ($newFolderName)"),
+              content: TextField(
+                autofocus: true,
+                decoration: InputDecoration(labelText: "New name"),
+                controller: TextEditingController(text: newFolderName),
+                onChanged: (value) => newFolderName = value,
+              ),
+              actions: [
+                TextButton(
+                  child: const Text(
+                    "Cancel",
+                    style: TextStyle(color: Colors.red),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  child: const Text(
+                    "Ok",
+                    style: TextStyle(color: Colors.green),
+                  ),
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                    await _renameFolder(path, newFolderName);
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
   }
 
   @override
@@ -437,6 +500,20 @@ class _MyHomePageState extends State<MyHomePage> {
                                 color: Colors.amberAccent,
                               ),
                               Text(itemName),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                spacing: 8,
+                                children: [
+                                  IconButton(
+                                    onPressed: () =>
+                                        _purposeRenameFolder(itemPath),
+                                    icon: Icon(Icons.abc),
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                         );
