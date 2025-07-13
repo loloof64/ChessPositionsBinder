@@ -159,13 +159,13 @@ class _MyHomePageState extends State<MyHomePage> {
           content: Text("Are you sure you want to delete position $name ?"),
           actions: [
             TextButton(
-              child: const Text("Cancel"),
+              child: const Text("Cancel", style: TextStyle(color: Colors.red)),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text("Ok"),
+              child: const Text("Ok", style: TextStyle(color: Colors.green)),
               onPressed: () {
                 _deletePosition(path);
                 Navigator.of(context).pop();
@@ -214,13 +214,19 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               actions: [
                 TextButton(
-                  child: const Text("Cancel"),
+                  child: const Text(
+                    "Cancel",
+                    style: TextStyle(color: Colors.red),
+                  ),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
                 ),
                 TextButton(
-                  child: const Text("Ok"),
+                  child: const Text(
+                    "Ok",
+                    style: TextStyle(color: Colors.green),
+                  ),
                   onPressed: () async {
                     String newName = currentValue;
                     if (!newName.endsWith(".pgn")) {
