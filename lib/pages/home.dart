@@ -68,6 +68,11 @@ class _MyHomePageState extends State<MyHomePage> {
       final pgnContent = await File(path).readAsString();
       final chessGame = chess.PgnGame.parsePgn(pgnContent);
       final initialFen = chessGame.headers["FEN"] ?? chess.Chess.initial.fen;
+      final whitePlayer = chessGame.headers["White"] ?? "";
+      final blackPlayer = chessGame.headers["Black"] ?? "";
+      final event = chessGame.headers["Event"] ?? "";
+      final date = chessGame.headers["Date"] ?? "";
+      final exercice = chessGame.headers["Exercice"] ?? "";
       if (!context.mounted) {
         return;
       }
@@ -77,6 +82,11 @@ class _MyHomePageState extends State<MyHomePage> {
             return PositionEditorPage(
               initialFen: initialFen,
               editingExistingFile: true,
+              whitePlayer: whitePlayer,
+              blackPlayer: blackPlayer,
+              event: event,
+              date: date,
+              exercice: exercice,
             );
           },
         ),
