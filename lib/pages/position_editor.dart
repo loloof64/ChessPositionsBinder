@@ -95,13 +95,28 @@ class _PositionEditorPageState extends State<PositionEditorPage> {
   }
 
   void _returnPgn() async {
-    var headers = {
-      "White": _positionMetadataController?.whitePlayer ?? "",
-      "Black": _positionMetadataController?.blackPlayer ?? "",
-      "Event": _positionMetadataController?.event ?? "",
-      "Date": _positionMetadataController?.date ?? "",
-      "Exercice": _positionMetadataController?.exercice ?? "",
-    };
+    Map<String, String> headers = {};
+    if (_positionMetadataController != null &&
+        _positionMetadataController!.whitePlayer.isNotEmpty) {
+      headers["White"] = _positionMetadataController!.whitePlayer;
+    }
+    if (_positionMetadataController != null &&
+        _positionMetadataController!.blackPlayer.isNotEmpty) {
+      headers["Black"] = _positionMetadataController!.blackPlayer;
+    }
+    if (_positionMetadataController != null &&
+        _positionMetadataController!.event.isNotEmpty) {
+      headers["Event"] = _positionMetadataController!.event;
+    }
+    if (_positionMetadataController != null &&
+        _positionMetadataController!.date.isNotEmpty) {
+      headers["Date"] = _positionMetadataController!.date;
+    }
+    if (_positionMetadataController != null &&
+        _positionMetadataController!.exercice.isNotEmpty) {
+      headers["Exercice"] = _positionMetadataController!.exercice;
+    }
+
     if (_positionController != null) {
       headers["FEN"] = _positionController!.fen;
     }

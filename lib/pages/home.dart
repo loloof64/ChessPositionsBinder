@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:chess_position_binder/core/read_positions.dart';
+import 'package:chess_position_binder/pages/position_details.dart';
 import 'package:chess_position_binder/pages/position_editor.dart';
 import 'package:chessground/chessground.dart';
 import 'package:dartchess/dartchess.dart' as chess;
@@ -66,10 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
     try {
       final pgnContent = await File(path).readAsString();
       final chessGame = chess.PgnGame.parsePgn(pgnContent);
-      final initialFen = chessGame.headers["FEN"];
-      if (initialFen == null) {
-        throw Exception("FEN not found in PGN");
-      }
+      final initialFen = chessGame.headers["FEN"] ?? chess.Chess.initial.fen;
       if (!context.mounted) {
         return;
       }
@@ -103,7 +101,43 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  Future<void> _purposeViewPositionDetails(String path) async {}
+  Future<void> _purposeViewPositionDetails(String path) async {
+    try {
+      final pgnContent = await File(path).readAsString();
+      final chessGame = chess.PgnGame.parsePgn(pgnContent);
+      final initialFen = chessGame.headers["FEN"] ?? chess.Chess.initial.fen;
+      final whitePlayer = chessGame.headers["White"] ?? "NN";
+      final blackPlayer = chessGame.headers["Black"] ?? "NN";
+      final event = chessGame.headers["Event"] ?? "?";
+      final date = chessGame.headers["Date"] ?? "????.??.??";
+      final exercice = chessGame.headers["Exercice"] ?? "";
+      if (!context.mounted) {
+        return;
+      }
+      await Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) {
+            return PositionDetailsPage(
+              fen: initialFen,
+              whitePlayer: whitePlayer,
+              blackPlayer: blackPlayer,
+              event: event,
+              date: date,
+              exercice: exercice,
+            );
+          },
+        ),
+      );
+    } catch (e) {
+      debugPrint(e.toString());
+      if (!context.mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Failed to view position details.")),
+      );
+    }
+  }
 
   Future<void> _purposeDeletePosition(String path) async {
     final name = path.split("/").last;
