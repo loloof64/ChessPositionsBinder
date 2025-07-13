@@ -241,6 +241,34 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  Future<void> _purposeDeleteFolder(String path) async {
+    final name = path.split("/").last;
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Delete folder ?"),
+          content: Text("Are you sure you want to delete folder $name ?"),
+          actions: [
+            TextButton(
+              child: const Text("Cancel", style: TextStyle(color: Colors.red)),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text("Ok", style: TextStyle(color: Colors.green)),
+              onPressed: () async {
+                Navigator.of(context).pop();
+                await _deleteFolder(path);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Future<void> _deletePosition(String path) async {
     try {
       final savedFile = File(path);
@@ -254,6 +282,22 @@ class _MyHomePageState extends State<MyHomePage> {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text("Failed to delete position")));
+    }
+  }
+
+  Future<void> _deleteFolder(String path) async {
+    try {
+      final savedFolder = Directory(path);
+      await savedFolder.delete(recursive: true);
+      _reloadContent();
+    } catch (e) {
+      debugPrint(e.toString());
+      if (!context.mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Failed to delete folder")));
     }
   }
 
@@ -511,6 +555,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                     onPressed: () =>
                                         _purposeRenameFolder(itemPath),
                                     icon: Icon(Icons.abc),
+                                  ),
+                                  IconButton(
+                                    onPressed: () =>
+                                        _purposeDeleteFolder(itemPath),
+                                    icon: Icon(Icons.delete),
                                   ),
                                 ],
                               ),
