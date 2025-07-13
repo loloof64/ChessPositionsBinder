@@ -63,6 +63,70 @@ class _MyHomePageState extends State<MyHomePage> {
     _reloadContent();
   }
 
+  Future<void> _purposeCreateFolder() async {
+    String newName = "";
+    showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: const Text("Create folder"),
+              content: TextField(
+                autofocus: true,
+                decoration: InputDecoration(labelText: "Folder name"),
+                controller: TextEditingController(text: ""),
+                onChanged: (value) {
+                  newName = value;
+                },
+              ),
+              actions: [
+                TextButton(
+                  child: const Text(
+                    "Cancel",
+                    style: TextStyle(color: Colors.red),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  child: const Text(
+                    "Ok",
+                    style: TextStyle(color: Colors.green),
+                  ),
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                    await _createFolder(newName);
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Future<void> _createFolder(name) async {
+    try {
+      final newFolder = Directory("${_currentDirectory!.path}/$name");
+      if (await newFolder.exists()) {
+        throw Exception("Folder already exists");
+      }
+      await newFolder.create();
+      _reloadContent();
+    } catch (e) {
+      debugPrint(e.toString());
+      if (!context.mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Failed to create folder")));
+    }
+  }
+
   Future<void> _purposeEditPosition(String path) async {
     try {
       final pgnContent = await File(path).readAsString();
@@ -452,6 +516,7 @@ class _MyHomePageState extends State<MyHomePage> {
               _purposeCreatePosition();
             },
           ),
+          IconButton(onPressed: _purposeCreateFolder, icon: Icon(Icons.folder)),
           IconButton(onPressed: _reloadContent, icon: Icon(Icons.refresh)),
         ],
       ),
