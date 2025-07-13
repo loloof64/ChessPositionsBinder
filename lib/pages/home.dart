@@ -193,6 +193,71 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  Future<void> _purposeRenamePosition(String path) async {
+    final currentName = path.split("/").last;
+    List<String> currentNameParts = currentName.split(".");
+    currentNameParts.removeLast();
+    final currentNameWithoutExtension = currentNameParts.join(".");
+    String currentValue = currentNameWithoutExtension;
+    showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: Text("Rename position ($currentName)"),
+              content: TextField(
+                autofocus: true,
+                decoration: InputDecoration(labelText: "New name"),
+                controller: TextEditingController(text: currentValue),
+                onChanged: (value) => currentValue = value,
+              ),
+              actions: [
+                TextButton(
+                  child: const Text("Cancel"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  child: const Text("Ok"),
+                  onPressed: () async {
+                    String newName = currentValue;
+                    if (!newName.endsWith(".pgn")) {
+                      newName += ".pgn";
+                    }
+                    await _renamePosition(path, newName);
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Future<void> _renamePosition(String path, String newName) async {
+    try {
+      final savedFile = File(path);
+      final newSavedFile = File("${_currentDirectory!.path}/$newName");
+      if (await newSavedFile.exists()) {
+        throw Exception("File already exists");
+      }
+      await savedFile.rename(newSavedFile.path);
+      _reloadContent();
+    } catch (e) {
+      debugPrint(e.toString());
+      if (!context.mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Failed to rename position")));
+    }
+  }
+
   Future<void> _handleFolderSelection(String name) async {
     if (name == parentFolder) {
       setState(() {
@@ -338,6 +403,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                     MainAxisAlignment.spaceEvenly,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
+                                  IconButton(
+                                    icon: Icon(Icons.abc),
+                                    onPressed: () =>
+                                        _purposeRenamePosition(itemPath),
+                                  ),
                                   IconButton(
                                     icon: Icon(Icons.edit),
                                     onPressed: () =>
