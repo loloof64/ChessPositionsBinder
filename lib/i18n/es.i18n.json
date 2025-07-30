@@ -1,0 +1,92 @@
+{
+  "widgets": {
+    "board_editor": {
+      "black_turn": "Turno de Negras:"
+    },
+    "position_information_form": {
+      "white_player": "Jugador de Blancas",
+      "black_player": "Jugador de Negras",
+      "event": "Evento",
+      "date": "Fecha",
+      "exercise": "Ejercicio"
+    }
+  },
+  "pages": {
+    "overall": {
+      "buttons": {
+        "ok": "De Acuerdo",
+        "cancel": "Anular",
+        "save": "Guardar"
+      }
+    },
+    "home": {
+      "title": "Página principal",
+      "create_folder_dialog": {
+        "title": "Crear carpeta",
+        "folder_name_placeholder": "Nombre de la carpeta"
+      },
+      "create_folder_errors": {
+        "already_exists": "La carpeta ya existe",
+        "creation_error": "Error al crear la carpeta"
+      },
+      "misc_errors": {
+        "failed_editing_position": "Error al editar la posición",
+        "failed_viewing_position_details": "Error al ver los detalles de la posición",
+        "failed_deleting_position": "Error al eliminar la posición",
+        "failed_deleting_folder": "Error al eliminar la carpeta",
+        "failed_opening_folder": "Error al abrir la carpeta",
+        "failed_opening_position": "Error al abrir la posición"
+      },
+      "delete_position_dialog": {
+        "title": "¿Eliminar posición?",
+        "message": "¿Está seguro de que desea eliminar la posición $name?"
+      },
+      "delete_folder_dialog": {
+        "title": "¿Eliminar carpeta?",
+        "message": "¿Está seguro de que desea eliminar la carpeta $name?"
+      },
+      "rename_position_dialog": {
+        "title": "Renombrar posición ($currentName)",
+        "name_placeholder": "Nuevo nombre"
+      },
+      "rename_position_errors": {
+        "already_exists": "La posición ya existe",
+        "modification_error": "Error al renombrar la posición"
+      },
+      "rename_folder_errors": {
+        "already_exists": "La carpeta ya existe",
+        "modification_error": "Error al renombrar la carpeta"
+      },
+      "rename_folder_dialog": {
+        "title": "Renombrar carpeta ($newFolderName)",
+        "name_placeholder": "Nuevo nombre"
+      },
+      "misc": {
+        "base_directory": "[PRIMERA_CARPETA]",
+        "no_item": "Ningún elemento"
+      }
+    },
+    "position_details": {
+      "title": "Detalles de la posición"
+    },
+    "position_editor": {
+      "title": "Editor de posición",
+      "saved_file_name_dialog": {
+        "title": "Seleccionar nombre de archivo",
+        "name_placeholder": "Nombre de archivo"
+      }
+    },
+    "position_shortcuts": {
+      "errors": {
+        "failed_pasting_fen": "Error al pegar FEN"
+      },
+      "buttons": {
+        "paste_fen": "Pegar FEN",
+        "copy_fen": "Copiar FEN",
+        "clear": "Limpiar",
+        "reset": "Restablecer",
+        "set_start_position": "Establecer posición inicial"
+      }
+    }
+  }
+}

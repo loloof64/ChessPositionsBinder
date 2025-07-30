@@ -1,0 +1,92 @@
+{
+  "widgets": {
+    "board_editor": {
+      "black_turn": "Trait aux Noirs:"
+    },
+    "position_information_form": {
+      "white_player": "Joueur Blanc",
+      "black_player": "Joueur Noir",
+      "event": "Évènement",
+      "date": "Date",
+      "exercise": "Exercice"
+    }
+  },
+  "pages": {
+    "overall": {
+      "buttons": {
+        "ok": "Ok",
+        "cancel": "Annuler",
+        "save": "Sauvegarder"
+      }
+    },
+    "home": {
+      "title": "Page principale",
+      "create_folder_dialog": {
+        "title": "Créer un dossier",
+        "folder_name_placeholder": "Nom du dossier"
+      },
+      "create_folder_errors": {
+        "already_exists": "Le dossier existe déjà",
+        "creation_error": "Échec de création du dossier"
+      },
+      "misc_errors": {
+        "failed_editing_position": "Échec d'édition de la position",
+        "failed_viewing_position_details": "Échec de lecture des détails de la position",
+        "failed_deleting_position": "Échec de suppression de la position",
+        "failed_deleting_folder": "Échec de suppression du dossier",
+        "failed_opening_folder": "Échec d'ouverture du dossier",
+        "failed_opening_position": "Échec d'ouverture de la position"
+      },
+      "delete_position_dialog": {
+        "title": "Supprimer la position ?",
+        "message": "Êtes vous-sûr de vouloir supprimer la position $name ?"
+      },
+      "delete_folder_dialog": {
+        "title": "Supprimer le dossier",
+        "message": "Êtes vous-sûr de vouloir supprimer le dossier $name ?"
+      },
+      "rename_position_dialog": {
+        "title": "Renommer la position ($currentName)",
+        "name_placeholder": "Nouveau nom"
+      },
+      "rename_position_errors": {
+        "already_exists": "Le fichier existe déjà",
+        "modification_error": "Échec de modification du nom de fichier"
+      },
+      "rename_folder_errors": {
+        "already_exists": "Le dossier existe déjà",
+        "modification_error": "Échec de modification du nom de dossier"
+      },
+      "rename_folder_dialog": {
+        "title": "Renommer le dossier ($newFolderName)",
+        "name_placeholder": "Nouveau nom"
+      },
+      "misc": {
+        "base_directory": "[DOSSIER_DE_BASE]",
+        "no_item": "Aucun élément"
+      }
+    },
+    "position_details": {
+      "title": "Détails de la position"
+    },
+    "position_editor": {
+      "title": "Éditeur de position",
+      "saved_file_name_dialog": {
+        "title": "Choisir le nom du fichier",
+        "name_placeholder": "Nom du fichier"
+      }
+    },
+    "position_shortcuts": {
+      "errors": {
+        "failed_pasting_fen": "Échec lors du collage du FEN"
+      },
+      "buttons": {
+        "paste_fen": "Coller le FEN",
+        "copy_fen": "Copier le FEN",
+        "clear": "Effacer",
+        "reset": "Réinitialiser",
+        "set_start_position": "Position de départ"
+      }
+    }
+  }
+}

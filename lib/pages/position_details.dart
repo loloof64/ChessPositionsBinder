@@ -1,3 +1,4 @@
+import 'package:chess_position_binder/i18n/strings.g.dart';
 import 'package:chessground/chessground.dart';
 import 'package:dartchess/dartchess.dart' as chess;
 import 'package:flutter/material.dart';
@@ -29,7 +30,7 @@ class PositionDetailsPage extends StatelessWidget {
     final screenMinSize = MediaQuery.of(context).size.shortestSide;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Position Details"),
+        title: Text(t.pages.position_details.title),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: Center(

@@ -1,3 +1,4 @@
+import 'package:chess_position_binder/i18n/strings.g.dart';
 import 'package:chess_position_binder/pages/position_shortcuts_buttons.dart';
 import 'package:chess_position_binder/widgets/board_editor.dart';
 import 'package:chess_position_binder/widgets/position_controller.dart';
@@ -62,23 +63,29 @@ class _PositionEditorPageState extends State<PositionEditorPage> {
       barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
-          title: const Text("Select saved file name"),
+          title: Text(t.pages.position_editor.saved_file_name_dialog.title),
           content: TextField(
             autofocus: true,
-            decoration: InputDecoration(labelText: "File name"),
+            decoration: InputDecoration(
+              labelText: t
+                  .pages
+                  .position_editor
+                  .saved_file_name_dialog
+                  .name_placeholder,
+            ),
             onChanged: (value) {
               inputValue = value;
             },
           ),
           actions: [
             TextButton(
-              child: const Text("Cancel"),
+              child: Text(t.pages.overall.buttons.cancel),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text("Save"),
+              child: Text(t.pages.overall.buttons.save),
               onPressed: () {
                 Navigator.of(context).pop(inputValue);
               },
@@ -147,7 +154,7 @@ class _PositionEditorPageState extends State<PositionEditorPage> {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Position Editor"),
+          title: Text(t.pages.position_editor.title),
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           bottom: const TabBar(
             tabs: [

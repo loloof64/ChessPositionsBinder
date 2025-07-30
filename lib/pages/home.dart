@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:chess_position_binder/i18n/strings.g.dart';
 import 'package:chess_position_binder/core/read_positions.dart';
 import 'package:chess_position_binder/pages/position_details.dart';
 import 'package:chess_position_binder/pages/position_editor.dart';
@@ -71,10 +72,13 @@ class _MyHomePageState extends State<MyHomePage> {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              title: const Text("Create folder"),
+              title: Text(t.pages.home.create_folder_dialog.title),
               content: TextField(
                 autofocus: true,
-                decoration: InputDecoration(labelText: "Folder name"),
+                decoration: InputDecoration(
+                  labelText:
+                      t.pages.home.create_folder_dialog.folder_name_placeholder,
+                ),
                 controller: TextEditingController(text: ""),
                 onChanged: (value) {
                   newName = value;
@@ -82,8 +86,8 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               actions: [
                 TextButton(
-                  child: const Text(
-                    "Cancel",
+                  child: Text(
+                    t.pages.overall.buttons.cancel,
                     style: TextStyle(color: Colors.red),
                   ),
                   onPressed: () {
@@ -91,8 +95,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                 ),
                 TextButton(
-                  child: const Text(
-                    "Ok",
+                  child: Text(
+                    t.pages.overall.buttons.ok,
                     style: TextStyle(color: Colors.green),
                   ),
                   onPressed: () async {
@@ -112,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
     try {
       final newFolder = Directory("${_currentDirectory!.path}/$name");
       if (await newFolder.exists()) {
-        throw Exception("Folder already exists");
+        throw Exception(t.pages.home.create_folder_errors.already_exists);
       }
       await newFolder.create();
       _reloadContent();
@@ -121,9 +125,11 @@ class _MyHomePageState extends State<MyHomePage> {
       if (!context.mounted) {
         return;
       }
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("Failed to create folder")));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(t.pages.home.create_folder_errors.creation_error),
+        ),
+      );
     }
   }
 
@@ -169,9 +175,11 @@ class _MyHomePageState extends State<MyHomePage> {
       if (!context.mounted) {
         return;
       }
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text("Failed to edit position")));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(t.pages.home.misc_errors.failed_editing_position),
+        ),
+      );
     }
   }
 
@@ -208,7 +216,11 @@ class _MyHomePageState extends State<MyHomePage> {
         return;
       }
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Failed to view position details.")),
+        SnackBar(
+          content: Text(
+            t.pages.home.misc_errors.failed_viewing_position_details,
+          ),
+        ),
       );
     }
   }
@@ -219,17 +231,25 @@ class _MyHomePageState extends State<MyHomePage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text("Delete position ?"),
-          content: Text("Are you sure you want to delete position $name ?"),
+          title: Text(t.pages.home.delete_position_dialog.title),
+          content: Text(
+            t.pages.home.delete_position_dialog.message(name: name),
+          ),
           actions: [
             TextButton(
-              child: const Text("Cancel", style: TextStyle(color: Colors.red)),
+              child: Text(
+                t.pages.overall.buttons.cancel,
+                style: TextStyle(color: Colors.red),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text("Ok", style: TextStyle(color: Colors.green)),
+              child: Text(
+                t.pages.overall.buttons.ok,
+                style: TextStyle(color: Colors.green),
+              ),
               onPressed: () async {
                 Navigator.of(context).pop();
                 await _deletePosition(path);
@@ -247,17 +267,23 @@ class _MyHomePageState extends State<MyHomePage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text("Delete folder ?"),
-          content: Text("Are you sure you want to delete folder $name ?"),
+          title: Text(t.pages.home.delete_folder_dialog.title),
+          content: Text(t.pages.home.delete_folder_dialog.message(name: name)),
           actions: [
             TextButton(
-              child: const Text("Cancel", style: TextStyle(color: Colors.red)),
+              child: Text(
+                t.pages.overall.buttons.cancel,
+                style: TextStyle(color: Colors.red),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text("Ok", style: TextStyle(color: Colors.green)),
+              child: Text(
+                t.pages.overall.buttons.ok,
+                style: TextStyle(color: Colors.green),
+              ),
               onPressed: () async {
                 Navigator.of(context).pop();
                 await _deleteFolder(path);
@@ -279,9 +305,11 @@ class _MyHomePageState extends State<MyHomePage> {
       if (!context.mounted) {
         return;
       }
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("Failed to delete position")));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(t.pages.home.misc_errors.failed_deleting_position),
+        ),
+      );
     }
   }
 
@@ -295,9 +323,11 @@ class _MyHomePageState extends State<MyHomePage> {
       if (!context.mounted) {
         return;
       }
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("Failed to delete folder")));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(t.pages.home.misc_errors.failed_deleting_folder),
+        ),
+      );
     }
   }
 
@@ -313,17 +343,24 @@ class _MyHomePageState extends State<MyHomePage> {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              title: Text("Rename position ($currentName)"),
+              title: Text(
+                t.pages.home.rename_position_dialog.title(
+                  currentName: currentName,
+                ),
+              ),
               content: TextField(
                 autofocus: true,
-                decoration: InputDecoration(labelText: "New name"),
+                decoration: InputDecoration(
+                  labelText:
+                      t.pages.home.rename_position_dialog.name_placeholder,
+                ),
                 controller: TextEditingController(text: currentValue),
                 onChanged: (value) => currentValue = value,
               ),
               actions: [
                 TextButton(
-                  child: const Text(
-                    "Cancel",
+                  child: Text(
+                    t.pages.overall.buttons.cancel,
                     style: TextStyle(color: Colors.red),
                   ),
                   onPressed: () {
@@ -331,8 +368,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                 ),
                 TextButton(
-                  child: const Text(
-                    "Ok",
+                  child: Text(
+                    t.pages.overall.buttons.ok,
                     style: TextStyle(color: Colors.green),
                   ),
                   onPressed: () async {
@@ -357,7 +394,7 @@ class _MyHomePageState extends State<MyHomePage> {
       final savedFile = File(path);
       final newSavedFile = File("${_currentDirectory!.path}/$newName");
       if (await newSavedFile.exists()) {
-        throw Exception("File already exists");
+        throw Exception(t.pages.home.rename_position_errors.already_exists);
       }
       await savedFile.rename(newSavedFile.path);
       _reloadContent();
@@ -366,9 +403,11 @@ class _MyHomePageState extends State<MyHomePage> {
       if (!context.mounted) {
         return;
       }
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("Failed to rename position")));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(t.pages.home.rename_position_errors.modification_error),
+        ),
+      );
     }
   }
 
@@ -377,7 +416,7 @@ class _MyHomePageState extends State<MyHomePage> {
       final savedFolder = Directory(path);
       final newSavedFolder = Directory("${_currentDirectory!.path}/$newName");
       if (await newSavedFolder.exists()) {
-        throw Exception("Folder already exists");
+        throw Exception(t.pages.home.rename_folder_errors.already_exists);
       }
       await savedFolder.rename(newSavedFolder.path);
       _reloadContent();
@@ -386,9 +425,11 @@ class _MyHomePageState extends State<MyHomePage> {
       if (!context.mounted) {
         return;
       }
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("Failed to rename folder")));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(t.pages.home.rename_folder_errors.modification_error),
+        ),
+      );
     }
   }
 
@@ -414,9 +455,9 @@ class _MyHomePageState extends State<MyHomePage> {
       if (!context.mounted) {
         return;
       }
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("Failed to open folder")));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(t.pages.home.misc_errors.failed_opening_folder)),
+      );
     }
   }
 
@@ -431,9 +472,11 @@ class _MyHomePageState extends State<MyHomePage> {
       if (!context.mounted) {
         return;
       }
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("Failed to open position")));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(t.pages.home.misc_errors.failed_opening_position),
+        ),
+      );
     }
   }
 
@@ -445,17 +488,23 @@ class _MyHomePageState extends State<MyHomePage> {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              title: Text("Rename folder ($newFolderName)"),
+              title: Text(
+                t.pages.home.rename_folder_dialog.title(
+                  newFolderName: newFolderName,
+                ),
+              ),
               content: TextField(
                 autofocus: true,
-                decoration: InputDecoration(labelText: "New name"),
+                decoration: InputDecoration(
+                  labelText: t.pages.home.rename_folder_dialog.name_placeholder,
+                ),
                 controller: TextEditingController(text: newFolderName),
                 onChanged: (value) => newFolderName = value,
               ),
               actions: [
                 TextButton(
-                  child: const Text(
-                    "Cancel",
+                  child: Text(
+                    t.pages.overall.buttons.cancel,
                     style: TextStyle(color: Colors.red),
                   ),
                   onPressed: () {
@@ -463,8 +512,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                 ),
                 TextButton(
-                  child: const Text(
-                    "Ok",
+                  child: Text(
+                    t.pages.overall.buttons.ok,
                     style: TextStyle(color: Colors.green),
                   ),
                   onPressed: () async {
@@ -484,7 +533,10 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     var pathText = _currentDirectory?.path ?? "";
     if (_currentDirectory != null && _baseDirectory != null) {
-      pathText = pathText.replaceFirst(_baseDirectory!.path, "[BASE_DIR]");
+      pathText = pathText.replaceFirst(
+        _baseDirectory!.path,
+        t.pages.home.misc.base_directory,
+      );
     }
     final isPortrait =
         MediaQuery.of(context).orientation == Orientation.portrait;
@@ -499,7 +551,7 @@ class _MyHomePageState extends State<MyHomePage> {
             allItems = [(parentFolder, "", true), ...allItems];
           }
           return allItems.isEmpty && _currentDirectory == _baseDirectory
-              ? Text("No item")
+              ? Text(t.pages.home.misc.no_item)
               : Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ListView.separated(
@@ -634,7 +686,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text("Main page"),
+        title: Text(t.pages.home.title),
         actions: [
           IconButton(
             icon: const Icon(Icons.insert_drive_file_outlined),

@@ -1,3 +1,4 @@
+import 'package:chess_position_binder/i18n/strings.g.dart';
 import 'package:chess_position_binder/widgets/position_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,7 +28,7 @@ class PositionShortcutButtons extends StatelessWidget {
     } catch (e) {
       debugPrint(e.toString());
       if (onPasteError != null) {
-        onPasteError!("Failed to paste FEN !");
+        onPasteError!(t.pages.position_shortcuts.errors.failed_pasting_fen);
       }
       return;
     }
@@ -62,14 +63,23 @@ class PositionShortcutButtons extends StatelessWidget {
       children: [
         ElevatedButton(
           onPressed: _pasteFromClipboard,
-          child: Text("Paste FEN"),
+          child: Text(t.pages.position_shortcuts.buttons.paste_fen),
         ),
-        ElevatedButton(onPressed: _copyToClipboard, child: Text("Copy FEN")),
-        ElevatedButton(onPressed: _clearBoard, child: Text("Clear")),
-        ElevatedButton(onPressed: _resetFen, child: Text("Reset")),
+        ElevatedButton(
+          onPressed: _copyToClipboard,
+          child: Text(t.pages.position_shortcuts.buttons.copy_fen),
+        ),
+        ElevatedButton(
+          onPressed: _clearBoard,
+          child: Text(t.pages.position_shortcuts.buttons.clear),
+        ),
+        ElevatedButton(
+          onPressed: _resetFen,
+          child: Text(t.pages.position_shortcuts.buttons.reset),
+        ),
         ElevatedButton(
           onPressed: _setupStartPosition,
-          child: Text("Start position"),
+          child: Text(t.pages.position_shortcuts.buttons.set_start_position),
         ),
       ],
     );

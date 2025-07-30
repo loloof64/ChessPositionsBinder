@@ -1,3 +1,4 @@
+import 'package:chess_position_binder/i18n/strings.g.dart';
 import 'package:chess_position_binder/widgets/position_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:chessground/chessground.dart';
@@ -58,7 +59,7 @@ class _BoardEditorState extends State<BoardEditor> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text("Black turn:"),
+              Text(t.widgets.board_editor.black_turn),
               IconButton(
                 icon: Icon(
                   _isBlackTurn ? Icons.toggle_on : Icons.toggle_off,

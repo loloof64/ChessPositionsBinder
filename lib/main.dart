@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:chess_position_binder/i18n/strings.g.dart';
 import 'package:chess_position_binder/pages/home.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:window_manager/window_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  LocaleSettings.useDeviceLocale();
 
   if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
     await windowManager.ensureInitialized();
@@ -22,7 +24,7 @@ void main() async {
     });
   }
 
-  runApp(const MyApp());
+  runApp(TranslationProvider(child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -31,6 +33,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      locale: TranslationProvider.of(context).flutterLocale,
       title: "Chess Position Binder",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

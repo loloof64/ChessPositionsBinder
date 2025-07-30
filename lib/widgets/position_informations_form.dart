@@ -1,3 +1,4 @@
+import 'package:chess_position_binder/i18n/strings.g.dart';
 import 'package:chess_position_binder/widgets/position_metadata_controller.dart';
 import 'package:flutter/material.dart';
 
@@ -64,31 +65,41 @@ class _PositionInformationsFormState extends State<PositionInformationsForm> {
         Flexible(
           child: TextField(
             controller: _whitePlayerController,
-            decoration: const InputDecoration(labelText: "White player"),
+            decoration: InputDecoration(
+              labelText: t.widgets.position_information_form.white_player,
+            ),
           ),
         ),
         Flexible(
           child: TextField(
             controller: _blackPlayerController,
-            decoration: const InputDecoration(labelText: "Black player"),
+            decoration: InputDecoration(
+              labelText: t.widgets.position_information_form.black_player,
+            ),
           ),
         ),
         Flexible(
           child: TextField(
             controller: _eventController,
-            decoration: const InputDecoration(labelText: "Event"),
+            decoration: InputDecoration(
+              labelText: t.widgets.position_information_form.event,
+            ),
           ),
         ),
         Flexible(
           child: TextField(
             controller: _dateController,
-            decoration: const InputDecoration(labelText: "Date"),
+            decoration: InputDecoration(
+              labelText: t.widgets.position_information_form.date,
+            ),
           ),
         ),
         Flexible(
           child: TextField(
             controller: _exerciceController,
-            decoration: const InputDecoration(labelText: "Exercice"),
+            decoration: InputDecoration(
+              labelText: t.widgets.position_information_form.exercise,
+            ),
           ),
         ),
       ],
