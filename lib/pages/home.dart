@@ -673,11 +673,37 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                           );
                         } catch (e) {
-                          return Text(
-                            t.pages.home.misc_errors
-                                .failed_reading_position_value(
-                                  fileName: itemName,
-                                ),
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            spacing: 4,
+                            children: [
+                              Text(
+                                t.pages.home.misc_errors
+                                    .failed_reading_position_value(
+                                      fileName: itemName,
+                                    ),
+                              ),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  IconButton(
+                                    icon: Icon(Icons.edit),
+                                    onPressed: () =>
+                                        _purposeEditPosition(itemPath),
+                                  ),
+                                  IconButton(
+                                    icon: Icon(Icons.delete),
+                                    onPressed: () =>
+                                        _purposeDeletePosition(itemPath),
+                                  ),
+                                ],
+                              ),
+                            ],
                           );
                         }
                       }
