@@ -201,6 +201,7 @@ class TranslationsPagesHomeMiscErrorsEn {
 	String get failed_deleting_folder => 'Failed to delete folder';
 	String get failed_opening_folder => 'Failed to open folder';
 	String get failed_opening_position => 'Failed to open position';
+	String failed_reading_position_value({required Object fileName}) => 'Failed to read position from ${fileName}';
 }
 
 // Path: pages.home.delete_position_dialog
@@ -340,6 +341,7 @@ extension on Translations {
 			case 'pages.home.misc_errors.failed_deleting_folder': return 'Failed to delete folder';
 			case 'pages.home.misc_errors.failed_opening_folder': return 'Failed to open folder';
 			case 'pages.home.misc_errors.failed_opening_position': return 'Failed to open position';
+			case 'pages.home.misc_errors.failed_reading_position_value': return ({required Object fileName}) => 'Failed to read position from ${fileName}';
 			case 'pages.home.delete_position_dialog.title': return 'Delete position ?';
 			case 'pages.home.delete_position_dialog.message': return ({required Object name}) => 'Are you sure you want to delete position ${name} ?';
 			case 'pages.home.delete_folder_dialog.title': return 'Delete folder ?';

@@ -35,7 +35,8 @@
         "failed_deleting_position": "Error al eliminar la posición",
         "failed_deleting_folder": "Error al eliminar la carpeta",
         "failed_opening_folder": "Error al abrir la carpeta",
-        "failed_opening_position": "Error al abrir la posición"
+        "failed_opening_position": "Error al abrir la posición",
+        "failed_reading_position_value": "Error al leer la posición desde $fileName"
       },
       "delete_position_dialog": {
         "title": "¿Eliminar posición?",

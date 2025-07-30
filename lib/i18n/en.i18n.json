@@ -35,7 +35,8 @@
         "failed_deleting_position": "Failed to delete position",
         "failed_deleting_folder": "Failed to delete folder",
         "failed_opening_folder": "Failed to open folder",
-        "failed_opening_position": "Failed to open position"
+        "failed_opening_position": "Failed to open position",
+        "failed_reading_position_value": "Failed to read position from $fileName"
       },
       "delete_position_dialog": {
         "title": "Delete position ?",

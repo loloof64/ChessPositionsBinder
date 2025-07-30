@@ -40,7 +40,7 @@ class PositionShortcutButtons extends StatelessWidget {
   }
 
   void _clearBoard() {
-    positionController?.replaceFen("8/8/8/8/8/8/8/8 w - - 0 1");
+    positionController?.replaceFen("4k3/8/8/8/8/8/8/4K3 w - - 0 1");
   }
 
   void _resetFen() {

@@ -198,6 +198,7 @@ class _TranslationsPagesHomeMiscErrorsEs implements TranslationsPagesHomeMiscErr
 	@override String get failed_deleting_folder => 'Error al eliminar la carpeta';
 	@override String get failed_opening_folder => 'Error al abrir la carpeta';
 	@override String get failed_opening_position => 'Error al abrir la posición';
+	@override String failed_reading_position_value({required Object fileName}) => 'Error al leer la posición desde ${fileName}';
 }
 
 // Path: pages.home.delete_position_dialog
@@ -337,6 +338,7 @@ extension on TranslationsEs {
 			case 'pages.home.misc_errors.failed_deleting_folder': return 'Error al eliminar la carpeta';
 			case 'pages.home.misc_errors.failed_opening_folder': return 'Error al abrir la carpeta';
 			case 'pages.home.misc_errors.failed_opening_position': return 'Error al abrir la posición';
+			case 'pages.home.misc_errors.failed_reading_position_value': return ({required Object fileName}) => 'Error al leer la posición desde ${fileName}';
 			case 'pages.home.delete_position_dialog.title': return '¿Eliminar posición?';
 			case 'pages.home.delete_position_dialog.message': return ({required Object name}) => '¿Está seguro de que desea eliminar la posición ${name}?';
 			case 'pages.home.delete_folder_dialog.title': return '¿Eliminar carpeta?';

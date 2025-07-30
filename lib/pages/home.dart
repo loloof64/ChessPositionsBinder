@@ -619,58 +619,67 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         );
                       } else {
-                        final pgnGame = chess.PgnGame.parsePgn(itemPgn);
-                        final position = chess.PgnGame.startingPosition(
-                          pgnGame.headers,
-                        );
-                        final itemOrientation =
-                            position.turn == chess.Side.white
-                            ? chess.Side.white
-                            : chess.Side.black;
-                        return GestureDetector(
-                          onTap: () => _handlePositionSelection(itemPath),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            spacing: 4,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(top: 8.0),
-                                child: StaticChessboard(
-                                  pieceAssets: PieceSet.meridaAssets,
-                                  size: boardSize,
-                                  fen: position.fen,
-                                  orientation: itemOrientation,
+                        try {
+                          final pgnGame = chess.PgnGame.parsePgn(itemPgn);
+                          final position = chess.PgnGame.startingPosition(
+                            pgnGame.headers,
+                          );
+                          final itemOrientation =
+                              position.turn == chess.Side.white
+                              ? chess.Side.white
+                              : chess.Side.black;
+                          return GestureDetector(
+                            onTap: () => _handlePositionSelection(itemPath),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              spacing: 4,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 8.0),
+                                  child: StaticChessboard(
+                                    pieceAssets: PieceSet.meridaAssets,
+                                    size: boardSize,
+                                    fen: position.fen,
+                                    orientation: itemOrientation,
+                                  ),
                                 ),
-                              ),
-                              Text(itemName),
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  IconButton(
-                                    icon: Icon(Icons.abc),
-                                    onPressed: () =>
-                                        _purposeRenamePosition(itemPath),
-                                  ),
-                                  IconButton(
-                                    icon: Icon(Icons.edit),
-                                    onPressed: () =>
-                                        _purposeEditPosition(itemPath),
-                                  ),
-                                  IconButton(
-                                    icon: Icon(Icons.delete),
-                                    onPressed: () =>
-                                        _purposeDeletePosition(itemPath),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        );
+                                Text(itemName),
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    IconButton(
+                                      icon: Icon(Icons.abc),
+                                      onPressed: () =>
+                                          _purposeRenamePosition(itemPath),
+                                    ),
+                                    IconButton(
+                                      icon: Icon(Icons.edit),
+                                      onPressed: () =>
+                                          _purposeEditPosition(itemPath),
+                                    ),
+                                    IconButton(
+                                      icon: Icon(Icons.delete),
+                                      onPressed: () =>
+                                          _purposeDeletePosition(itemPath),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          );
+                        } catch (e) {
+                          return Text(
+                            t.pages.home.misc_errors
+                                .failed_reading_position_value(
+                                  fileName: itemName,
+                                ),
+                          );
+                        }
                       }
                     },
                   ),

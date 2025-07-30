@@ -35,7 +35,8 @@
         "failed_deleting_position": "Échec de suppression de la position",
         "failed_deleting_folder": "Échec de suppression du dossier",
         "failed_opening_folder": "Échec d'ouverture du dossier",
-        "failed_opening_position": "Échec d'ouverture de la position"
+        "failed_opening_position": "Échec d'ouverture de la position",
+        "failed_reading_position_value": "Échec de lecture de la position du fichier $fileName"
       },
       "delete_position_dialog": {
         "title": "Supprimer la position ?",
