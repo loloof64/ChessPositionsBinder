@@ -640,8 +640,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           final turnColor = position.turn == chess.Side.white
                               ? Colors.white
                               : Colors.black;
-                          final turnSize =
-                              MediaQuery.of(context).size.width * 0.05;
+                          final turnSize = 30.0;
                           return GestureDetector(
                             onTap: () => _handlePositionSelection(itemPath),
                             child: Center(
