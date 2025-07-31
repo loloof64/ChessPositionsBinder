@@ -1,22 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>OAuth2 Redirect for Chess Positions Binder</title>
-  <script>
-    const params = window.location.search + window.location.hash;
-    const isAndroid = /Android/i.test(navigator.userAgent);
-
-    if (isAndroid) {
-      // Redirect to flutter app for android
-      window.location = 'com.loloof64.chess_position_binder:/oauth2redirect' + params;
-    } else {
-      // Desktop / Web : just show message
-      document.body.innerText = "Authentication complete. You can now close this window.";
-    }
-  </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess positions binder website</title>
 </head>
 <body>
-  Redirecting...
+    Chess positions binder website
 </body>
 </html>
