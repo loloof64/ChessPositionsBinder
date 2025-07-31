@@ -568,54 +568,58 @@ class _MyHomePageState extends State<MyHomePage> {
                       if (isParentFolder) {
                         return GestureDetector(
                           onTap: () => _handleFolderSelection(parentFolder),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.arrow_back,
-                                size: 50,
-                                color: Colors.blueAccent,
-                              ),
-                            ],
+                          child: Center(
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.arrow_back,
+                                  size: 50,
+                                  color: Colors.blueAccent,
+                                ),
+                              ],
+                            ),
                           ),
                         );
                       } else if (isFolder) {
                         return GestureDetector(
                           onTap: () => _handleFolderSelection(itemName),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            spacing: 2,
-                            children: [
-                              Icon(
-                                Icons.folder,
-                                size: 50,
-                                color: Colors.amberAccent,
-                              ),
-                              Text(itemName),
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                spacing: 8,
-                                children: [
-                                  IconButton(
-                                    onPressed: () =>
-                                        _purposeRenameFolder(itemPath),
-                                    icon: Icon(Icons.abc),
-                                  ),
-                                  IconButton(
-                                    onPressed: () =>
-                                        _purposeDeleteFolder(itemPath),
-                                    icon: Icon(Icons.delete),
-                                  ),
-                                ],
-                              ),
-                            ],
+                          child: Center(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              spacing: 2,
+                              children: [
+                                Icon(
+                                  Icons.folder,
+                                  size: 50,
+                                  color: Colors.amberAccent,
+                                ),
+                                Text(itemName),
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  spacing: 8,
+                                  children: [
+                                    IconButton(
+                                      onPressed: () =>
+                                          _purposeRenameFolder(itemPath),
+                                      icon: Icon(Icons.abc),
+                                    ),
+                                    IconButton(
+                                      onPressed: () =>
+                                          _purposeDeleteFolder(itemPath),
+                                      icon: Icon(Icons.delete),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         );
                       } else {
@@ -630,33 +634,71 @@ class _MyHomePageState extends State<MyHomePage> {
                               : chess.Side.black;
                           return GestureDetector(
                             onTap: () => _handlePositionSelection(itemPath),
+                            child: Center(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                spacing: 4,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 8.0),
+                                    child: StaticChessboard(
+                                      pieceAssets: PieceSet.meridaAssets,
+                                      size: boardSize,
+                                      fen: position.fen,
+                                      orientation: itemOrientation,
+                                    ),
+                                  ),
+                                  Text(itemName),
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      IconButton(
+                                        icon: Icon(Icons.abc),
+                                        onPressed: () =>
+                                            _purposeRenamePosition(itemPath),
+                                      ),
+                                      IconButton(
+                                        icon: Icon(Icons.edit),
+                                        onPressed: () =>
+                                            _purposeEditPosition(itemPath),
+                                      ),
+                                      IconButton(
+                                        icon: Icon(Icons.delete),
+                                        onPressed: () =>
+                                            _purposeDeletePosition(itemPath),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        } catch (e) {
+                          return Center(
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               spacing: 4,
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: StaticChessboard(
-                                    pieceAssets: PieceSet.meridaAssets,
-                                    size: boardSize,
-                                    fen: position.fen,
-                                    orientation: itemOrientation,
-                                  ),
+                                Text(
+                                  t.pages.home.misc_errors
+                                      .failed_reading_position_value(
+                                        fileName: itemName,
+                                      ),
                                 ),
-                                Text(itemName),
                                 Row(
                                   mainAxisSize: MainAxisSize.min,
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    IconButton(
-                                      icon: Icon(Icons.abc),
-                                      onPressed: () =>
-                                          _purposeRenamePosition(itemPath),
-                                    ),
                                     IconButton(
                                       icon: Icon(Icons.edit),
                                       onPressed: () =>
@@ -671,39 +713,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ),
                               ],
                             ),
-                          );
-                        } catch (e) {
-                          return Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            spacing: 4,
-                            children: [
-                              Text(
-                                t.pages.home.misc_errors
-                                    .failed_reading_position_value(
-                                      fileName: itemName,
-                                    ),
-                              ),
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  IconButton(
-                                    icon: Icon(Icons.edit),
-                                    onPressed: () =>
-                                        _purposeEditPosition(itemPath),
-                                  ),
-                                  IconButton(
-                                    icon: Icon(Icons.delete),
-                                    onPressed: () =>
-                                        _purposeDeletePosition(itemPath),
-                                  ),
-                                ],
-                              ),
-                            ],
                           );
                         }
                       }
