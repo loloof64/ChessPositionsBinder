@@ -126,7 +126,7 @@ class _TranslationsPagesPositionDetailsFr implements TranslationsPagesPositionDe
 	final TranslationsFr _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'Détails de la position';
+	@override String title({required Object fileName}) => 'Détails de la position (${fileName})';
 }
 
 // Path: pages.position_editor
@@ -136,7 +136,8 @@ class _TranslationsPagesPositionEditorFr implements TranslationsPagesPositionEdi
 	final TranslationsFr _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'Éditeur de position';
+	@override String title({required Object fileName}) => 'Éditeur de position (${fileName})';
+	@override String get simple_title => 'Éditeur de position';
 	@override late final _TranslationsPagesPositionEditorSavedFileNameDialogFr saved_file_name_dialog = _TranslationsPagesPositionEditorSavedFileNameDialogFr._(_root);
 }
 
@@ -353,8 +354,9 @@ extension on TranslationsFr {
 			case 'pages.home.rename_folder_dialog.name_placeholder': return 'Nouveau nom';
 			case 'pages.home.misc.base_directory': return '[DOSSIER_DE_BASE]';
 			case 'pages.home.misc.no_item': return 'Aucun élément';
-			case 'pages.position_details.title': return 'Détails de la position';
-			case 'pages.position_editor.title': return 'Éditeur de position';
+			case 'pages.position_details.title': return ({required Object fileName}) => 'Détails de la position (${fileName})';
+			case 'pages.position_editor.title': return ({required Object fileName}) => 'Éditeur de position (${fileName})';
+			case 'pages.position_editor.simple_title': return 'Éditeur de position';
 			case 'pages.position_editor.saved_file_name_dialog.title': return 'Choisir le nom du fichier';
 			case 'pages.position_editor.saved_file_name_dialog.name_placeholder': return 'Nom du fichier';
 			case 'pages.position_shortcuts.errors.failed_pasting_fen': return 'Échec lors du collage du FEN';

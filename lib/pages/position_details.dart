@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 class PositionDetailsPage extends StatelessWidget {
   PositionDetailsPage({
     super.key,
+    required this.fileName,
     required this.fen,
     required this.whitePlayer,
     required this.blackPlayer,
@@ -15,6 +16,7 @@ class PositionDetailsPage extends StatelessWidget {
   }) : _pieces = readFen(fen),
        _isBlackTurn = fen.split(" ")[1] != "w";
 
+  final String fileName;
   final String fen;
   final String whitePlayer;
   final String blackPlayer;
@@ -30,7 +32,7 @@ class PositionDetailsPage extends StatelessWidget {
     final screenMinSize = MediaQuery.of(context).size.shortestSide;
     return Scaffold(
       appBar: AppBar(
-        title: Text(t.pages.position_details.title),
+        title: Text(t.pages.position_details.title(fileName: fileName)),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: SingleChildScrollView(

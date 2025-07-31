@@ -46,6 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
       MaterialPageRoute(
         builder: (context) {
           return PositionEditorPage(
+            fileName: "",
             initialFen: chess.Chess.initial.fen,
             editingExistingFile: false,
           );
@@ -135,6 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> _purposeEditPosition(String path) async {
     try {
+      final fileName = path.split(Platform.pathSeparator).last;
       final pgnContent = await File(path).readAsString();
       final chessGame = chess.PgnGame.parsePgn(pgnContent);
       final initialFen = chessGame.headers["FEN"] ?? chess.Chess.initial.fen;
@@ -150,6 +152,7 @@ class _MyHomePageState extends State<MyHomePage> {
         MaterialPageRoute(
           builder: (context) {
             return PositionEditorPage(
+              fileName: fileName,
               initialFen: initialFen,
               editingExistingFile: true,
               whitePlayer: whitePlayer,
@@ -185,6 +188,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> _purposeViewPositionDetails(String path) async {
     try {
+      final fileName = path.split(Platform.pathSeparator).last;
       final pgnContent = await File(path).readAsString();
       final chessGame = chess.PgnGame.parsePgn(pgnContent);
       final initialFen = chessGame.headers["FEN"] ?? chess.Chess.initial.fen;
@@ -200,6 +204,7 @@ class _MyHomePageState extends State<MyHomePage> {
         MaterialPageRoute(
           builder: (context) {
             return PositionDetailsPage(
+              fileName: fileName,
               fen: initialFen,
               whitePlayer: whitePlayer,
               blackPlayer: blackPlayer,
@@ -226,7 +231,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _purposeDeletePosition(String path) async {
-    final name = path.split("/").last;
+    final name = path.split(Platform.pathSeparator).last;
     showDialog(
       context: context,
       builder: (context) {
@@ -262,7 +267,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _purposeDeleteFolder(String path) async {
-    final name = path.split("/").last;
+    final name = path.split(Platform.pathSeparator).last;
     showDialog(
       context: context,
       builder: (context) {
@@ -332,7 +337,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _purposeRenamePosition(String path) async {
-    final currentName = path.split("/").last;
+    final currentName = path.split(Platform.pathSeparator).last;
     List<String> currentNameParts = currentName.split(".");
     currentNameParts.removeLast();
     final currentNameWithoutExtension = currentNameParts.join(".");
@@ -484,7 +489,7 @@ class _MyHomePageState extends State<MyHomePage> {
     showDialog(
       context: context,
       builder: (context) {
-        String newFolderName = path.split("/").last;
+        String newFolderName = path.split(Platform.pathSeparator).last;
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(

@@ -8,6 +8,7 @@ import 'package:dartchess/dartchess.dart' as chess;
 import 'package:flutter/material.dart';
 
 class PositionEditorPage extends StatefulWidget {
+  final String fileName;
   final String initialFen;
   final String whitePlayer;
   final String blackPlayer;
@@ -25,6 +26,7 @@ class PositionEditorPage extends StatefulWidget {
     this.event = "",
     this.date = "",
     this.exercice = "",
+    required this.fileName,
     required this.editingExistingFile,
   });
 
@@ -150,11 +152,14 @@ class _PositionEditorPageState extends State<PositionEditorPage> {
 
   @override
   Widget build(BuildContext context) {
+    final title = widget.fileName.isEmpty
+        ? t.pages.position_editor.simple_title
+        : t.pages.position_editor.title(fileName: widget.fileName);
     return DefaultTabController(
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(t.pages.position_editor.title),
+          title: Text(title),
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           bottom: const TabBar(
             tabs: [

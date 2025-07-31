@@ -129,7 +129,7 @@ class TranslationsPagesPositionDetailsEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	String get title => 'Position details';
+	String title({required Object fileName}) => 'Position details (${fileName})';
 }
 
 // Path: pages.position_editor
@@ -139,7 +139,8 @@ class TranslationsPagesPositionEditorEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	String get title => 'Position editor';
+	String title({required Object fileName}) => 'Position editor (${fileName})';
+	String get simple_title => 'Position editor';
 	late final TranslationsPagesPositionEditorSavedFileNameDialogEn saved_file_name_dialog = TranslationsPagesPositionEditorSavedFileNameDialogEn._(_root);
 }
 
@@ -356,8 +357,9 @@ extension on Translations {
 			case 'pages.home.rename_folder_dialog.name_placeholder': return 'New name';
 			case 'pages.home.misc.base_directory': return '[BASE_DIR]';
 			case 'pages.home.misc.no_item': return 'No item';
-			case 'pages.position_details.title': return 'Position details';
-			case 'pages.position_editor.title': return 'Position editor';
+			case 'pages.position_details.title': return ({required Object fileName}) => 'Position details (${fileName})';
+			case 'pages.position_editor.title': return ({required Object fileName}) => 'Position editor (${fileName})';
+			case 'pages.position_editor.simple_title': return 'Position editor';
 			case 'pages.position_editor.saved_file_name_dialog.title': return 'Select saved file name';
 			case 'pages.position_editor.saved_file_name_dialog.name_placeholder': return 'File name';
 			case 'pages.position_shortcuts.errors.failed_pasting_fen': return 'Failed to paste FEN';

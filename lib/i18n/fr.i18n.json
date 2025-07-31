@@ -68,10 +68,11 @@
       }
     },
     "position_details": {
-      "title": "Détails de la position"
+      "title": "Détails de la position ($fileName)"
     },
     "position_editor": {
-      "title": "Éditeur de position",
+      "title": "Éditeur de position ($fileName)",
+      "simple_title": "Éditeur de position",
       "saved_file_name_dialog": {
         "title": "Choisir le nom du fichier",
         "name_placeholder": "Nom du fichier"
