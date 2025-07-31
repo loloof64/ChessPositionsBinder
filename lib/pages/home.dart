@@ -680,39 +680,37 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                           );
                         } catch (e) {
-                          return Center(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              spacing: 4,
-                              children: [
-                                Text(
-                                  t.pages.home.misc_errors
-                                      .failed_reading_position_value(
-                                        fileName: itemName,
-                                      ),
-                                ),
-                                Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    IconButton(
-                                      icon: Icon(Icons.edit),
-                                      onPressed: () =>
-                                          _purposeEditPosition(itemPath),
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            spacing: 4,
+                            children: [
+                              Text(
+                                t.pages.home.misc_errors
+                                    .failed_reading_position_value(
+                                      fileName: itemName,
                                     ),
-                                    IconButton(
-                                      icon: Icon(Icons.delete),
-                                      onPressed: () =>
-                                          _purposeDeletePosition(itemPath),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                              ),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  IconButton(
+                                    icon: Icon(Icons.edit),
+                                    onPressed: () =>
+                                        _purposeEditPosition(itemPath),
+                                  ),
+                                  IconButton(
+                                    icon: Icon(Icons.delete),
+                                    onPressed: () =>
+                                        _purposeDeletePosition(itemPath),
+                                  ),
+                                ],
+                              ),
+                            ],
                           );
                         }
                       }
@@ -727,6 +725,7 @@ class _MyHomePageState extends State<MyHomePage> {
       },
     );
 
+    var screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -748,9 +747,16 @@ class _MyHomePageState extends State<MyHomePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: double.infinity,
+            width: screenWidth,
             color: Colors.amberAccent,
-            child: Text(pathText, style: const TextStyle(fontSize: 20)),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Text(
+                pathText,
+                softWrap: false,
+                style: const TextStyle(fontSize: 20),
+              ),
+            ),
           ),
           Flexible(child: content),
         ],
