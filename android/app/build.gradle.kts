@@ -8,7 +8,7 @@ plugins {
 android {
     namespace = "com.loloof64.chess_position_binder"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
