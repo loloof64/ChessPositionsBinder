@@ -33,42 +33,47 @@ class PositionDetailsPage extends StatelessWidget {
         title: Text(t.pages.position_details.title),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          spacing: 8,
-          children: [
-            ChessboardEditor(
-              size: screenMinSize * 0.60,
-              settings: ChessboardSettings(enableCoordinates: true),
-              orientation: _isBlackTurn ? chess.Side.black : chess.Side.white,
-              pieces: _pieces,
-            ),
-            Flexible(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                spacing: 8,
-                children: [Text(whitePlayer), Text("-"), Text(blackPlayer)],
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            spacing: 8,
+            children: [
+              ChessboardEditor(
+                size: screenMinSize * 0.5,
+                settings: ChessboardSettings(enableCoordinates: true),
+                orientation: _isBlackTurn ? chess.Side.black : chess.Side.white,
+                pieces: _pieces,
               ),
-            ),
-            Flexible(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                spacing: 8,
-                children: [Text(event), Text("|"), Text(date)],
+              Flexible(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  spacing: 8,
+                  children: [Text(whitePlayer), Text("-"), Text(blackPlayer)],
+                ),
               ),
-            ),
-            Text(
-              exercice,
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-            ),
-          ],
+              Flexible(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  spacing: 8,
+                  children: [Text(event), Text("|"), Text(date)],
+                ),
+              ),
+              Text(
+                exercice,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

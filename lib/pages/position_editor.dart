@@ -169,17 +169,25 @@ class _PositionEditorPageState extends State<PositionEditorPage> {
         ),
         body: TabBarView(
           children: [
-            Center(child: BoardEditor(positionController: _positionController)),
-            Center(
-              child: PositionInformationsForm(
-                metadataController: _positionMetadataController,
+            SingleChildScrollView(
+              child: Center(
+                child: BoardEditor(positionController: _positionController),
               ),
             ),
-            Center(
-              child: PositionShortcutButtons(
-                startFen: widget.initialFen,
-                positionController: _positionController,
-                onPasteError: (message) => _showPasteError(message),
+            SingleChildScrollView(
+              child: Center(
+                child: PositionInformationsForm(
+                  metadataController: _positionMetadataController,
+                ),
+              ),
+            ),
+            SingleChildScrollView(
+              child: Center(
+                child: PositionShortcutButtons(
+                  startFen: widget.initialFen,
+                  positionController: _positionController,
+                  onPasteError: (message) => _showPasteError(message),
+                ),
               ),
             ),
           ],

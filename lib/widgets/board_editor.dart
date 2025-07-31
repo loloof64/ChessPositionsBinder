@@ -45,60 +45,15 @@ class _BoardEditorState extends State<BoardEditor> {
     final piecesButtonsRowSize = screenMinSize * 0.07;
     final piecesButtonsRowSpacing = 4.0;
 
-    return Column(
+    final isPortrait =
+        MediaQuery.of(context).orientation == Orientation.portrait;
+
+    final editorButtons = Column(
       spacing: 8,
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SizedBox(
-          height: piecesButtonsRowSize,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            spacing: 8,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(t.widgets.board_editor.black_turn),
-              IconButton(
-                icon: Icon(
-                  _isBlackTurn ? Icons.toggle_on : Icons.toggle_off,
-                  color: _isBlackTurn ? Colors.blue : Colors.black12,
-                ),
-                onPressed: () => setState(() {
-                  _isBlackTurn = !_isBlackTurn;
-                  widget.positionController?.toggleTurn();
-                }),
-              ),
-            ],
-          ),
-        ),
-        ChessboardEditor(
-          size: screenMinSize * 0.60,
-          settings: ChessboardSettings(enableCoordinates: true),
-          orientation: _isBlackTurn ? Side.black : Side.white,
-          pieces: _pieces,
-          pointerMode: EditorPointerMode.edit,
-          onEditedSquare: (squareId) => setState(() {
-            if (_pieceToAddOnTouch != null) {
-              _pieces[squareId] = _pieceToAddOnTouch!;
-            } else {
-              _pieces.remove(squareId);
-            }
-            widget.positionController?.updateBoardPart(writeFen(_pieces));
-          }),
-          onDiscardedPiece: (squareId) => setState(() {
-            _pieces.remove(squareId);
-            widget.positionController?.updateBoardPart(writeFen(_pieces));
-          }),
-          onDroppedPiece: (origin, destination, piece) => setState(() {
-            _pieces[destination] = piece;
-            if (origin != null && origin != destination) {
-              _pieces.remove(origin);
-              widget.positionController?.updateBoardPart(writeFen(_pieces));
-            }
-          }),
-        ),
         SizedBox(
           height: piecesButtonsRowSize,
           child: Row(
@@ -266,6 +221,76 @@ class _BoardEditorState extends State<BoardEditor> {
             ],
           ),
         ),
+      ],
+    );
+
+    final mainContentChildren = [
+      ChessboardEditor(
+        size: screenMinSize * 0.60,
+        settings: ChessboardSettings(enableCoordinates: true),
+        orientation: _isBlackTurn ? Side.black : Side.white,
+        pieces: _pieces,
+        pointerMode: EditorPointerMode.edit,
+        onEditedSquare: (squareId) => setState(() {
+          if (_pieceToAddOnTouch != null) {
+            _pieces[squareId] = _pieceToAddOnTouch!;
+          } else {
+            _pieces.remove(squareId);
+          }
+          widget.positionController?.updateBoardPart(writeFen(_pieces));
+        }),
+        onDiscardedPiece: (squareId) => setState(() {
+          _pieces.remove(squareId);
+          widget.positionController?.updateBoardPart(writeFen(_pieces));
+        }),
+        onDroppedPiece: (origin, destination, piece) => setState(() {
+          _pieces[destination] = piece;
+          if (origin != null && origin != destination) {
+            _pieces.remove(origin);
+            widget.positionController?.updateBoardPart(writeFen(_pieces));
+          }
+        }),
+      ),
+      editorButtons,
+    ];
+
+    return Column(
+      spacing: 8,
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        SizedBox(
+          height: piecesButtonsRowSize,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            spacing: 8,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(t.widgets.board_editor.black_turn),
+              IconButton(
+                icon: Icon(
+                  _isBlackTurn ? Icons.toggle_on : Icons.toggle_off,
+                  color: _isBlackTurn ? Colors.blue : Colors.black12,
+                ),
+                onPressed: () => setState(() {
+                  _isBlackTurn = !_isBlackTurn;
+                  widget.positionController?.toggleTurn();
+                }),
+              ),
+            ],
+          ),
+        ),
+        isPortrait
+            ? Column(children: mainContentChildren)
+            : Center(
+                child: Row(
+                  spacing: 8,
+                  mainAxisSize: MainAxisSize.min,
+                  children: mainContentChildren,
+                ),
+              ),
       ],
     );
   }
