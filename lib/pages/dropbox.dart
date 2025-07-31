@@ -23,7 +23,10 @@ class _DropboxPageState extends State<DropboxPage> {
     // Based on standard breakpoints
     bool isMobile = smallestDimension < 600;
     return Scaffold(
-      appBar: AppBar(title: const Text("Dropbox")),
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: const Text("Dropbox"),
+      ),
       body: Center(
         child: Column(
           children: [
