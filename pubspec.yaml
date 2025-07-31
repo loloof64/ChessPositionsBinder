@@ -44,6 +44,8 @@ dependencies:
   slang: ^4.7.3
   slang_flutter: ^4.7.0
   ionicons: ^0.2.2
+  oauth2_client: ^4.2.0
+  http: ^1.4.0
 
 dev_dependencies:
   flutter_test:
