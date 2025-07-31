@@ -632,6 +632,11 @@ class _MyHomePageState extends State<MyHomePage> {
                               position.turn == chess.Side.white
                               ? chess.Side.white
                               : chess.Side.black;
+                          final turnColor = position.turn == chess.Side.white
+                              ? Colors.white
+                              : Colors.black;
+                          final turnSize =
+                              MediaQuery.of(context).size.width * 0.05;
                           return GestureDetector(
                             onTap: () => _handlePositionSelection(itemPath),
                             child: Center(
@@ -650,7 +655,27 @@ class _MyHomePageState extends State<MyHomePage> {
                                       orientation: itemOrientation,
                                     ),
                                   ),
-                                  Text(itemName),
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    spacing: 5,
+                                    children: [
+                                      Text(itemName),
+                                      Container(
+                                        width: turnSize,
+                                        height: turnSize,
+                                        decoration: BoxDecoration(
+                                          color: turnColor,
+                                          border: BoxBorder.all(
+                                            color: Colors.black,
+                                            width: 2,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                   Row(
                                     mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment:
@@ -680,6 +705,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                           );
                         } catch (e) {
+                          debugPrint(e.toString());
                           return Column(
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.start,
