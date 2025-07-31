@@ -139,6 +139,7 @@ class _TranslationsPagesPositionEditorFr implements TranslationsPagesPositionEdi
 	@override String title({required Object fileName}) => 'Éditeur de position (${fileName})';
 	@override String get simple_title => 'Éditeur de position';
 	@override late final _TranslationsPagesPositionEditorSavedFileNameDialogFr saved_file_name_dialog = _TranslationsPagesPositionEditorSavedFileNameDialogFr._(_root);
+	@override late final _TranslationsPagesPositionEditorOverwriteFileConfirmationDialogFr overwrite_file_confirmation_dialog = _TranslationsPagesPositionEditorOverwriteFileConfirmationDialogFr._(_root);
 }
 
 // Path: pages.position_shortcuts
@@ -290,6 +291,17 @@ class _TranslationsPagesPositionEditorSavedFileNameDialogFr implements Translati
 	@override String get name_placeholder => 'Nom du fichier';
 }
 
+// Path: pages.position_editor.overwrite_file_confirmation_dialog
+class _TranslationsPagesPositionEditorOverwriteFileConfirmationDialogFr implements TranslationsPagesPositionEditorOverwriteFileConfirmationDialogEn {
+	_TranslationsPagesPositionEditorOverwriteFileConfirmationDialogFr._(this._root);
+
+	final TranslationsFr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Écraser le fichier ?';
+	@override String message({required Object fileName}) => 'Écraser le fichier ${fileName} ?';
+}
+
 // Path: pages.position_shortcuts.errors
 class _TranslationsPagesPositionShortcutsErrorsFr implements TranslationsPagesPositionShortcutsErrorsEn {
 	_TranslationsPagesPositionShortcutsErrorsFr._(this._root);
@@ -359,6 +371,8 @@ extension on TranslationsFr {
 			case 'pages.position_editor.simple_title': return 'Éditeur de position';
 			case 'pages.position_editor.saved_file_name_dialog.title': return 'Choisir le nom du fichier';
 			case 'pages.position_editor.saved_file_name_dialog.name_placeholder': return 'Nom du fichier';
+			case 'pages.position_editor.overwrite_file_confirmation_dialog.title': return 'Écraser le fichier ?';
+			case 'pages.position_editor.overwrite_file_confirmation_dialog.message': return ({required Object fileName}) => 'Écraser le fichier ${fileName} ?';
 			case 'pages.position_shortcuts.errors.failed_pasting_fen': return 'Échec lors du collage du FEN';
 			case 'pages.position_shortcuts.buttons.paste_fen': return 'Coller le FEN';
 			case 'pages.position_shortcuts.buttons.copy_fen': return 'Copier le FEN';

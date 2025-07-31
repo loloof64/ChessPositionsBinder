@@ -76,6 +76,10 @@
       "saved_file_name_dialog": {
         "title": "Select saved file name",
         "name_placeholder": "File name"
+      },
+      "overwrite_file_confirmation_dialog": {
+        "title": "Overwrite file ?",
+        "message": "Overwrite file $fileName ?"
       }
     },
     "position_shortcuts": {

@@ -139,6 +139,7 @@ class _TranslationsPagesPositionEditorEs implements TranslationsPagesPositionEdi
 	@override String title({required Object fileName}) => 'Editor de posición (${fileName})';
 	@override String get simple_title => 'Editor de posición';
 	@override late final _TranslationsPagesPositionEditorSavedFileNameDialogEs saved_file_name_dialog = _TranslationsPagesPositionEditorSavedFileNameDialogEs._(_root);
+	@override late final _TranslationsPagesPositionEditorOverwriteFileConfirmationDialogEs overwrite_file_confirmation_dialog = _TranslationsPagesPositionEditorOverwriteFileConfirmationDialogEs._(_root);
 }
 
 // Path: pages.position_shortcuts
@@ -290,6 +291,17 @@ class _TranslationsPagesPositionEditorSavedFileNameDialogEs implements Translati
 	@override String get name_placeholder => 'Nombre de archivo';
 }
 
+// Path: pages.position_editor.overwrite_file_confirmation_dialog
+class _TranslationsPagesPositionEditorOverwriteFileConfirmationDialogEs implements TranslationsPagesPositionEditorOverwriteFileConfirmationDialogEn {
+	_TranslationsPagesPositionEditorOverwriteFileConfirmationDialogEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => '¿Sobrescribir archivo?';
+	@override String message({required Object fileName}) => '¿Sobrescribir archivo ${fileName}?';
+}
+
 // Path: pages.position_shortcuts.errors
 class _TranslationsPagesPositionShortcutsErrorsEs implements TranslationsPagesPositionShortcutsErrorsEn {
 	_TranslationsPagesPositionShortcutsErrorsEs._(this._root);
@@ -359,6 +371,8 @@ extension on TranslationsEs {
 			case 'pages.position_editor.simple_title': return 'Editor de posición';
 			case 'pages.position_editor.saved_file_name_dialog.title': return 'Seleccionar nombre de archivo';
 			case 'pages.position_editor.saved_file_name_dialog.name_placeholder': return 'Nombre de archivo';
+			case 'pages.position_editor.overwrite_file_confirmation_dialog.title': return '¿Sobrescribir archivo?';
+			case 'pages.position_editor.overwrite_file_confirmation_dialog.message': return ({required Object fileName}) => '¿Sobrescribir archivo ${fileName}?';
 			case 'pages.position_shortcuts.errors.failed_pasting_fen': return 'Error al pegar FEN';
 			case 'pages.position_shortcuts.buttons.paste_fen': return 'Pegar FEN';
 			case 'pages.position_shortcuts.buttons.copy_fen': return 'Copiar FEN';

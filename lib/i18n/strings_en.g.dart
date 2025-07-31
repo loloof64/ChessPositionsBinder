@@ -142,6 +142,7 @@ class TranslationsPagesPositionEditorEn {
 	String title({required Object fileName}) => 'Position editor (${fileName})';
 	String get simple_title => 'Position editor';
 	late final TranslationsPagesPositionEditorSavedFileNameDialogEn saved_file_name_dialog = TranslationsPagesPositionEditorSavedFileNameDialogEn._(_root);
+	late final TranslationsPagesPositionEditorOverwriteFileConfirmationDialogEn overwrite_file_confirmation_dialog = TranslationsPagesPositionEditorOverwriteFileConfirmationDialogEn._(_root);
 }
 
 // Path: pages.position_shortcuts
@@ -293,6 +294,17 @@ class TranslationsPagesPositionEditorSavedFileNameDialogEn {
 	String get name_placeholder => 'File name';
 }
 
+// Path: pages.position_editor.overwrite_file_confirmation_dialog
+class TranslationsPagesPositionEditorOverwriteFileConfirmationDialogEn {
+	TranslationsPagesPositionEditorOverwriteFileConfirmationDialogEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'Overwrite file ?';
+	String message({required Object fileName}) => 'Overwrite file ${fileName} ?';
+}
+
 // Path: pages.position_shortcuts.errors
 class TranslationsPagesPositionShortcutsErrorsEn {
 	TranslationsPagesPositionShortcutsErrorsEn._(this._root);
@@ -362,6 +374,8 @@ extension on Translations {
 			case 'pages.position_editor.simple_title': return 'Position editor';
 			case 'pages.position_editor.saved_file_name_dialog.title': return 'Select saved file name';
 			case 'pages.position_editor.saved_file_name_dialog.name_placeholder': return 'File name';
+			case 'pages.position_editor.overwrite_file_confirmation_dialog.title': return 'Overwrite file ?';
+			case 'pages.position_editor.overwrite_file_confirmation_dialog.message': return ({required Object fileName}) => 'Overwrite file ${fileName} ?';
 			case 'pages.position_shortcuts.errors.failed_pasting_fen': return 'Failed to paste FEN';
 			case 'pages.position_shortcuts.buttons.paste_fen': return 'Paste FEN';
 			case 'pages.position_shortcuts.buttons.copy_fen': return 'Copy FEN';

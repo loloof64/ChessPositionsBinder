@@ -76,6 +76,10 @@
       "saved_file_name_dialog": {
         "title": "Choisir le nom du fichier",
         "name_placeholder": "Nom du fichier"
+      },
+      "overwrite_file_confirmation_dialog": {
+        "title": "Écraser le fichier ?",
+        "message": "Écraser le fichier $fileName ?"
       }
     },
     "position_shortcuts": {

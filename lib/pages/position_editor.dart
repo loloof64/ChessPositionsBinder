@@ -103,6 +103,45 @@ class _PositionEditorPageState extends State<PositionEditorPage> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
+  Future<void> _purposeReturnPgn() async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            t.pages.position_editor.overwrite_file_confirmation_dialog.title,
+          ),
+          content: Text(
+            t.pages.position_editor.overwrite_file_confirmation_dialog.message(
+              fileName: widget.fileName,
+            ),
+          ),
+          actions: [
+            TextButton(
+              child: Text(
+                t.pages.overall.buttons.cancel,
+                style: TextStyle(color: Colors.red),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text(
+                t.pages.overall.buttons.ok,
+                style: TextStyle(color: Colors.green),
+              ),
+              onPressed: () async {
+                Navigator.of(context).pop();
+                _returnPgn();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void _returnPgn() async {
     Map<String, String> headers = {};
     if (_positionMetadataController != null &&
@@ -169,7 +208,10 @@ class _PositionEditorPageState extends State<PositionEditorPage> {
             ],
           ),
           actions: [
-            IconButton(icon: const Icon(Icons.save), onPressed: _returnPgn),
+            IconButton(
+              icon: const Icon(Icons.save),
+              onPressed: _purposeReturnPgn,
+            ),
           ],
         ),
         body: TabBarView(

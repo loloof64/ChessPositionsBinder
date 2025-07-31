@@ -76,6 +76,10 @@
       "saved_file_name_dialog": {
         "title": "Seleccionar nombre de archivo",
         "name_placeholder": "Nombre de archivo"
+      },
+      "overwrite_file_confirmation_dialog": {
+        "title": "¿Sobrescribir archivo?",
+        "message": "¿Sobrescribir archivo $fileName?"
       }
     },
     "position_shortcuts": {
