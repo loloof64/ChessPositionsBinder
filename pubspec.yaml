@@ -43,6 +43,7 @@ dependencies:
   window_manager: ^0.5.1
   slang: ^4.7.3
   slang_flutter: ^4.7.0
+  ionicons: ^0.2.2
 
 dev_dependencies:
   flutter_test:

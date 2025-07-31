@@ -2,12 +2,14 @@ import 'dart:io';
 
 import 'package:chess_position_binder/i18n/strings.g.dart';
 import 'package:chess_position_binder/core/read_positions.dart';
+import 'package:chess_position_binder/pages/dropbox.dart';
 import 'package:chess_position_binder/pages/position_details.dart';
 import 'package:chess_position_binder/pages/position_editor.dart';
 import 'package:chessground/chessground.dart';
 import 'package:dartchess/dartchess.dart' as chess;
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:ionicons/ionicons.dart';
 
 const parentFolder = '@ParentFolder@';
 
@@ -534,6 +536,16 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  Future<void> _accessDropbox() async {
+    await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) {
+          return DropboxPage();
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var pathText = _currentDirectory?.path ?? "";
@@ -769,6 +781,10 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           IconButton(onPressed: _purposeCreateFolder, icon: Icon(Icons.folder)),
           IconButton(onPressed: _reloadContent, icon: Icon(Icons.refresh)),
+          IconButton(
+            onPressed: _accessDropbox,
+            icon: Icon(Ionicons.logo_dropbox),
+          ),
         ],
       ),
       body: Column(
