@@ -9,7 +9,7 @@
 
     if (isAndroid) {
       // Redirect to flutter app for android
-      window.location = 'com.loloof64.chess_position_binder:/oauth2redirect' + params;
+      window.location = 'com.loloof64.chess_position_binder://oauth2redirect' + params;
     } else {
       // Desktop / Web : just show message
       document.body.innerHTML = "Authentication complete. You can now close this window.";
