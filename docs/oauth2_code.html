@@ -6,7 +6,7 @@
     <title>Chess Positions Binder - Oauth2 code</title>
     <script>
     window.onload = function() {
-        const params = window.location.hash;
+        const params = window.location.search.substring(1);
         const paramsPart = params.split('&');
         const codePart = params.filter((elt) => elt.startsWith("code="))[0];
         const code = code.split("=")[1];
