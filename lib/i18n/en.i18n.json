@@ -16,7 +16,8 @@
       "buttons": {
         "ok": "Ok",
         "cancel": "Cancel",
-        "save": "Save"
+        "save": "Save",
+        "validate": "Validate"
       }
     },
     "home": {
@@ -93,6 +94,11 @@
         "reset": "Reset",
         "set_start_position": "Start position"
       }
+    },
+    "dropbox": {
+      "failed_getting_auth_page": "Failed to get to the authentification page.",
+      "enter_auth_code": "Enter the authentification code",
+      "invalid_auth_code": "Invalid code"
     }
   }
 }

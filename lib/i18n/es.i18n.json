@@ -16,7 +16,8 @@
       "buttons": {
         "ok": "De Acuerdo",
         "cancel": "Anular",
-        "save": "Guardar"
+        "save": "Guardar",
+        "validate": "Validar"
       }
     },
     "home": {
@@ -93,6 +94,11 @@
         "reset": "Restablecer",
         "set_start_position": "Establecer posición inicial"
       }
+    },
+    "dropbox": {
+      "failed_getting_auth_page": "Error al acceder a la página de autenticación.",
+      "enter_auth_code": "Introduzca el código de autenticación",
+      "invalid_auth_code": "Código inválido"
     }
   }
 }

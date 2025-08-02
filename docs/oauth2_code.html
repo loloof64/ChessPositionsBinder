@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess Positions Binder - Oauth2 code</title>
+    <script>
+    window.onload = function() {
+        const params = window.location.hash;
+        const paramsPart = params.split('&');
+        const codePart = params.filter((elt) => elt.startsWith("code="))[0];
+        const code = code.split("=")[1];
+
+
+        const codeElt = document.querySelector("#code");
+        codeElt.innerHTML = code;
+    }
+
+    const copyCode = function() {
+        const codeElt = document.querySelector("#code");
+        const code = codeElt.innerHTML;
+        navigator.clipboard.writeText(code);
+    }
+  </script>
+</head>
+<body>
+    <p>Code</p>
+    <p id="code" style="font-weight: bold;"></p>
+    <button onclick="copyCode()">Copy</button>
+</body>
+</html>

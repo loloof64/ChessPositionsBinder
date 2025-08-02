@@ -5,7 +5,6 @@ import 'package:chess_position_binder/services/dropbox/secrets.dart';
 import 'package:oauth2/oauth2.dart' as oauth2;
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:app_links/app_links.dart';
 
 final authorizationEndpoint = Uri.parse(
   'https://www.dropbox.com/oauth2/authorize',
@@ -13,12 +12,10 @@ final authorizationEndpoint = Uri.parse(
 final tokenEndpoint = Uri.parse('https://api.dropboxapi.com/oauth2/token');
 
 final redirectUrl = Uri.parse(
-  'https://loloof64.github.io/ChessPositionsBinder/oauth2redirect.html',
+  'https://loloof64.github.io/ChessPositionsBinder/oauth2_code.html',
 );
 
-final appLinks = AppLinks();
-
-Future<StreamSubscription<Uri>?> createClient(
+Future<void> startDropboxAuthProcess(
   void Function(oauth2.Client) gotClientCallback,
   void Function() failedGettingClientCallback,
 ) async {
@@ -39,7 +36,7 @@ Future<StreamSubscription<Uri>?> createClient(
       secret: secret,
     );
     gotClientCallback(client);
-    return null;
+    return;
   }
 
   final grant = oauth2.AuthorizationCodeGrant(
@@ -52,17 +49,8 @@ Future<StreamSubscription<Uri>?> createClient(
   final authorizationUrl = grant.getAuthorizationUrl(redirectUrl);
   if (await canLaunchUrl(authorizationUrl)) {
     await launchUrl(authorizationUrl);
-    final subscription = appLinks.uriLinkStream.listen((uri) async {
-      if (uri.toString().startsWith(redirectUrl.toString())) {
-        Uri responseUrl = uri;
-        final client = await grant.handleAuthorizationResponse(
-          responseUrl.queryParameters,
-        );
-        gotClientCallback(client);
-      }
-    });
-    return subscription;
+    return;
   }
   failedGettingClientCallback();
-  return null;
+  return;
 }

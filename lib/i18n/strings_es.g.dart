@@ -63,6 +63,7 @@ class _TranslationsPagesEs implements TranslationsPagesEn {
 	@override late final _TranslationsPagesPositionDetailsEs position_details = _TranslationsPagesPositionDetailsEs._(_root);
 	@override late final _TranslationsPagesPositionEditorEs position_editor = _TranslationsPagesPositionEditorEs._(_root);
 	@override late final _TranslationsPagesPositionShortcutsEs position_shortcuts = _TranslationsPagesPositionShortcutsEs._(_root);
+	@override late final _TranslationsPagesDropboxEs dropbox = _TranslationsPagesDropboxEs._(_root);
 }
 
 // Path: widgets.board_editor
@@ -153,6 +154,18 @@ class _TranslationsPagesPositionShortcutsEs implements TranslationsPagesPosition
 	@override late final _TranslationsPagesPositionShortcutsButtonsEs buttons = _TranslationsPagesPositionShortcutsButtonsEs._(_root);
 }
 
+// Path: pages.dropbox
+class _TranslationsPagesDropboxEs implements TranslationsPagesDropboxEn {
+	_TranslationsPagesDropboxEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get failed_getting_auth_page => 'Error al acceder a la página de autenticación.';
+	@override String get enter_auth_code => 'Introduzca el código de autenticación';
+	@override String get invalid_auth_code => 'Código inválido';
+}
+
 // Path: pages.overall.buttons
 class _TranslationsPagesOverallButtonsEs implements TranslationsPagesOverallButtonsEn {
 	_TranslationsPagesOverallButtonsEs._(this._root);
@@ -163,6 +176,7 @@ class _TranslationsPagesOverallButtonsEs implements TranslationsPagesOverallButt
 	@override String get ok => 'De Acuerdo';
 	@override String get cancel => 'Anular';
 	@override String get save => 'Guardar';
+	@override String get validate => 'Validar';
 }
 
 // Path: pages.home.create_folder_dialog
@@ -340,6 +354,7 @@ extension on TranslationsEs {
 			case 'pages.overall.buttons.ok': return 'De Acuerdo';
 			case 'pages.overall.buttons.cancel': return 'Anular';
 			case 'pages.overall.buttons.save': return 'Guardar';
+			case 'pages.overall.buttons.validate': return 'Validar';
 			case 'pages.home.title': return 'Página principal';
 			case 'pages.home.create_folder_dialog.title': return 'Crear carpeta';
 			case 'pages.home.create_folder_dialog.folder_name_placeholder': return 'Nombre de la carpeta';
@@ -379,6 +394,9 @@ extension on TranslationsEs {
 			case 'pages.position_shortcuts.buttons.clear': return 'Limpiar';
 			case 'pages.position_shortcuts.buttons.reset': return 'Restablecer';
 			case 'pages.position_shortcuts.buttons.set_start_position': return 'Establecer posición inicial';
+			case 'pages.dropbox.failed_getting_auth_page': return 'Error al acceder a la página de autenticación.';
+			case 'pages.dropbox.enter_auth_code': return 'Introduzca el código de autenticación';
+			case 'pages.dropbox.invalid_auth_code': return 'Código inválido';
 			default: return null;
 		}
 	}

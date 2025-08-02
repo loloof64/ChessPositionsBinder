@@ -66,6 +66,7 @@ class TranslationsPagesEn {
 	late final TranslationsPagesPositionDetailsEn position_details = TranslationsPagesPositionDetailsEn._(_root);
 	late final TranslationsPagesPositionEditorEn position_editor = TranslationsPagesPositionEditorEn._(_root);
 	late final TranslationsPagesPositionShortcutsEn position_shortcuts = TranslationsPagesPositionShortcutsEn._(_root);
+	late final TranslationsPagesDropboxEn dropbox = TranslationsPagesDropboxEn._(_root);
 }
 
 // Path: widgets.board_editor
@@ -156,6 +157,18 @@ class TranslationsPagesPositionShortcutsEn {
 	late final TranslationsPagesPositionShortcutsButtonsEn buttons = TranslationsPagesPositionShortcutsButtonsEn._(_root);
 }
 
+// Path: pages.dropbox
+class TranslationsPagesDropboxEn {
+	TranslationsPagesDropboxEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get failed_getting_auth_page => 'Failed to get to the authentification page.';
+	String get enter_auth_code => 'Enter the authentification code';
+	String get invalid_auth_code => 'Invalid code';
+}
+
 // Path: pages.overall.buttons
 class TranslationsPagesOverallButtonsEn {
 	TranslationsPagesOverallButtonsEn._(this._root);
@@ -166,6 +179,7 @@ class TranslationsPagesOverallButtonsEn {
 	String get ok => 'Ok';
 	String get cancel => 'Cancel';
 	String get save => 'Save';
+	String get validate => 'Validate';
 }
 
 // Path: pages.home.create_folder_dialog
@@ -343,6 +357,7 @@ extension on Translations {
 			case 'pages.overall.buttons.ok': return 'Ok';
 			case 'pages.overall.buttons.cancel': return 'Cancel';
 			case 'pages.overall.buttons.save': return 'Save';
+			case 'pages.overall.buttons.validate': return 'Validate';
 			case 'pages.home.title': return 'Main page';
 			case 'pages.home.create_folder_dialog.title': return 'Create folder';
 			case 'pages.home.create_folder_dialog.folder_name_placeholder': return 'Folder name';
@@ -382,6 +397,9 @@ extension on Translations {
 			case 'pages.position_shortcuts.buttons.clear': return 'Clear';
 			case 'pages.position_shortcuts.buttons.reset': return 'Reset';
 			case 'pages.position_shortcuts.buttons.set_start_position': return 'Start position';
+			case 'pages.dropbox.failed_getting_auth_page': return 'Failed to get to the authentification page.';
+			case 'pages.dropbox.enter_auth_code': return 'Enter the authentification code';
+			case 'pages.dropbox.invalid_auth_code': return 'Invalid code';
 			default: return null;
 		}
 	}
