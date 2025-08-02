@@ -21,6 +21,7 @@ enum TokenAuthResult { noGrantYet, failed, success }
 class DropboxManager {
   oauth2.AuthorizationCodeGrant? _grant;
   late void Function(oauth2.Client) _gotClientCallback;
+  File? _credentialsFile;
 
   DropboxManager({required Function(oauth2.Client) gotClientCallback}) {
     _gotClientCallback = gotClientCallback;
@@ -29,16 +30,16 @@ class DropboxManager {
   Future<void> startDropboxAuthProcess(
     void Function() onFailedLaunchingAuthPage,
   ) async {
-    final Directory appDocumentsDir = await getApplicationDocumentsDirectory();
+    final Directory appSupportDir = await getApplicationSupportDirectory();
+    await appSupportDir.create();
     final pathSeparator = Platform.pathSeparator;
-    final credentialsFile = File(
-      "$appDocumentsDir${pathSeparator}credentials.json",
-    );
+    final fileName = 'credentials.json';
+    _credentialsFile = File("${appSupportDir.path}$pathSeparator$fileName");
 
-    final exists = await credentialsFile.exists();
-    if (exists) {
+    final exists = await _credentialsFile?.exists();
+    if (exists == true) {
       final credentials = oauth2.Credentials.fromJson(
-        await credentialsFile.readAsString(),
+        await _credentialsFile!.readAsString(),
       );
       final client = oauth2.Client(
         credentials,
@@ -72,6 +73,8 @@ class DropboxManager {
     }
     try {
       final client = await _grant!.handleAuthorizationCode(token);
+      await _credentialsFile?.create();
+      await _credentialsFile?.writeAsString(client.credentials.toJson());
       _gotClientCallback(client);
       return TokenAuthResult.success;
     } catch (e) {
