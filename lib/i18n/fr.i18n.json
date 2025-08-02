@@ -17,7 +17,8 @@
         "ok": "Ok",
         "cancel": "Annuler",
         "save": "Sauvegarder",
-        "validate": "Valider"
+        "validate": "Valider",
+        "paste": "Coller"
       }
     },
     "home": {

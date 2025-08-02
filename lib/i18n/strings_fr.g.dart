@@ -177,6 +177,7 @@ class _TranslationsPagesOverallButtonsFr implements TranslationsPagesOverallButt
 	@override String get cancel => 'Annuler';
 	@override String get save => 'Sauvegarder';
 	@override String get validate => 'Valider';
+	@override String get paste => 'Coller';
 }
 
 // Path: pages.home.create_folder_dialog
@@ -355,6 +356,7 @@ extension on TranslationsFr {
 			case 'pages.overall.buttons.cancel': return 'Annuler';
 			case 'pages.overall.buttons.save': return 'Sauvegarder';
 			case 'pages.overall.buttons.validate': return 'Valider';
+			case 'pages.overall.buttons.paste': return 'Coller';
 			case 'pages.home.title': return 'Page principale';
 			case 'pages.home.create_folder_dialog.title': return 'Créer un dossier';
 			case 'pages.home.create_folder_dialog.folder_name_placeholder': return 'Nom du dossier';

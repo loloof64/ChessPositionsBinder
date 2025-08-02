@@ -5,6 +5,7 @@ import 'package:chess_position_binder/i18n/strings.g.dart';
 import 'package:chess_position_binder/services/dropbox/dropbox_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:oauth2/oauth2.dart';
+import 'package:flutter/services.dart';
 
 class DropboxPage extends StatefulWidget {
   const DropboxPage({super.key});
@@ -58,6 +59,14 @@ class _DropboxPageState extends State<DropboxPage> {
     });
   }
 
+  Future<void> _pasteFromClipboard() async {
+    final clipboardData = await Clipboard.getData('text/plain');
+    final clipboardText = clipboardData?.text ?? '';
+    setState(() {
+      _codeController.text = clipboardText;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -84,6 +93,10 @@ class _DropboxPageState extends State<DropboxPage> {
                 children: [
                   Text(t.pages.dropbox.enter_auth_code),
                   TextField(controller: _codeController),
+                  ElevatedButton(
+                    onPressed: _pasteFromClipboard,
+                    child: Text(t.pages.overall.buttons.paste),
+                  ),
                   ElevatedButton(
                     onPressed: _checkCode,
                     child: Text(t.pages.overall.buttons.validate),

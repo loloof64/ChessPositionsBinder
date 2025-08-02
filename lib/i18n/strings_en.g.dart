@@ -180,6 +180,7 @@ class TranslationsPagesOverallButtonsEn {
 	String get cancel => 'Cancel';
 	String get save => 'Save';
 	String get validate => 'Validate';
+	String get paste => 'Paste';
 }
 
 // Path: pages.home.create_folder_dialog
@@ -358,6 +359,7 @@ extension on Translations {
 			case 'pages.overall.buttons.cancel': return 'Cancel';
 			case 'pages.overall.buttons.save': return 'Save';
 			case 'pages.overall.buttons.validate': return 'Validate';
+			case 'pages.overall.buttons.paste': return 'Paste';
 			case 'pages.home.title': return 'Main page';
 			case 'pages.home.create_folder_dialog.title': return 'Create folder';
 			case 'pages.home.create_folder_dialog.folder_name_placeholder': return 'Folder name';
