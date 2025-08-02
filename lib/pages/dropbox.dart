@@ -18,7 +18,6 @@ class _DropboxPageState extends State<DropboxPage> {
   Client? _dropboxClient;
   late DropboxManager _dropboxManager;
   final TextEditingController _codeController = TextEditingController(text: '');
-  bool _invalidCode = false;
 
   @override
   void initState() {
@@ -49,22 +48,19 @@ class _DropboxPageState extends State<DropboxPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(t.pages.dropbox.failed_getting_auth_page)),
     );
-    await Future.delayed(Duration(seconds: 1));
     if (!context.mounted) return;
     Navigator.of(context).pop();
   }
 
   Future<void> _checkCode() async {
-    setState(() {
-      _invalidCode = false;
-    });
     final token = _codeController.text;
     final authSuccess = await _dropboxManager.authenticateWithToken(token);
     if (authSuccess != TokenAuthResult.success) {
-      setState(() {
-        _invalidCode = true;
-        _codeController.text = "";
-      });
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(t.pages.dropbox.invalid_auth_code)),
+      );
+      Navigator.of(context).pop();
     }
   }
 
@@ -110,11 +106,6 @@ class _DropboxPageState extends State<DropboxPage> {
                     onPressed: _checkCode,
                     child: Text(t.pages.overall.buttons.validate),
                   ),
-                  if (_invalidCode)
-                    Text(
-                      t.pages.dropbox.invalid_auth_code,
-                      style: TextStyle(color: Colors.red),
-                    ),
                 ],
               )
             : Column(
