@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:chess_position_binder/services/dropbox/secrets.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:oauth2/oauth2.dart' as oauth2;
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -15,42 +16,67 @@ final redirectUrl = Uri.parse(
   'https://loloof64.github.io/ChessPositionsBinder/oauth2_code.html',
 );
 
-Future<void> startDropboxAuthProcess(
-  void Function(oauth2.Client) gotClientCallback,
-  void Function() failedGettingClientCallback,
-) async {
-  final Directory appDocumentsDir = await getApplicationDocumentsDirectory();
-  final pathSeparator = Platform.pathSeparator;
-  final credentialsFile = File(
-    "$appDocumentsDir${pathSeparator}credentials.json",
-  );
+enum TokenAuthResult { noGrantYet, failed, success }
 
-  final exists = await credentialsFile.exists();
-  if (exists) {
-    final credentials = oauth2.Credentials.fromJson(
-      await credentialsFile.readAsString(),
+class DropboxManager {
+  oauth2.AuthorizationCodeGrant? _grant;
+  late void Function(oauth2.Client) _gotClientCallback;
+
+  DropboxManager({required Function(oauth2.Client) gotClientCallback}) {
+    _gotClientCallback = gotClientCallback;
+  }
+
+  Future<void> startDropboxAuthProcess(
+    void Function() onFailedLaunchingAuthPage,
+  ) async {
+    final Directory appDocumentsDir = await getApplicationDocumentsDirectory();
+    final pathSeparator = Platform.pathSeparator;
+    final credentialsFile = File(
+      "$appDocumentsDir${pathSeparator}credentials.json",
     );
-    final client = oauth2.Client(
-      credentials,
-      identifier: identifier,
+
+    final exists = await credentialsFile.exists();
+    if (exists) {
+      final credentials = oauth2.Credentials.fromJson(
+        await credentialsFile.readAsString(),
+      );
+      final client = oauth2.Client(
+        credentials,
+        identifier: identifier,
+        secret: secret,
+      );
+      _gotClientCallback(client);
+      return;
+    }
+
+    _grant = oauth2.AuthorizationCodeGrant(
+      identifier,
+      authorizationEndpoint,
+      tokenEndpoint,
       secret: secret,
     );
-    gotClientCallback(client);
+
+    final authorizationUrl = _grant!.getAuthorizationUrl(redirectUrl);
+    if (await canLaunchUrl(authorizationUrl)) {
+      await launchUrl(authorizationUrl);
+      return;
+    }
+
+    onFailedLaunchingAuthPage();
     return;
   }
 
-  final grant = oauth2.AuthorizationCodeGrant(
-    identifier,
-    authorizationEndpoint,
-    tokenEndpoint,
-    secret: secret,
-  );
-
-  final authorizationUrl = grant.getAuthorizationUrl(redirectUrl);
-  if (await canLaunchUrl(authorizationUrl)) {
-    await launchUrl(authorizationUrl);
-    return;
+  Future<TokenAuthResult> authenticateWithToken(String token) async {
+    if (_grant == null) {
+      return TokenAuthResult.noGrantYet;
+    }
+    try {
+      final client = await _grant!.handleAuthorizationCode(token);
+      _gotClientCallback(client);
+      return TokenAuthResult.success;
+    } catch (e) {
+      debugPrint(e.toString());
+      return TokenAuthResult.failed;
+    }
   }
-  failedGettingClientCallback();
-  return;
 }

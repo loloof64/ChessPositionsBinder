@@ -16,12 +16,14 @@ class DropboxPage extends StatefulWidget {
 
 class _DropboxPageState extends State<DropboxPage> {
   Client? _dropboxClient;
+  late DropboxManager _dropboxManager;
   final TextEditingController _codeController = TextEditingController(text: '');
   bool _invalidCode = false;
 
   @override
   void initState() {
     super.initState();
+    _dropboxManager = DropboxManager(gotClientCallback: _onGotDropboxClient);
     _tryStartingDropbox();
   }
 
@@ -32,9 +34,8 @@ class _DropboxPageState extends State<DropboxPage> {
   }
 
   Future<void> _tryStartingDropbox() async {
-    await startDropboxAuthProcess(
-      _onGotDropboxClient,
-      _onFailedGettingDropboxClientCallback,
+    await _dropboxManager.startDropboxAuthProcess(
+      _onFailedLaunchingDropboxAuthPage,
     );
   }
 
@@ -44,7 +45,7 @@ class _DropboxPageState extends State<DropboxPage> {
     });
   }
 
-  Future<void> _onFailedGettingDropboxClientCallback() async {
+  Future<void> _onFailedLaunchingDropboxAuthPage() async {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(t.pages.dropbox.failed_getting_auth_page)),
     );
@@ -53,10 +54,18 @@ class _DropboxPageState extends State<DropboxPage> {
     Navigator.of(context).pop();
   }
 
-  void _checkCode() {
+  Future<void> _checkCode() async {
     setState(() {
       _invalidCode = false;
     });
+    final token = _codeController.text;
+    final authSuccess = await _dropboxManager.authenticateWithToken(token);
+    if (authSuccess != TokenAuthResult.success) {
+      setState(() {
+        _invalidCode = true;
+        _codeController.text = "";
+      });
+    }
   }
 
   Future<void> _pasteFromClipboard() async {
