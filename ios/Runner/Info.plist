@@ -51,5 +51,7 @@
 		<string>es</string>
 		<string>fr</string>
 	</array>
+	<key>FlutterDeepLinkingEnabled</key>
+	<false/>
 </dict>
 </plist>
