@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:chess_position_binder/i18n/strings.g.dart';
 import 'package:chess_position_binder/services/dropbox/dropbox_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:oauth2/oauth2.dart';
 import 'package:flutter/services.dart';
 
 class DropboxPage extends StatefulWidget {
@@ -15,14 +14,14 @@ class DropboxPage extends StatefulWidget {
 }
 
 class _DropboxPageState extends State<DropboxPage> {
-  Client? _dropboxClient;
+  bool _isConnected = false;
   late DropboxManager _dropboxManager;
   final TextEditingController _codeController = TextEditingController(text: '');
 
   @override
   void initState() {
     super.initState();
-    _dropboxManager = DropboxManager(gotClientCallback: _onGotDropboxClient);
+    _dropboxManager = DropboxManager(isReadyCallback: _onDropboxReady);
     _tryStartingDropbox();
   }
 
@@ -38,9 +37,9 @@ class _DropboxPageState extends State<DropboxPage> {
     );
   }
 
-  void _onGotDropboxClient(Client dropboxClient) {
+  void _onDropboxReady() {
     setState(() {
-      _dropboxClient = dropboxClient;
+      _isConnected = true;
     });
   }
 
@@ -90,7 +89,7 @@ class _DropboxPageState extends State<DropboxPage> {
         title: const Text("Dropbox"),
       ),
       body: Center(
-        child: _dropboxClient == null
+        child: _isConnected == false
             ? Column(
                 spacing: 8,
                 crossAxisAlignment: CrossAxisAlignment.center,

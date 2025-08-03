@@ -20,12 +20,15 @@ enum TokenAuthResult { noGrantYet, failed, success }
 
 class DropboxManager {
   oauth2.AuthorizationCodeGrant? _grant;
-  late void Function(oauth2.Client) _gotClientCallback;
   File? _credentialsFile;
+  oauth2.Client? _client;
+  late void Function() _isReadyCallback;
 
-  DropboxManager({required Function(oauth2.Client) gotClientCallback}) {
-    _gotClientCallback = gotClientCallback;
+  DropboxManager({required void Function() isReadyCallback}) {
+    _isReadyCallback = isReadyCallback;
   }
+
+  bool isConnected() => _client != null;
 
   Future<void> startDropboxAuthProcess(
     void Function() onFailedLaunchingAuthPage,
@@ -46,7 +49,8 @@ class DropboxManager {
         identifier: identifier,
         secret: secret,
       );
-      _gotClientCallback(client);
+      _client = client;
+      _isReadyCallback();
       return;
     }
 
@@ -75,7 +79,8 @@ class DropboxManager {
       final client = await _grant!.handleAuthorizationCode(token);
       await _credentialsFile?.create();
       await _credentialsFile?.writeAsString(client.credentials.toJson());
-      _gotClientCallback(client);
+      _client = client;
+      _isReadyCallback();
       return TokenAuthResult.success;
     } catch (e) {
       debugPrint(e.toString());
