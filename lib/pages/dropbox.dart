@@ -141,16 +141,6 @@ class _DropboxPageState extends State<DropboxPage> {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
-    final screenWidth = mediaQuery.size.width;
-    final screenHeight = mediaQuery.size.height;
-    final orientation = mediaQuery.orientation;
-    final isPortrait = orientation == Orientation.portrait;
-
-    final smallestDimension = min(screenWidth, screenHeight);
-
-    // Based on standard breakpoints
-    bool isMobile = smallestDimension < 600;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -194,34 +184,77 @@ class _DropboxPageState extends State<DropboxPage> {
       ),
       body: Center(
         child: _isConnected == false
-            ? Column(
-                spacing: 8,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(t.pages.dropbox.enter_auth_code),
-                  TextField(controller: _codeController),
-                  ElevatedButton(
-                    onPressed: _pasteFromClipboard,
-                    child: Text(t.pages.overall.buttons.paste),
-                  ),
-                  ElevatedButton(
-                    onPressed: _checkCode,
-                    child: Text(t.pages.overall.buttons.validate),
-                  ),
-                ],
+            ? UnconnectedWidget(
+                codeController: _codeController,
+                checkCode: _checkCode,
+                pasteFromClipboard: _pasteFromClipboard,
               )
-            : Column(
-                children: [
-                  if (isMobile)
-                    const Text("Mobile")
-                  else
-                    Text("Tablet/Desktop"),
-                  Text("Résolution : $screenWidth x $screenHeight"),
-                  Text("Orientation : ${isPortrait ? 'Portrait' : 'Paysage'}"),
-                ],
-              ),
+            : ConnectedWidget(),
       ),
+    );
+  }
+}
+
+class UnconnectedWidget extends StatefulWidget {
+  final TextEditingController codeController;
+  final Future<void> Function() checkCode;
+  final Future<void> Function() pasteFromClipboard;
+  const UnconnectedWidget({
+    super.key,
+    required this.codeController,
+    required this.checkCode,
+    required this.pasteFromClipboard,
+  });
+
+  @override
+  State<UnconnectedWidget> createState() => _UnconnectedWidgetState();
+}
+
+class _UnconnectedWidgetState extends State<UnconnectedWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      spacing: 8,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(t.pages.dropbox.enter_auth_code),
+        TextField(controller: widget.codeController),
+        ElevatedButton(
+          onPressed: widget.pasteFromClipboard,
+          child: Text(t.pages.overall.buttons.paste),
+        ),
+        ElevatedButton(
+          onPressed: widget.checkCode,
+          child: Text(t.pages.overall.buttons.validate),
+        ),
+      ],
+    );
+  }
+}
+
+class ConnectedWidget extends StatelessWidget {
+  const ConnectedWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    final screenWidth = mediaQuery.size.width;
+    final screenHeight = mediaQuery.size.height;
+    final orientation = mediaQuery.orientation;
+    final isPortrait = orientation == Orientation.portrait;
+
+    final smallestDimension = min(screenWidth, screenHeight);
+
+    // Based on standard breakpoints
+    bool isMobile = smallestDimension < 600;
+
+    return Column(
+      children: [
+        if (isMobile) const Text("Mobile") else Text("Tablet/Desktop"),
+        Text("Résolution : $screenWidth x $screenHeight"),
+        Text("Orientation : ${isPortrait ? 'Portrait' : 'Paysage'}"),
+      ],
     );
   }
 }
