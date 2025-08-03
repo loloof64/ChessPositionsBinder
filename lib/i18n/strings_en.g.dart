@@ -167,6 +167,7 @@ class TranslationsPagesDropboxEn {
 	String get failed_getting_auth_page => 'Failed to get to the authentification page.';
 	String get enter_auth_code => 'Enter the authentification code';
 	String get invalid_auth_code => 'Invalid code';
+	late final TranslationsPagesDropboxRequestErrorsEn request_errors = TranslationsPagesDropboxRequestErrorsEn._(_root);
 }
 
 // Path: pages.overall.buttons
@@ -344,6 +345,24 @@ class TranslationsPagesPositionShortcutsButtonsEn {
 	String get set_start_position => 'Start position';
 }
 
+// Path: pages.dropbox.request_errors
+class TranslationsPagesDropboxRequestErrorsEn {
+	TranslationsPagesDropboxRequestErrorsEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get no_client_available => 'No Dropbox client available.';
+	String get bad_request_input => 'Bad request input.';
+	String get authentification => 'Authentification error.';
+	String get no_permission => 'No permission error.';
+	String get endpoint => 'Endpoint error.';
+	String get rate_limit => 'Rate limit error.';
+	String get expired_credentials => 'Credentials have expired.';
+	String get misc => 'Misc server error.';
+	String get unknown => 'Unknown error.';
+}
+
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 extension on Translations {
@@ -402,6 +421,15 @@ extension on Translations {
 			case 'pages.dropbox.failed_getting_auth_page': return 'Failed to get to the authentification page.';
 			case 'pages.dropbox.enter_auth_code': return 'Enter the authentification code';
 			case 'pages.dropbox.invalid_auth_code': return 'Invalid code';
+			case 'pages.dropbox.request_errors.no_client_available': return 'No Dropbox client available.';
+			case 'pages.dropbox.request_errors.bad_request_input': return 'Bad request input.';
+			case 'pages.dropbox.request_errors.authentification': return 'Authentification error.';
+			case 'pages.dropbox.request_errors.no_permission': return 'No permission error.';
+			case 'pages.dropbox.request_errors.endpoint': return 'Endpoint error.';
+			case 'pages.dropbox.request_errors.rate_limit': return 'Rate limit error.';
+			case 'pages.dropbox.request_errors.expired_credentials': return 'Credentials have expired.';
+			case 'pages.dropbox.request_errors.misc': return 'Misc server error.';
+			case 'pages.dropbox.request_errors.unknown': return 'Unknown error.';
 			default: return null;
 		}
 	}

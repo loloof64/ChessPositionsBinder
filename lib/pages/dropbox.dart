@@ -2,9 +2,11 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:chess_position_binder/i18n/strings.g.dart';
+import 'package:chess_position_binder/services/dropbox/dropbox_errors.dart';
 import 'package:chess_position_binder/services/dropbox/dropbox_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:multiple_result/multiple_result.dart';
 
 class DropboxPage extends StatefulWidget {
   const DropboxPage({super.key});
@@ -15,6 +17,8 @@ class DropboxPage extends StatefulWidget {
 
 class _DropboxPageState extends State<DropboxPage> {
   bool _isConnected = false;
+  String _displayName = "";
+  String? _photoUrl;
   late DropboxManager _dropboxManager;
   final TextEditingController _codeController = TextEditingController(text: '');
 
@@ -37,10 +41,49 @@ class _DropboxPageState extends State<DropboxPage> {
     );
   }
 
-  void _onDropboxReady() {
+  void _onDropboxReady() async {
     setState(() {
       _isConnected = true;
     });
+    final userProfileResult = await _dropboxManager.getUserProfile();
+    switch (userProfileResult) {
+      case Success():
+        final displayName = userProfileResult.success.displayName;
+        final photoUrl = userProfileResult.success.profilePhotoUrl;
+
+        setState(() {
+          _displayName = displayName;
+          _photoUrl = photoUrl;
+        });
+        break;
+      case Error():
+        final error = userProfileResult.error;
+        _handleError(error);
+    }
+  }
+
+  void _handleError(RequestError error) {
+    final message = switch (error) {
+      NoClientAvailable() => t.pages.dropbox.request_errors.no_client_available,
+      BadInput() => t.pages.dropbox.request_errors.bad_request_input,
+      AuthError() => t.pages.dropbox.request_errors.authentification,
+      NoPermissionError() => t.pages.dropbox.request_errors.no_permission,
+      EndpointError() => t.pages.dropbox.request_errors.endpoint,
+      RateLimitError() => t.pages.dropbox.request_errors.rate_limit,
+      ServerError() => t.pages.dropbox.request_errors.misc,
+      ExpiredCredentials() =>
+        t.pages.dropbox.request_errors.expired_credentials,
+      _ => t.pages.dropbox.request_errors.unknown,
+    };
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
+    if (error is ExpiredCredentials) {
+      setState(() {
+        _isConnected = false;
+      });
+      _dropboxManager.restartAuthProcess(_onFailedLaunchingDropboxAuthPage);
+    }
   }
 
   Future<void> _onFailedLaunchingDropboxAuthPage() async {
@@ -86,7 +129,30 @@ class _DropboxPageState extends State<DropboxPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text("Dropbox"),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text("Dropbox"),
+            Row(
+              spacing: 10,
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(_displayName),
+                if (_photoUrl != null)
+                  ClipOval(
+                    child: Image.network(
+                      _photoUrl!,
+                      width: 30,
+                      height: 30,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+              ],
+            ),
+          ],
+        ),
       ),
       body: Center(
         child: _isConnected == false

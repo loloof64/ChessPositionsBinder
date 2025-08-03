@@ -99,7 +99,18 @@
     "dropbox": {
       "failed_getting_auth_page": "Error al acceder a la página de autenticación.",
       "enter_auth_code": "Introduzca el código de autenticación",
-      "invalid_auth_code": "Código inválido"
+      "invalid_auth_code": "Código inválido",
+      "request_errors": {
+        "no_client_available": "No hay cliente de Dropbox disponible.",
+        "bad_request_input": "Entrada de solicitud incorrecta.",
+        "authentification": "Error de autenticación.",
+        "no_permission": "Error de permisos insuficientes.",
+        "endpoint": "Error de endpoint.",
+        "rate_limit": "Error de límite de cuota.",
+        "expired_credentials": "Las credenciales han expirado.",
+        "misc": "Error de servidor diverso.",
+        "unknown": "Error desconocido."
+      }
     }
   }
 }

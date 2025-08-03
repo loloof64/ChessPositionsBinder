@@ -46,6 +46,7 @@ dependencies:
   ionicons: ^0.2.2
   oauth2: ^2.0.3
   url_launcher: ^6.3.2
+  multiple_result: ^5.2.0
 
 dev_dependencies:
   flutter_test:

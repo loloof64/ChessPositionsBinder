@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:chess_position_binder/services/dropbox/dropbox_errors.dart';
+import 'package:multiple_result/multiple_result.dart';
 import 'package:chess_position_binder/services/dropbox/secrets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:oauth2/oauth2.dart' as oauth2;
@@ -17,6 +20,13 @@ final redirectUrl = Uri.parse(
 );
 
 enum TokenAuthResult { noGrantYet, failed, success }
+
+class UserProfile {
+  final String displayName;
+  final String? profilePhotoUrl;
+
+  UserProfile({required this.displayName, required this.profilePhotoUrl});
+}
 
 class DropboxManager {
   oauth2.AuthorizationCodeGrant? _grant;
@@ -86,5 +96,54 @@ class DropboxManager {
       debugPrint(e.toString());
       return TokenAuthResult.failed;
     }
+  }
+
+  Future<Result<UserProfile, RequestError>> getUserProfile() async {
+    oauth2.Client client;
+    if (_client == null) {
+      return Error(NoClientAvailable());
+    }
+    client = _client!;
+
+    try {
+      final response = await client.post(
+        Uri.parse("https://api.dropboxapi.com/2/users/get_current_account"),
+      );
+      if (response.statusCode == 200) {
+        final body = response.body;
+        final bodyJson = jsonDecode(body);
+
+        final displayName = bodyJson["name"]["display_name"];
+        final profilePhotoUrl = bodyJson["profile_photo_url"];
+
+        return Success(
+          UserProfile(
+            displayName: displayName,
+            profilePhotoUrl: profilePhotoUrl,
+          ),
+        );
+      } else {
+        return Error(convertError(response.statusCode, response.body));
+      }
+    } catch (e) {
+      final message = e.toString();
+      debugPrint(message);
+      final isExpiredCredentialsError = message.contains(
+        "credentials have expired",
+      );
+      return Error(
+        isExpiredCredentialsError ? ExpiredCredentials() : UnknownError(),
+      );
+    }
+  }
+
+  Future<void> restartAuthProcess(
+    void Function() onFailedLaunchingAuthPage,
+  ) async {
+    // delete stored credentials
+    await _credentialsFile?.delete();
+
+    // restart auth process
+    await startDropboxAuthProcess(onFailedLaunchingAuthPage);
   }
 }

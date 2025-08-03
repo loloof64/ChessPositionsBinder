@@ -99,7 +99,18 @@
     "dropbox": {
       "failed_getting_auth_page": "Failed to get to the authentification page.",
       "enter_auth_code": "Enter the authentification code",
-      "invalid_auth_code": "Invalid code"
+      "invalid_auth_code": "Invalid code",
+      "request_errors": {
+        "no_client_available": "No Dropbox client available.",
+        "bad_request_input": "Bad request input.",
+        "authentification": "Authentification error.",
+        "no_permission": "No permission error.",
+        "endpoint": "Endpoint error.",
+        "rate_limit": "Rate limit error.",
+        "expired_credentials": "Credentials have expired.",
+        "misc": "Misc server error.",
+        "unknown": "Unknown error."
+      }
     }
   }
 }

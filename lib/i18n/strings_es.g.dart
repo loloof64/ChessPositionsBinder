@@ -164,6 +164,7 @@ class _TranslationsPagesDropboxEs implements TranslationsPagesDropboxEn {
 	@override String get failed_getting_auth_page => 'Error al acceder a la página de autenticación.';
 	@override String get enter_auth_code => 'Introduzca el código de autenticación';
 	@override String get invalid_auth_code => 'Código inválido';
+	@override late final _TranslationsPagesDropboxRequestErrorsEs request_errors = _TranslationsPagesDropboxRequestErrorsEs._(_root);
 }
 
 // Path: pages.overall.buttons
@@ -341,6 +342,24 @@ class _TranslationsPagesPositionShortcutsButtonsEs implements TranslationsPagesP
 	@override String get set_start_position => 'Establecer posición inicial';
 }
 
+// Path: pages.dropbox.request_errors
+class _TranslationsPagesDropboxRequestErrorsEs implements TranslationsPagesDropboxRequestErrorsEn {
+	_TranslationsPagesDropboxRequestErrorsEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get no_client_available => 'No hay cliente de Dropbox disponible.';
+	@override String get bad_request_input => 'Entrada de solicitud incorrecta.';
+	@override String get authentification => 'Error de autenticación.';
+	@override String get no_permission => 'Error de permisos insuficientes.';
+	@override String get endpoint => 'Error de endpoint.';
+	@override String get rate_limit => 'Error de límite de cuota.';
+	@override String get expired_credentials => 'Las credenciales han expirado.';
+	@override String get misc => 'Error de servidor diverso.';
+	@override String get unknown => 'Error desconocido.';
+}
+
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 extension on TranslationsEs {
@@ -399,6 +418,15 @@ extension on TranslationsEs {
 			case 'pages.dropbox.failed_getting_auth_page': return 'Error al acceder a la página de autenticación.';
 			case 'pages.dropbox.enter_auth_code': return 'Introduzca el código de autenticación';
 			case 'pages.dropbox.invalid_auth_code': return 'Código inválido';
+			case 'pages.dropbox.request_errors.no_client_available': return 'No hay cliente de Dropbox disponible.';
+			case 'pages.dropbox.request_errors.bad_request_input': return 'Entrada de solicitud incorrecta.';
+			case 'pages.dropbox.request_errors.authentification': return 'Error de autenticación.';
+			case 'pages.dropbox.request_errors.no_permission': return 'Error de permisos insuficientes.';
+			case 'pages.dropbox.request_errors.endpoint': return 'Error de endpoint.';
+			case 'pages.dropbox.request_errors.rate_limit': return 'Error de límite de cuota.';
+			case 'pages.dropbox.request_errors.expired_credentials': return 'Las credenciales han expirado.';
+			case 'pages.dropbox.request_errors.misc': return 'Error de servidor diverso.';
+			case 'pages.dropbox.request_errors.unknown': return 'Error desconocido.';
 			default: return null;
 		}
 	}
