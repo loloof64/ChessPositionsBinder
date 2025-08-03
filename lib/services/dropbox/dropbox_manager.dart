@@ -28,6 +28,13 @@ class UserProfile {
   UserProfile({required this.displayName, required this.profilePhotoUrl});
 }
 
+class UserUsageData {
+  final String freeSpace;
+  final String usedSpace;
+
+  UserUsageData({required this.freeSpace, required this.usedSpace});
+}
+
 class DropboxManager {
   oauth2.AuthorizationCodeGrant? _grant;
   File? _credentialsFile;
@@ -134,6 +141,60 @@ class DropboxManager {
       return Error(
         isExpiredCredentialsError ? ExpiredCredentials() : UnknownError(),
       );
+    }
+  }
+
+  Future<Result<UserUsageData, RequestError>> getUserUsageData() async {
+    oauth2.Client client;
+    if (_client == null) {
+      return Error(NoClientAvailable());
+    }
+    client = _client!;
+
+    try {
+      final response = await client.post(
+        Uri.parse("https://api.dropboxapi.com/2/users/get_space_usage"),
+      );
+
+      if (response.statusCode == 200) {
+        final body = response.body;
+        final bodyJson = jsonDecode(body);
+
+        final int freeSpaceBytes = bodyJson["allocation"]["allocated"];
+        final int usedSpaceBytes = bodyJson["used"];
+
+        final String freeSpace = _convertToUnit(freeSpaceBytes);
+        final String usedSpace = _convertToUnit(usedSpaceBytes);
+
+        return Success(
+          UserUsageData(freeSpace: freeSpace, usedSpace: usedSpace),
+        );
+      } else {
+        return Error(convertError(response.statusCode, response.body));
+      }
+    } catch (e) {
+      final message = e.toString();
+      debugPrint(message);
+      final isExpiredCredentialsError = message.contains(
+        "credentials have expired",
+      );
+      return Error(
+        isExpiredCredentialsError ? ExpiredCredentials() : UnknownError(),
+      );
+    }
+  }
+
+  String _convertToUnit(int bytesStorage) {
+    if (bytesStorage < 1024) {
+      return "$bytesStorage o";
+    } else if (bytesStorage < 1024 * 1024) {
+      return "${(bytesStorage / 1024).toStringAsFixed(0)}Ko";
+    } else if (bytesStorage < 1024 * 1024 * 1024) {
+      return "${(bytesStorage / (1024 * 1024)).toStringAsFixed(0)}Mo";
+    } else if (bytesStorage < 1024 * 1024 * 1024 * 1024) {
+      return "${(bytesStorage / (1024 * 1024 * 1024)).toStringAsFixed(0)}Go";
+    } else {
+      return "${(bytesStorage / (1024 * 1024 * 1024 * 1024)).toStringAsFixed(0)}To";
     }
   }
 

@@ -19,6 +19,8 @@ class _DropboxPageState extends State<DropboxPage> {
   bool _isConnected = false;
   String _displayName = "";
   String? _photoUrl;
+  String? _freeSpace;
+  String? _usedSpace;
   late DropboxManager _dropboxManager;
   final TextEditingController _codeController = TextEditingController(text: '');
 
@@ -45,6 +47,11 @@ class _DropboxPageState extends State<DropboxPage> {
     setState(() {
       _isConnected = true;
     });
+    await _getUserProfile();
+    await _getUsageData();
+  }
+
+  Future<void> _getUserProfile() async {
     final userProfileResult = await _dropboxManager.getUserProfile();
     switch (userProfileResult) {
       case Success():
@@ -58,6 +65,24 @@ class _DropboxPageState extends State<DropboxPage> {
         break;
       case Error():
         final error = userProfileResult.error;
+        _handleError(error);
+    }
+  }
+
+  Future<void> _getUsageData() async {
+    final userUsageData = await _dropboxManager.getUserUsageData();
+    switch (userUsageData) {
+      case Success():
+        final freeSpace = userUsageData.success.freeSpace;
+        final usedSpace = userUsageData.success.usedSpace;
+
+        setState(() {
+          _freeSpace = freeSpace;
+          _usedSpace = usedSpace;
+        });
+        break;
+      case Error():
+        final error = userUsageData.error;
         _handleError(error);
     }
   }
@@ -139,7 +164,20 @@ class _DropboxPageState extends State<DropboxPage> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(_displayName),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  spacing: 4,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(_displayName),
+                    if (_freeSpace != null && _usedSpace != null)
+                      Text(
+                        "$_usedSpace / $_freeSpace",
+                        style: TextStyle(fontSize: 14),
+                      ),
+                  ],
+                ),
                 if (_photoUrl != null)
                   ClipOval(
                     child: Image.network(
