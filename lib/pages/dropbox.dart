@@ -1,9 +1,9 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:chess_position_binder/i18n/strings.g.dart';
 import 'package:chess_position_binder/services/dropbox/dropbox_errors.dart';
 import 'package:chess_position_binder/services/dropbox/dropbox_manager.dart';
+import 'package:chess_position_binder/widgets/dropbox_commander_files.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:multiple_result/multiple_result.dart';
@@ -23,6 +23,11 @@ class _DropboxPageState extends State<DropboxPage> {
   String? _usedSpace;
   late DropboxManager _dropboxManager;
   final TextEditingController _codeController = TextEditingController(text: '');
+
+  List<CommanderItem>? _dropboxItems;
+  List<CommanderItem>? _localItems;
+  String _dropboxPath = "/";
+  String? _localPath;
 
   @override
   void initState() {
@@ -49,6 +54,7 @@ class _DropboxPageState extends State<DropboxPage> {
     });
     await _getUserProfile();
     await _getUsageData();
+    await _refreshDropboxContent();
   }
 
   Future<void> _getUserProfile() async {
@@ -139,6 +145,94 @@ class _DropboxPageState extends State<DropboxPage> {
     });
   }
 
+  Future<void> _refreshDropboxContent() async {
+    List<CommanderRawItem> items = [];
+    final firstContent = await _dropboxManager.startListingFolder(_dropboxPath);
+    switch (firstContent) {
+      case Success():
+        final nextItems = firstContent.success.items;
+        items.addAll(nextItems);
+        break;
+      case Error():
+        final error = firstContent.error;
+        _handleError(error);
+        return;
+    }
+    bool hasMore = firstContent.success.hasMore;
+    String cursor = firstContent.success.cursor;
+
+    while (hasMore) {
+      final nextContent = await _dropboxManager.goOnListingFolder(cursor);
+      switch (nextContent) {
+        case Success():
+          final nextItems = nextContent.success.items;
+          items.addAll(nextItems);
+          cursor = nextContent.success.cursor;
+          hasMore = nextContent.success.hasMore;
+          break;
+        case Error():
+          final error = nextContent.error;
+          _handleError(error);
+          return;
+      }
+    }
+
+    final standardItems = await _convertRawItemsToStandardItemsAndFilter(items);
+
+    setState(() {
+      _dropboxItems = standardItems;
+    });
+  }
+
+  Future<List<CommanderItem>> _convertRawItemsToStandardItemsAndFilter(
+    List<CommanderRawItem> items,
+  ) async {
+    List<CommanderItem> resultItems = [];
+
+    for (final currentItem in items) {
+      if (currentItem.isFolder) {
+        resultItems.add(
+          CommanderItem(
+            simpleName: currentItem.simpleName,
+            pgnContent: "",
+            isFolder: true,
+          ),
+        );
+      } else {
+        final name = currentItem.simpleName;
+        final reqResult = await _getDropboxRawItemContent(name);
+        switch (reqResult) {
+          case Success():
+            final String content = reqResult.success;
+            resultItems.add(
+              CommanderItem(
+                simpleName: name,
+                pgnContent: content,
+                isFolder: false,
+              ),
+            );
+            break;
+          case Error():
+            debugPrint(
+              "Error getting text from file $name :  ${reqResult.error}",
+            );
+            continue;
+        }
+      }
+    }
+
+    return resultItems;
+  }
+
+  Future<Result<String, RequestError>> _getDropboxRawItemContent(String name) {
+    final path = "$_dropboxPath$name";
+    return _dropboxManager.getRawItemContent(path);
+  }
+
+  Future<void> _handleDropboxFolderSelection(String folderName) async {
+    //TODO
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -189,7 +283,15 @@ class _DropboxPageState extends State<DropboxPage> {
                 checkCode: _checkCode,
                 pasteFromClipboard: _pasteFromClipboard,
               )
-            : ConnectedWidget(),
+            : ConnectedWidget(
+                dropboxPath: _dropboxPath,
+                dropboxItems: _dropboxItems,
+                handleDropboxFolderSelection: (folderName) async =>
+                    await _handleDropboxFolderSelection(folderName),
+                localPath: null,
+                localItems: [],
+                handleLocalFolderSelection: (folderName) async => {},
+              ),
       ),
     );
   }
@@ -234,27 +336,58 @@ class _UnconnectedWidgetState extends State<UnconnectedWidget> {
 }
 
 class ConnectedWidget extends StatelessWidget {
-  const ConnectedWidget({super.key});
+  final String? dropboxPath;
+  final List<CommanderItem>? dropboxItems;
+  final Future<void> Function(String folderName) handleDropboxFolderSelection;
+
+  final String? localPath;
+  final List<CommanderItem>? localItems;
+  final Future<void> Function(String folderName) handleLocalFolderSelection;
+
+  const ConnectedWidget({
+    super.key,
+    required this.dropboxPath,
+    required this.dropboxItems,
+    required this.handleDropboxFolderSelection,
+    required this.localPath,
+    required this.localItems,
+    required this.handleLocalFolderSelection,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
-    final screenWidth = mediaQuery.size.width;
-    final screenHeight = mediaQuery.size.height;
-    final orientation = mediaQuery.orientation;
-    final isPortrait = orientation == Orientation.portrait;
+    final orientation = MediaQuery.of(context).orientation;
 
-    final smallestDimension = min(screenWidth, screenHeight);
+    final commander1 = CommanderFilesWidget(
+      explorerLabel: t.pages.dropbox.dropbox_explorer,
+      items: dropboxItems,
+      pathText: dropboxPath,
+      handleFolderSelection: handleDropboxFolderSelection,
+    );
 
-    // Based on standard breakpoints
-    bool isMobile = smallestDimension < 600;
+    final commander2 = CommanderFilesWidget(
+      explorerLabel: t.pages.dropbox.local_explorer,
+      items: localItems,
+      pathText: localPath,
+      handleFolderSelection: handleLocalFolderSelection,
+    );
 
-    return Column(
-      children: [
-        if (isMobile) const Text("Mobile") else Text("Tablet/Desktop"),
-        Text("Résolution : $screenWidth x $screenHeight"),
-        Text("Orientation : ${isPortrait ? 'Portrait' : 'Paysage'}"),
-      ],
+    return SafeArea(
+      child: orientation == Orientation.landscape
+          ? Row(
+              children: [
+                Expanded(child: commander1),
+                VerticalDivider(width: 1),
+                Expanded(child: commander2),
+              ],
+            )
+          : Column(
+              children: [
+                Expanded(child: commander1),
+                Divider(height: 1),
+                Expanded(child: commander2),
+              ],
+            ),
     );
   }
 }

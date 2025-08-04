@@ -110,7 +110,9 @@
         "expired_credentials": "Las credenciales han expirado.",
         "misc": "Error de servidor diverso.",
         "unknown": "Error desconocido."
-      }
+      },
+      "dropbox_explorer": "Dropbox",
+      "local_explorer": "Local"
     }
   }
 }

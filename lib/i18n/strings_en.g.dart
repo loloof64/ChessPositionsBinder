@@ -168,6 +168,8 @@ class TranslationsPagesDropboxEn {
 	String get enter_auth_code => 'Enter the authentification code';
 	String get invalid_auth_code => 'Invalid code';
 	late final TranslationsPagesDropboxRequestErrorsEn request_errors = TranslationsPagesDropboxRequestErrorsEn._(_root);
+	String get dropbox_explorer => 'Dropbox';
+	String get local_explorer => 'Local';
 }
 
 // Path: pages.overall.buttons
@@ -430,6 +432,8 @@ extension on Translations {
 			case 'pages.dropbox.request_errors.expired_credentials': return 'Credentials have expired.';
 			case 'pages.dropbox.request_errors.misc': return 'Misc server error.';
 			case 'pages.dropbox.request_errors.unknown': return 'Unknown error.';
+			case 'pages.dropbox.dropbox_explorer': return 'Dropbox';
+			case 'pages.dropbox.local_explorer': return 'Local';
 			default: return null;
 		}
 	}

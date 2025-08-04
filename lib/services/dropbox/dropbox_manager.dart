@@ -35,6 +35,25 @@ class UserUsageData {
   UserUsageData({required this.freeSpace, required this.usedSpace});
 }
 
+class FoldersRequestResult {
+  final List<CommanderRawItem> items;
+  final String cursor;
+  final bool hasMore;
+
+  FoldersRequestResult({
+    required this.items,
+    required this.cursor,
+    required this.hasMore,
+  });
+}
+
+class CommanderRawItem {
+  final String simpleName;
+  final bool isFolder;
+
+  CommanderRawItem({required this.simpleName, required this.isFolder});
+}
+
 class DropboxManager {
   oauth2.AuthorizationCodeGrant? _grant;
   File? _credentialsFile;
@@ -184,6 +203,151 @@ class DropboxManager {
     }
   }
 
+  Future<Result<FoldersRequestResult, RequestError>> startListingFolder(
+    String path,
+  ) async {
+    oauth2.Client client;
+    if (_client == null) {
+      return Error(NoClientAvailable());
+    }
+    client = _client!;
+
+    try {
+      final response = await client.post(
+        Uri.parse("https://api.dropboxapi.com/2/files/list_folder"),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({
+          "include_deleted": false,
+          "include_has_explicit_shared_members": false,
+          "include_media_info": false,
+          "include_mounted_folders": true,
+          "include_non_downloadable_files": false,
+          "path": path == "/" ? "" : path,
+          "recursive": false,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final body = response.body;
+        final bodyJson = jsonDecode(body);
+
+        final entries = bodyJson["entries"] as List<dynamic>;
+        final String cursor = bodyJson["cursor"];
+        final bool hasMore = bodyJson["has_more"];
+        final bool isFolder = bodyJson[".tag"] == "folder";
+
+        final items = entries.map((currentEntry) {
+          return CommanderRawItem(
+            simpleName: currentEntry["name"],
+            isFolder: isFolder,
+          );
+        }).toList();
+
+        return Success(
+          FoldersRequestResult(cursor: cursor, items: items, hasMore: hasMore),
+        );
+      } else {
+        return Error(convertError(response.statusCode, response.body));
+      }
+    } catch (e) {
+      final message = e.toString();
+      debugPrint(message);
+      final isExpiredCredentialsError = message.contains(
+        "credentials have expired",
+      );
+      return Error(
+        isExpiredCredentialsError ? ExpiredCredentials() : UnknownError(),
+      );
+    }
+  }
+
+  Future<Result<FoldersRequestResult, RequestError>> goOnListingFolder(
+    String cursor,
+  ) async {
+    oauth2.Client client;
+    if (_client == null) {
+      return Error(NoClientAvailable());
+    }
+    client = _client!;
+
+    try {
+      final response = await client.post(
+        Uri.parse("https://api.dropboxapi.com/2/files/list_folder/continue"),
+        body: jsonEncode({"cursor": cursor}),
+      );
+
+      if (response.statusCode == 200) {
+        final body = response.body;
+        final bodyJson = jsonDecode(body);
+
+        final entries = bodyJson["entries"] as List<dynamic>;
+        final String cursor = bodyJson["cursor"];
+        final bool hasMore = bodyJson["has_more"];
+        final bool isFolder = bodyJson[".tag"] == "folder";
+
+        final items = entries.map((currentEntry) {
+          return CommanderRawItem(
+            simpleName: currentEntry["name"],
+            isFolder: isFolder,
+          );
+        }).toList();
+
+        return Success(
+          FoldersRequestResult(cursor: cursor, items: items, hasMore: hasMore),
+        );
+      } else {
+        return Error(convertError(response.statusCode, response.body));
+      }
+    } catch (e) {
+      final message = e.toString();
+      debugPrint(message);
+      final isExpiredCredentialsError = message.contains(
+        "credentials have expired",
+      );
+      return Error(
+        isExpiredCredentialsError ? ExpiredCredentials() : UnknownError(),
+      );
+    }
+  }
+
+  Future<Result<String, RequestError>> getRawItemContent(String path) async {
+    oauth2.Client client;
+    if (_client == null) {
+      return Error(NoClientAvailable());
+    }
+    client = _client!;
+
+    try {
+      final response = await client.post(
+        Uri.parse("https://content.dropboxapi.com/2/files/download"),
+        headers: {
+          "Dropbox-API-Arg": jsonEncode({"path": path == "/" ? "" : path}),
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final fileContent = response.body;
+        final isTextFile = isTextContent(fileContent);
+        if (isTextFile) {
+          return Success(fileContent);
+        } else {
+          return Error(NotATextFile());
+        }
+      } else {
+        return Error(convertError(response.statusCode, response.body));
+      }
+    } catch (e) {
+      final message = e.toString();
+      debugPrint(message);
+      final isExpiredCredentialsError = message.contains(
+        "credentials have expired",
+      );
+      return Error(
+        isExpiredCredentialsError ? ExpiredCredentials() : UnknownError(),
+      );
+    }
+  }
+
   String _convertToUnit(int bytesStorage) {
     if (bytesStorage < 1024) {
       return "$bytesStorage o";
@@ -207,4 +371,20 @@ class DropboxManager {
     // restart auth process
     await startDropboxAuthProcess(onFailedLaunchingAuthPage);
   }
+}
+
+bool isTextContent(String content) {
+  for (final rune in content.runes) {
+    if (
+    // Keep  Tab, LF, CR
+    (rune < 32 && rune != 9 && rune != 10 && rune != 13) ||
+        rune == 127 || // DEL
+        (rune >= 128 && rune <= 159) || // extended control caracters
+        rune >
+            255 // above Latin-1
+            ) {
+      return false;
+    }
+  }
+  return true;
 }

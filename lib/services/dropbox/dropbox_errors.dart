@@ -14,6 +14,11 @@ class NoClientAvailable extends RequestError {
   String? get message => null;
 }
 
+class NotATextFile extends RequestError {
+  @override
+  String? get message => null;
+}
+
 class BadInput extends RequestError {
   final String _message;
 

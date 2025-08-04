@@ -110,7 +110,9 @@
         "expired_credentials": "Les jetons de connexion ont expiré.",
         "misc": "Erreur serveur diverse.",
         "unknown": "Erreur inconnue."
-      }
+      },
+      "dropbox_explorer": "Dropbox",
+      "local_explorer": "Local"
     }
   }
 }

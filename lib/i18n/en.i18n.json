@@ -110,7 +110,9 @@
         "expired_credentials": "Credentials have expired.",
         "misc": "Misc server error.",
         "unknown": "Unknown error."
-      }
+      },
+      "dropbox_explorer": "Dropbox",
+      "local_explorer": "Local"
     }
   }
 }

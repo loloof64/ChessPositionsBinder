@@ -165,6 +165,8 @@ class _TranslationsPagesDropboxFr implements TranslationsPagesDropboxEn {
 	@override String get enter_auth_code => 'Entrez le code d\'autentification';
 	@override String get invalid_auth_code => 'Code invalide';
 	@override late final _TranslationsPagesDropboxRequestErrorsFr request_errors = _TranslationsPagesDropboxRequestErrorsFr._(_root);
+	@override String get dropbox_explorer => 'Dropbox';
+	@override String get local_explorer => 'Local';
 }
 
 // Path: pages.overall.buttons
@@ -427,6 +429,8 @@ extension on TranslationsFr {
 			case 'pages.dropbox.request_errors.expired_credentials': return 'Les jetons de connexion ont expiré.';
 			case 'pages.dropbox.request_errors.misc': return 'Erreur serveur diverse.';
 			case 'pages.dropbox.request_errors.unknown': return 'Erreur inconnue.';
+			case 'pages.dropbox.dropbox_explorer': return 'Dropbox';
+			case 'pages.dropbox.local_explorer': return 'Local';
 			default: return null;
 		}
 	}
