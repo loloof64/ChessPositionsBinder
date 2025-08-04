@@ -24,11 +24,18 @@ class _MyHomePageState extends State<MyHomePage> {
   Directory? _currentDirectory;
   Directory? _baseDirectory;
   Future<List<(String, String, bool)>> _contentFuture = Future.value([]);
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     _setupCurrentDirectory().then((_) => _reloadContent());
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   Future<void> _reloadContent() async {
@@ -795,12 +802,17 @@ class _MyHomePageState extends State<MyHomePage> {
           Container(
             width: screenWidth,
             color: Colors.amberAccent,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Text(
-                pathText,
-                softWrap: false,
-                style: const TextStyle(fontSize: 20),
+            child: Scrollbar(
+              thumbVisibility: true,
+              controller: _scrollController,
+              child: SingleChildScrollView(
+                controller: _scrollController,
+                scrollDirection: Axis.horizontal,
+                child: Text(
+                  pathText,
+                  softWrap: false,
+                  style: const TextStyle(fontSize: 20),
+                ),
               ),
             ),
           ),
