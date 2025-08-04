@@ -592,58 +592,54 @@ class _MyHomePageState extends State<MyHomePage> {
                       if (isParentFolder) {
                         return GestureDetector(
                           onTap: () => _handleFolderSelection(parentFolder),
-                          child: Center(
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.arrow_back,
-                                  size: 50,
-                                  color: Colors.blueAccent,
-                                ),
-                              ],
-                            ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.arrow_back,
+                                size: 50,
+                                color: Colors.blueAccent,
+                              ),
+                            ],
                           ),
                         );
                       } else if (isFolder) {
                         return GestureDetector(
                           onTap: () => _handleFolderSelection(itemName),
-                          child: Center(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              spacing: 2,
-                              children: [
-                                Icon(
-                                  Icons.folder,
-                                  size: 50,
-                                  color: Colors.amberAccent,
-                                ),
-                                Text(itemName),
-                                Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  spacing: 8,
-                                  children: [
-                                    IconButton(
-                                      onPressed: () =>
-                                          _purposeRenameFolder(itemPath),
-                                      icon: Icon(Icons.abc),
-                                    ),
-                                    IconButton(
-                                      onPressed: () =>
-                                          _purposeDeleteFolder(itemPath),
-                                      icon: Icon(Icons.delete),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            spacing: 2,
+                            children: [
+                              Icon(
+                                Icons.folder,
+                                size: 50,
+                                color: Colors.amberAccent,
+                              ),
+                              Text(itemName),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                spacing: 8,
+                                children: [
+                                  IconButton(
+                                    onPressed: () =>
+                                        _purposeRenameFolder(itemPath),
+                                    icon: Icon(Icons.abc),
+                                  ),
+                                  IconButton(
+                                    onPressed: () =>
+                                        _purposeDeleteFolder(itemPath),
+                                    icon: Icon(Icons.delete),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         );
                       } else {
