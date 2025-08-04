@@ -181,6 +181,10 @@ class _DropboxPageState extends State<DropboxPage> {
       }
     }
 
+    if (_dropboxPath != '/') {
+      items.add(CommanderItem(simpleName: parentFolder, isFolder: true));
+    }
+
     final standardItems = _filterPgnFiles(items);
     final sortedStandardItems = _sortedItems(standardItems);
 
@@ -213,6 +217,8 @@ class _DropboxPageState extends State<DropboxPage> {
   List<CommanderItem> _sortedItems(List<CommanderItem> items) {
     List<CommanderItem> result = items;
     result.sort((first, second) {
+      if (first.isFolder && first.simpleName == parentFolder) return -1;
+      if (second.isFolder && second.simpleName == parentFolder) return 1;
       if (first.isFolder && !second.isFolder) return -1;
       if (second.isFolder && !first.isFolder) return 1;
       return first.simpleName.toLowerCase().compareTo(
@@ -224,6 +230,25 @@ class _DropboxPageState extends State<DropboxPage> {
 
   Future<void> _handleDropboxFolderSelection(String folderName) async {
     if (_dropboxItems == null) return;
+    final isParentFolder = folderName == parentFolder;
+    if (isParentFolder) {
+      String parentPath;
+      final currentSubFolderCounts =
+          _dropboxPath.split("").where((elt) => elt == "/").length - 1;
+      if (currentSubFolderCounts == 0) {
+        parentPath = "/";
+      } else {
+        final parentPathElements = _dropboxPath.split("/");
+        parentPathElements.removeLast();
+        parentPath = parentPathElements.join("/");
+      }
+      setState(() {
+        _dropboxItems = null;
+        _dropboxPath = parentPath;
+      });
+      await _refreshDropboxContent();
+      return;
+    }
     final isAFolderOfCurrentPath = _dropboxItems!.contains(
       CommanderItem(simpleName: folderName, isFolder: true),
     );
