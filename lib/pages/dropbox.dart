@@ -412,6 +412,7 @@ class _DropboxPageState extends State<DropboxPage> {
                 pasteFromClipboard: _pasteFromClipboard,
               )
             : ConnectedWidget(
+                localExplorerBasePath: _documentsPath,
                 dropboxPath: _dropboxPath,
                 dropboxItems: _dropboxItems,
                 handleDropboxFolderSelection: (folderName) async =>
@@ -466,6 +467,7 @@ class _UnconnectedWidgetState extends State<UnconnectedWidget> {
 
 class ConnectedWidget extends StatelessWidget {
   final String? dropboxPath;
+  final String? localExplorerBasePath;
   final List<CommanderItem>? dropboxItems;
   final Future<void> Function(String folderName) handleDropboxFolderSelection;
 
@@ -479,6 +481,7 @@ class ConnectedWidget extends StatelessWidget {
     required this.dropboxItems,
     required this.handleDropboxFolderSelection,
     required this.localPath,
+    required this.localExplorerBasePath,
     required this.localItems,
     required this.handleLocalFolderSelection,
   });
@@ -488,6 +491,7 @@ class ConnectedWidget extends StatelessWidget {
     final orientation = MediaQuery.of(context).orientation;
 
     final commander1 = CommanderFilesWidget(
+      basePath: null,
       explorerLabel: t.pages.dropbox.dropbox_explorer,
       items: dropboxItems,
       pathText: dropboxPath,
@@ -495,6 +499,7 @@ class ConnectedWidget extends StatelessWidget {
     );
 
     final commander2 = CommanderFilesWidget(
+      basePath: localExplorerBasePath,
       explorerLabel: t.pages.dropbox.local_explorer,
       items: localItems,
       pathText: localPath,

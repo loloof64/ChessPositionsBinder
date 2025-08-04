@@ -1,3 +1,4 @@
+import 'package:chess_position_binder/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:equatable/equatable.dart';
@@ -23,6 +24,7 @@ class CommanderFilesWidget extends StatefulWidget {
   final List<CommanderItem>? items;
   final String? pathText;
   final String? explorerLabel;
+  final String? basePath;
 
   final Future<void> Function(String folderName) handleFolderSelection;
 
@@ -32,6 +34,7 @@ class CommanderFilesWidget extends StatefulWidget {
     required this.pathText,
     required this.items,
     required this.handleFolderSelection,
+    required this.basePath,
   });
 
   @override
@@ -80,7 +83,12 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
                     controller: _scrollController,
                     scrollDirection: Axis.horizontal,
                     child: Text(
-                      widget.pathText!,
+                      widget.basePath == null
+                          ? widget.pathText!
+                          : widget.pathText!.replaceAll(
+                              widget.basePath!,
+                              t.pages.home.misc.base_directory,
+                            ),
                       softWrap: false,
                       overflow: TextOverflow.visible,
                       style: const TextStyle(fontSize: 20),
