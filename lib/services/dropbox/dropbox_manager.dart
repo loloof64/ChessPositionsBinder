@@ -273,6 +273,7 @@ class DropboxManager {
       final response = await client.post(
         Uri.parse("https://api.dropboxapi.com/2/files/list_folder/continue"),
         body: jsonEncode({"cursor": cursor}),
+        headers: {'Content-Type': 'application/json'},
       );
 
       if (response.statusCode == 200) {
