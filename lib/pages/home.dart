@@ -658,69 +658,65 @@ class _MyHomePageState extends State<MyHomePage> {
                           final turnSize = 30.0;
                           return GestureDetector(
                             onTap: () => _handlePositionSelection(itemPath),
-                            child: Center(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                spacing: 4,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 8.0),
-                                    child: StaticChessboard(
-                                      pieceAssets: PieceSet.meridaAssets,
-                                      size: boardSize,
-                                      fen: position.fen,
-                                      orientation: itemOrientation,
-                                    ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              spacing: 4,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 8.0),
+                                  child: StaticChessboard(
+                                    pieceAssets: PieceSet.meridaAssets,
+                                    size: boardSize,
+                                    fen: position.fen,
+                                    orientation: itemOrientation,
                                   ),
-                                  Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    spacing: 5,
-                                    children: [
-                                      Text(itemName),
-                                      Container(
-                                        width: turnSize,
-                                        height: turnSize,
-                                        decoration: BoxDecoration(
-                                          color: turnColor,
-                                          border: BoxBorder.all(
-                                            color: Colors.black,
-                                            width: 2,
-                                          ),
+                                ),
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  spacing: 5,
+                                  children: [
+                                    Text(itemName),
+                                    Container(
+                                      width: turnSize,
+                                      height: turnSize,
+                                      decoration: BoxDecoration(
+                                        color: turnColor,
+                                        border: BoxBorder.all(
+                                          color: Colors.black,
+                                          width: 2,
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      IconButton(
-                                        icon: Icon(Icons.abc),
-                                        onPressed: () =>
-                                            _purposeRenamePosition(itemPath),
-                                      ),
-                                      IconButton(
-                                        icon: Icon(Icons.edit),
-                                        onPressed: () =>
-                                            _purposeEditPosition(itemPath),
-                                      ),
-                                      IconButton(
-                                        icon: Icon(Icons.delete),
-                                        onPressed: () =>
-                                            _purposeDeletePosition(itemPath),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    IconButton(
+                                      icon: Icon(Icons.abc),
+                                      onPressed: () =>
+                                          _purposeRenamePosition(itemPath),
+                                    ),
+                                    IconButton(
+                                      icon: Icon(Icons.edit),
+                                      onPressed: () =>
+                                          _purposeEditPosition(itemPath),
+                                    ),
+                                    IconButton(
+                                      icon: Icon(Icons.delete),
+                                      onPressed: () =>
+                                          _purposeDeletePosition(itemPath),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                           );
                         } catch (e) {
