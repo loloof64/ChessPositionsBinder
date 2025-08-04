@@ -171,6 +171,7 @@ class TranslationsPagesDropboxEn {
 	String get dropbox_explorer => 'Dropbox';
 	String get local_explorer => 'Local';
 	String get disconnected => 'You are logged out.';
+	String get failed_reading_local_content => 'Failed to read local content.';
 }
 
 // Path: pages.overall.buttons
@@ -436,6 +437,7 @@ extension on Translations {
 			case 'pages.dropbox.dropbox_explorer': return 'Dropbox';
 			case 'pages.dropbox.local_explorer': return 'Local';
 			case 'pages.dropbox.disconnected': return 'You are logged out.';
+			case 'pages.dropbox.failed_reading_local_content': return 'Failed to read local content.';
 			default: return null;
 		}
 	}

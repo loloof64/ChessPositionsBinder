@@ -113,7 +113,8 @@
       },
       "dropbox_explorer": "Dropbox",
       "local_explorer": "Local",
-      "disconnected": "Vous êtes déconnecté."
+      "disconnected": "Vous êtes déconnecté.",
+      "failed_reading_local_content": "Échec de lecture du contenu local."
     }
   }
 }

@@ -168,6 +168,7 @@ class _TranslationsPagesDropboxFr implements TranslationsPagesDropboxEn {
 	@override String get dropbox_explorer => 'Dropbox';
 	@override String get local_explorer => 'Local';
 	@override String get disconnected => 'Vous êtes déconnecté.';
+	@override String get failed_reading_local_content => 'Échec de lecture du contenu local.';
 }
 
 // Path: pages.overall.buttons
@@ -433,6 +434,7 @@ extension on TranslationsFr {
 			case 'pages.dropbox.dropbox_explorer': return 'Dropbox';
 			case 'pages.dropbox.local_explorer': return 'Local';
 			case 'pages.dropbox.disconnected': return 'Vous êtes déconnecté.';
+			case 'pages.dropbox.failed_reading_local_content': return 'Échec de lecture du contenu local.';
 			default: return null;
 		}
 	}

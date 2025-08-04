@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:chess_position_binder/core/read_positions.dart';
 import 'package:chess_position_binder/i18n/strings.g.dart';
 import 'package:chess_position_binder/services/dropbox/dropbox_errors.dart';
 import 'package:chess_position_binder/services/dropbox/dropbox_manager.dart';
@@ -7,6 +9,7 @@ import 'package:chess_position_binder/widgets/dropbox_commander_files.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:multiple_result/multiple_result.dart';
+import 'package:path_provider/path_provider.dart';
 
 class DropboxPage extends StatefulWidget {
   const DropboxPage({super.key});
@@ -32,6 +35,7 @@ class _DropboxPageState extends State<DropboxPage> {
   @override
   void initState() {
     super.initState();
+    _initializeLocalExplorer();
     _dropboxManager = DropboxManager(isReadyCallback: _onDropboxReady);
     _tryStartingDropbox();
   }
@@ -48,7 +52,7 @@ class _DropboxPageState extends State<DropboxPage> {
     );
   }
 
-  void _onDropboxReady() async {
+  Future<void> _onDropboxReady() async {
     setState(() {
       _isConnected = true;
     });
@@ -274,6 +278,39 @@ class _DropboxPageState extends State<DropboxPage> {
     Navigator.of(context).pop();
   }
 
+  Future<void> _initializeLocalExplorer() async {
+    try {
+      final documentsDirectory = await getApplicationDocumentsDirectory();
+      final rootPath = documentsDirectory.path;
+
+      setState(() {
+        _localPath = rootPath;
+      });
+
+      await _refreshLocalExplorerContent();
+    } catch (e) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(t.pages.dropbox.failed_reading_local_content)),
+      );
+    }
+  }
+
+  Future<void> _refreshLocalExplorerContent() async {
+    if (_localPath == null) return;
+    final currentLocalDirectory = Directory(_localPath!);
+    final elements = await readElements(currentLocalDirectory);
+    final localElements = elements.map((currentElement) {
+      final path = currentElement.$1;
+      final isFolder = currentElement.$3;
+      final simpleName = path.split("/").last;
+      return CommanderItem(simpleName: simpleName, isFolder: isFolder);
+    }).toList();
+    setState(() {
+      _localItems = localElements;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -333,8 +370,8 @@ class _DropboxPageState extends State<DropboxPage> {
                 dropboxItems: _dropboxItems,
                 handleDropboxFolderSelection: (folderName) async =>
                     await _handleDropboxFolderSelection(folderName),
-                localPath: null,
-                localItems: [],
+                localPath: _localPath,
+                localItems: _localItems,
                 handleLocalFolderSelection: (folderName) async => {},
               ),
       ),
