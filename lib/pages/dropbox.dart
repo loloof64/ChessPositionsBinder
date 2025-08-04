@@ -182,9 +182,10 @@ class _DropboxPageState extends State<DropboxPage> {
     }
 
     final standardItems = _filterPgnFiles(items);
+    final sortedStandardItems = _sortedItems(standardItems);
 
     setState(() {
-      _dropboxItems = standardItems;
+      _dropboxItems = sortedStandardItems;
     });
   }
 
@@ -207,6 +208,18 @@ class _DropboxPageState extends State<DropboxPage> {
     }
 
     return resultItems;
+  }
+
+  List<CommanderItem> _sortedItems(List<CommanderItem> items) {
+    List<CommanderItem> result = items;
+    result.sort((first, second) {
+      if (first.isFolder && !second.isFolder) return -1;
+      if (second.isFolder && !first.isFolder) return 1;
+      return first.simpleName.toLowerCase().compareTo(
+        second.simpleName.toLowerCase(),
+      );
+    });
+    return result;
   }
 
   Future<void> _handleDropboxFolderSelection(String folderName) async {
