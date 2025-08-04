@@ -1,24 +1,17 @@
-import 'package:chessground/chessground.dart';
 import 'package:flutter/material.dart';
-import 'package:dartchess/dartchess.dart' as chess;
-import 'package:chess_position_binder/i18n/strings.g.dart';
+import 'package:ionicons/ionicons.dart';
 
 const parentFolder = '@ParentFolder@';
 
 class CommanderItem {
   final String simpleName;
-  final String pgnContent;
   final bool isFolder;
 
-  CommanderItem({
-    required this.simpleName,
-    required this.pgnContent,
-    required this.isFolder,
-  });
+  CommanderItem({required this.simpleName, required this.isFolder});
 
   @override
   String toString() {
-    return "CommanderItem({$simpleName, $pgnContent, $isFolder})";
+    return "CommanderItem({$simpleName, $isFolder})";
   }
 }
 
@@ -83,7 +76,6 @@ class CommanderFilesWidget extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final currentItem = items![index];
                     final itemName = currentItem.simpleName;
-                    final itemPgn = currentItem.pgnContent;
                     final isFolder = currentItem.isFolder;
                     final isParentFolder = isFolder && itemName == parentFolder;
                     if (isParentFolder) {
@@ -121,67 +113,20 @@ class CommanderFilesWidget extends StatelessWidget {
                         ),
                       );
                     } else {
-                      try {
-                        final pgnGame = chess.PgnGame.parsePgn(itemPgn);
-                        final position = chess.PgnGame.startingPosition(
-                          pgnGame.headers,
-                        );
-                        final itemOrientation =
-                            position.turn == chess.Side.white
-                            ? chess.Side.white
-                            : chess.Side.black;
-                        final turnColor = position.turn == chess.Side.white
-                            ? Colors.white
-                            : Colors.black;
-                        final turnSize = 18.0;
-                        return Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          spacing: 4,
-                          children: [
-                            Container(
-                              width: turnSize,
-                              height: turnSize,
-                              decoration: BoxDecoration(
-                                color: turnColor,
-                                border: BoxBorder.all(
-                                  color: Colors.black,
-                                  width: 2,
-                                ),
-                              ),
-                            ),
-                            StaticChessboard(
-                              pieceAssets: PieceSet.meridaAssets,
-                              size: 25,
-                              fen: position.fen,
-                              orientation: itemOrientation,
-                            ),
-                            Text(itemName),
-                          ],
-                        );
-                      } catch (e) {
-                        debugPrint(e.toString());
-                        return Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          spacing: 4,
-                          children: [
-                            Icon(
-                              Icons.insert_drive_file_rounded,
-                              size: 25,
-                              color: Colors.black45,
-                            ),
-                            Text(
-                              t.pages.home.misc_errors
-                                  .failed_reading_position_value(
-                                    fileName: itemName,
-                                  ),
-                            ),
-                          ],
-                        );
-                      }
+                      return Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        spacing: 4,
+                        children: [
+                          Icon(
+                            Ionicons.document_text,
+                            size: 25,
+                            color: Colors.blueAccent,
+                          ),
+                          Text(itemName),
+                        ],
+                      );
                     }
                   },
                 ),

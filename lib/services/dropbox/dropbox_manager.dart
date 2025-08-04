@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:chess_position_binder/services/dropbox/dropbox_errors.dart';
+import 'package:chess_position_binder/widgets/dropbox_commander_files.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:chess_position_binder/services/dropbox/secrets.dart';
 import 'package:flutter/cupertino.dart';
@@ -36,7 +37,7 @@ class UserUsageData {
 }
 
 class FoldersRequestResult {
-  final List<CommanderRawItem> items;
+  final List<CommanderItem> items;
   final String cursor;
   final bool hasMore;
 
@@ -45,18 +46,6 @@ class FoldersRequestResult {
     required this.cursor,
     required this.hasMore,
   });
-}
-
-class CommanderRawItem {
-  final String simpleName;
-  final bool isFolder;
-
-  CommanderRawItem({required this.simpleName, required this.isFolder});
-
-  @override
-  String toString() {
-    return "CommanderRawItem($simpleName, $isFolder)";
-  }
 }
 
 class DropboxManager {
@@ -247,7 +236,7 @@ class DropboxManager {
         final bool hasMore = bodyJson["has_more"];
 
         final items = entries.map((currentEntry) {
-          return CommanderRawItem(
+          return CommanderItem(
             simpleName: currentEntry["name"],
             isFolder: currentEntry[".tag"] == "folder",
           );
@@ -296,7 +285,7 @@ class DropboxManager {
         final bool isFolder = bodyJson[".tag"] == "folder";
 
         final items = entries.map((currentEntry) {
-          return CommanderRawItem(
+          return CommanderItem(
             simpleName: currentEntry["name"],
             isFolder: isFolder,
           );

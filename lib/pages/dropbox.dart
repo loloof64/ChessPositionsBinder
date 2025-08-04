@@ -148,7 +148,7 @@ class _DropboxPageState extends State<DropboxPage> {
   }
 
   Future<void> _refreshDropboxContent() async {
-    List<CommanderRawItem> items = [];
+    List<CommanderItem> items = [];
     final firstContent = await _dropboxManager.startListingFolder(_dropboxPath);
     if (!context.mounted) return;
     switch (firstContent) {
@@ -181,64 +181,32 @@ class _DropboxPageState extends State<DropboxPage> {
       }
     }
 
-    final standardItems = await _convertRawItemsToStandardItemsAndFilter(items);
-    if (!context.mounted) return;
+    final standardItems = _filterPgnFiles(items);
 
     setState(() {
       _dropboxItems = standardItems;
     });
   }
 
-  Future<List<CommanderItem>> _convertRawItemsToStandardItemsAndFilter(
-    List<CommanderRawItem> items,
-  ) async {
+  List<CommanderItem> _filterPgnFiles(List<CommanderItem> items) {
     List<CommanderItem> resultItems = [];
 
     for (final currentItem in items) {
       if (currentItem.isFolder) {
         resultItems.add(
-          CommanderItem(
-            simpleName: currentItem.simpleName,
-            pgnContent: "",
-            isFolder: true,
-          ),
+          CommanderItem(simpleName: currentItem.simpleName, isFolder: true),
         );
       } else {
         final name = currentItem.simpleName;
-        final reqResult = await _getDropboxRawItemContent(name);
-        if (!context.mounted) return [];
-        switch (reqResult) {
-          case Success():
-            final String content = reqResult.success;
-            final isExpectedPGNFormat = isPGNWithHeaders(content);
-            if (isExpectedPGNFormat) {
-              resultItems.add(
-                CommanderItem(
-                  simpleName: name,
-                  pgnContent: content,
-                  isFolder: false,
-                ),
-              );
-              break;
-            } else {
-              debugPrint("File $name has not the expected PGN format.");
-              continue;
-            }
-          case Error():
-            debugPrint(
-              "Error getting text from file $name :  ${reqResult.error}",
-            );
-            continue;
+        if (name.endsWith('.pgn')) {
+          resultItems.add(
+            CommanderItem(simpleName: currentItem.simpleName, isFolder: false),
+          );
         }
       }
     }
 
     return resultItems;
-  }
-
-  Future<Result<String, RequestError>> _getDropboxRawItemContent(String name) {
-    final path = "$_dropboxPath$name";
-    return _dropboxManager.getRawItemContent(path);
   }
 
   Future<void> _handleDropboxFolderSelection(String folderName) async {
