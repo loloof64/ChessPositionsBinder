@@ -52,6 +52,11 @@ class CommanderRawItem {
   final bool isFolder;
 
   CommanderRawItem({required this.simpleName, required this.isFolder});
+
+  @override
+  String toString() {
+    return "CommanderRawItem($simpleName, $isFolder)";
+  }
 }
 
 class DropboxManager {
@@ -234,12 +239,11 @@ class DropboxManager {
         final entries = bodyJson["entries"] as List<dynamic>;
         final String cursor = bodyJson["cursor"];
         final bool hasMore = bodyJson["has_more"];
-        final bool isFolder = bodyJson[".tag"] == "folder";
 
         final items = entries.map((currentEntry) {
           return CommanderRawItem(
             simpleName: currentEntry["name"],
-            isFolder: isFolder,
+            isFolder: currentEntry[".tag"] == "folder",
           );
         }).toList();
 
