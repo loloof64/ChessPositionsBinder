@@ -92,7 +92,7 @@ class CommanderFilesWidget extends StatelessWidget {
                           children: [
                             Icon(
                               Icons.arrow_back,
-                              size: 50,
+                              size: 25,
                               color: Colors.blueAccent,
                             ),
                           ],
