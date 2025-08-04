@@ -417,10 +417,22 @@ class _DropboxPageState extends State<DropboxPage> {
                 dropboxItems: _dropboxItems,
                 handleDropboxFolderSelection: (folderName) async =>
                     await _handleDropboxFolderSelection(folderName),
+                handleDropboxContentReload: () async {
+                  setState(() {
+                    _dropboxItems = null;
+                  });
+                  await _refreshDropboxContent();
+                },
                 localPath: _localPath,
                 localItems: _localItems,
                 handleLocalFolderSelection: (folderName) async =>
                     await _handleLocalFolderSelection(folderName),
+                handleLocalContentReload: () async {
+                  setState(() {
+                    _localItems = null;
+                  });
+                  await _refreshLocalExplorerContent();
+                },
               ),
       ),
     );
@@ -470,20 +482,24 @@ class ConnectedWidget extends StatelessWidget {
   final String? localExplorerBasePath;
   final List<CommanderItem>? dropboxItems;
   final Future<void> Function(String folderName) handleDropboxFolderSelection;
+  final Future<void> Function() handleDropboxContentReload;
 
   final String? localPath;
   final List<CommanderItem>? localItems;
   final Future<void> Function(String folderName) handleLocalFolderSelection;
+  final Future<void> Function() handleLocalContentReload;
 
   const ConnectedWidget({
     super.key,
     required this.dropboxPath,
     required this.dropboxItems,
     required this.handleDropboxFolderSelection,
+    required this.handleDropboxContentReload,
     required this.localPath,
     required this.localExplorerBasePath,
     required this.localItems,
     required this.handleLocalFolderSelection,
+    required this.handleLocalContentReload,
   });
 
   @override
@@ -496,6 +512,7 @@ class ConnectedWidget extends StatelessWidget {
       items: dropboxItems,
       pathText: dropboxPath,
       handleFolderSelection: handleDropboxFolderSelection,
+      handleReload: handleDropboxContentReload,
     );
 
     final commander2 = CommanderFilesWidget(
@@ -504,6 +521,7 @@ class ConnectedWidget extends StatelessWidget {
       items: localItems,
       pathText: localPath,
       handleFolderSelection: handleLocalFolderSelection,
+      handleReload: handleLocalContentReload,
     );
 
     return SafeArea(

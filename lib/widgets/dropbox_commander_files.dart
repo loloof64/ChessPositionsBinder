@@ -27,14 +27,16 @@ class CommanderFilesWidget extends StatefulWidget {
   final String? basePath;
 
   final Future<void> Function(String folderName) handleFolderSelection;
+  final Future<void> Function() handleReload;
 
   const CommanderFilesWidget({
     super.key,
     required this.explorerLabel,
     required this.pathText,
+    required this.basePath,
     required this.items,
     required this.handleFolderSelection,
-    required this.basePath,
+    required this.handleReload,
   });
 
   @override
@@ -64,10 +66,21 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
               Container(
                 width: availableWidth,
                 color: Colors.redAccent,
-                child: Text(
-                  widget.explorerLabel!,
-                  softWrap: false,
-                  style: const TextStyle(fontSize: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Text(
+                      widget.explorerLabel!,
+                      softWrap: false,
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                    IconButton(
+                      onPressed: widget.handleReload,
+                      icon: Icon(Icons.refresh),
+                    ),
+                  ],
                 ),
               ),
             if (widget.items == null)
