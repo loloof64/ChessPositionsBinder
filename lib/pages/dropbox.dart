@@ -59,6 +59,7 @@ class _DropboxPageState extends State<DropboxPage> {
 
   Future<void> _getUserProfile() async {
     final userProfileResult = await _dropboxManager.getUserProfile();
+    if (!context.mounted) return;
     switch (userProfileResult) {
       case Success():
         final displayName = userProfileResult.success.displayName;
@@ -77,6 +78,7 @@ class _DropboxPageState extends State<DropboxPage> {
 
   Future<void> _getUsageData() async {
     final userUsageData = await _dropboxManager.getUserUsageData();
+    if (!context.mounted) return;
     switch (userUsageData) {
       case Success():
         final freeSpace = userUsageData.success.freeSpace;
@@ -148,6 +150,7 @@ class _DropboxPageState extends State<DropboxPage> {
   Future<void> _refreshDropboxContent() async {
     List<CommanderRawItem> items = [];
     final firstContent = await _dropboxManager.startListingFolder(_dropboxPath);
+    if (!context.mounted) return;
     switch (firstContent) {
       case Success():
         final nextItems = firstContent.success.items;
@@ -163,6 +166,7 @@ class _DropboxPageState extends State<DropboxPage> {
 
     while (hasMore) {
       final nextContent = await _dropboxManager.goOnListingFolder(cursor);
+      if (!context.mounted) return;
       switch (nextContent) {
         case Success():
           final nextItems = nextContent.success.items;
@@ -178,6 +182,7 @@ class _DropboxPageState extends State<DropboxPage> {
     }
 
     final standardItems = await _convertRawItemsToStandardItemsAndFilter(items);
+    if (!context.mounted) return;
 
     setState(() {
       _dropboxItems = standardItems;
@@ -201,6 +206,7 @@ class _DropboxPageState extends State<DropboxPage> {
       } else {
         final name = currentItem.simpleName;
         final reqResult = await _getDropboxRawItemContent(name);
+        if (!context.mounted) return [];
         switch (reqResult) {
           case Success():
             final String content = reqResult.success;
@@ -240,7 +246,6 @@ class _DropboxPageState extends State<DropboxPage> {
   }
 
   Future<void> _handleDisconnection() async {
-    //TODO check is there is a pending operation
     await _dropboxManager.logout();
     if (!context.mounted) return;
     ScaffoldMessenger.of(
