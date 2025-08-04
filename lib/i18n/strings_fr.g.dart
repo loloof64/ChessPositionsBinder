@@ -219,7 +219,7 @@ class _TranslationsPagesHomeMiscErrorsFr implements TranslationsPagesHomeMiscErr
 	@override String get failed_deleting_folder => 'Échec de suppression du dossier';
 	@override String get failed_opening_folder => 'Échec d\'ouverture du dossier';
 	@override String get failed_opening_position => 'Échec d\'ouverture de la position';
-	@override String failed_reading_position_value({required Object fileName}) => 'Échec de lecture de la position du fichier ${fileName}';
+	@override String failed_reading_position_value({required Object fileName}) => 'Échec de lecture de la position ${fileName}';
 }
 
 // Path: pages.home.delete_position_dialog
@@ -390,7 +390,7 @@ extension on TranslationsFr {
 			case 'pages.home.misc_errors.failed_deleting_folder': return 'Échec de suppression du dossier';
 			case 'pages.home.misc_errors.failed_opening_folder': return 'Échec d\'ouverture du dossier';
 			case 'pages.home.misc_errors.failed_opening_position': return 'Échec d\'ouverture de la position';
-			case 'pages.home.misc_errors.failed_reading_position_value': return ({required Object fileName}) => 'Échec de lecture de la position du fichier ${fileName}';
+			case 'pages.home.misc_errors.failed_reading_position_value': return ({required Object fileName}) => 'Échec de lecture de la position ${fileName}';
 			case 'pages.home.delete_position_dialog.title': return 'Supprimer la position ?';
 			case 'pages.home.delete_position_dialog.message': return ({required Object name}) => 'Êtes vous-sûr de vouloir supprimer la position ${name} ?';
 			case 'pages.home.delete_folder_dialog.title': return 'Supprimer le dossier';
