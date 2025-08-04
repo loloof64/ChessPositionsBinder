@@ -167,6 +167,7 @@ class _TranslationsPagesDropboxEs implements TranslationsPagesDropboxEn {
 	@override late final _TranslationsPagesDropboxRequestErrorsEs request_errors = _TranslationsPagesDropboxRequestErrorsEs._(_root);
 	@override String get dropbox_explorer => 'Dropbox';
 	@override String get local_explorer => 'Local';
+	@override String get disconnected => 'Has cerrado sesión.';
 }
 
 // Path: pages.overall.buttons
@@ -431,6 +432,7 @@ extension on TranslationsEs {
 			case 'pages.dropbox.request_errors.unknown': return 'Error desconocido.';
 			case 'pages.dropbox.dropbox_explorer': return 'Dropbox';
 			case 'pages.dropbox.local_explorer': return 'Local';
+			case 'pages.dropbox.disconnected': return 'Has cerrado sesión.';
 			default: return null;
 		}
 	}

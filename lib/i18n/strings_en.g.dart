@@ -170,6 +170,7 @@ class TranslationsPagesDropboxEn {
 	late final TranslationsPagesDropboxRequestErrorsEn request_errors = TranslationsPagesDropboxRequestErrorsEn._(_root);
 	String get dropbox_explorer => 'Dropbox';
 	String get local_explorer => 'Local';
+	String get disconnected => 'You are logged out.';
 }
 
 // Path: pages.overall.buttons
@@ -434,6 +435,7 @@ extension on Translations {
 			case 'pages.dropbox.request_errors.unknown': return 'Unknown error.';
 			case 'pages.dropbox.dropbox_explorer': return 'Dropbox';
 			case 'pages.dropbox.local_explorer': return 'Local';
+			case 'pages.dropbox.disconnected': return 'You are logged out.';
 			default: return null;
 		}
 	}

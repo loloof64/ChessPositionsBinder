@@ -112,7 +112,8 @@
         "unknown": "Error desconocido."
       },
       "dropbox_explorer": "Dropbox",
-      "local_explorer": "Local"
+      "local_explorer": "Local",
+      "disconnected": "Has cerrado sesión."
     }
   }
 }

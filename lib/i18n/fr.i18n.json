@@ -112,7 +112,8 @@
         "unknown": "Erreur inconnue."
       },
       "dropbox_explorer": "Dropbox",
-      "local_explorer": "Local"
+      "local_explorer": "Local",
+      "disconnected": "Vous êtes déconnecté."
     }
   }
 }

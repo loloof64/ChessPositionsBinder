@@ -103,8 +103,14 @@ class DropboxManager {
     );
 
     final authorizationUrl = _grant!.getAuthorizationUrl(redirectUrl);
-    if (await canLaunchUrl(authorizationUrl)) {
-      await launchUrl(authorizationUrl);
+    final uriWithForceReauthentification = authorizationUrl.replace(
+      queryParameters: {
+        ...authorizationUrl.queryParameters,
+        'force_reauthentication': "true",
+      },
+    );
+    if (await canLaunchUrl(uriWithForceReauthentification)) {
+      await launchUrl(uriWithForceReauthentification);
       return;
     }
 
@@ -374,6 +380,34 @@ class DropboxManager {
 
     // restart auth process
     await startDropboxAuthProcess(onFailedLaunchingAuthPage);
+  }
+
+  Future<Result<(), RequestError>> logout() async {
+    oauth2.Client client;
+    if (_client == null) {
+      return Error(NoClientAvailable());
+    }
+    client = _client!;
+
+    try {
+      await client.post(
+        Uri.parse("https://api.dropboxapi.com/2/auth/token/revoke"),
+      );
+
+      // delete stored credentials
+      await _credentialsFile?.delete();
+
+      return Success(());
+    } catch (e) {
+      final message = e.toString();
+      debugPrint(message);
+      final isExpiredCredentialsError = message.contains(
+        "credentials have expired",
+      );
+      return Error(
+        isExpiredCredentialsError ? ExpiredCredentials() : UnknownError(),
+      );
+    }
   }
 }
 

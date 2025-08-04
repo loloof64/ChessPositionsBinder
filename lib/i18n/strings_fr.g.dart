@@ -167,6 +167,7 @@ class _TranslationsPagesDropboxFr implements TranslationsPagesDropboxEn {
 	@override late final _TranslationsPagesDropboxRequestErrorsFr request_errors = _TranslationsPagesDropboxRequestErrorsFr._(_root);
 	@override String get dropbox_explorer => 'Dropbox';
 	@override String get local_explorer => 'Local';
+	@override String get disconnected => 'Vous êtes déconnecté.';
 }
 
 // Path: pages.overall.buttons
@@ -431,6 +432,7 @@ extension on TranslationsFr {
 			case 'pages.dropbox.request_errors.unknown': return 'Erreur inconnue.';
 			case 'pages.dropbox.dropbox_explorer': return 'Dropbox';
 			case 'pages.dropbox.local_explorer': return 'Local';
+			case 'pages.dropbox.disconnected': return 'Vous êtes déconnecté.';
 			default: return null;
 		}
 	}

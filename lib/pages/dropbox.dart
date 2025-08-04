@@ -239,6 +239,16 @@ class _DropboxPageState extends State<DropboxPage> {
     //TODO
   }
 
+  Future<void> _handleDisconnection() async {
+    //TODO check is there is a pending operation
+    await _dropboxManager.logout();
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(t.pages.dropbox.disconnected)));
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -277,6 +287,10 @@ class _DropboxPageState extends State<DropboxPage> {
                       fit: BoxFit.cover,
                     ),
                   ),
+                IconButton(
+                  onPressed: _handleDisconnection,
+                  icon: Icon(Icons.logout),
+                ),
               ],
             ),
           ],

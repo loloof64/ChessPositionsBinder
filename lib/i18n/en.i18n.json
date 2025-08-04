@@ -112,7 +112,8 @@
         "unknown": "Unknown error."
       },
       "dropbox_explorer": "Dropbox",
-      "local_explorer": "Local"
+      "local_explorer": "Local",
+      "disconnected": "You are logged out."
     }
   }
 }
