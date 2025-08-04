@@ -66,21 +66,24 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
               Container(
                 width: availableWidth,
                 color: Colors.redAccent,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Text(
-                      widget.explorerLabel!,
-                      softWrap: false,
-                      style: const TextStyle(fontSize: 20),
-                    ),
-                    IconButton(
-                      onPressed: widget.handleReload,
-                      icon: Icon(Icons.refresh),
-                    ),
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Text(
+                        widget.explorerLabel!,
+                        softWrap: false,
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                      IconButton(
+                        onPressed: widget.handleReload,
+                        icon: Icon(Icons.refresh),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             if (widget.items == null)
@@ -95,16 +98,19 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
                   child: SingleChildScrollView(
                     controller: _scrollController,
                     scrollDirection: Axis.horizontal,
-                    child: Text(
-                      widget.basePath == null
-                          ? widget.pathText!
-                          : widget.pathText!.replaceAll(
-                              widget.basePath!,
-                              t.pages.home.misc.base_directory,
-                            ),
-                      softWrap: false,
-                      overflow: TextOverflow.visible,
-                      style: const TextStyle(fontSize: 20),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        widget.basePath == null
+                            ? widget.pathText!
+                            : widget.pathText!.replaceAll(
+                                widget.basePath!,
+                                t.pages.home.misc.base_directory,
+                              ),
+                        softWrap: false,
+                        overflow: TextOverflow.visible,
+                        style: const TextStyle(fontSize: 20),
+                      ),
                     ),
                   ),
                 ),
