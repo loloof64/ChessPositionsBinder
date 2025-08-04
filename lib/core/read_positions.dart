@@ -40,7 +40,7 @@ Future<List<(String, String, bool)>> readElements(Directory directory) async {
     if (!aIsFolder && bIsFolder) {
       return 1;
     }
-    return a.$1.compareTo(b.$1);
+    return a.$1.toLowerCase().compareTo(b.$1.toLowerCase());
   });
 
   return results;
