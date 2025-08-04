@@ -47,6 +47,7 @@ dependencies:
   oauth2: ^2.0.3
   url_launcher: ^6.3.2
   multiple_result: ^5.2.0
+  equatable: ^2.0.7
 
 dev_dependencies:
   flutter_test:

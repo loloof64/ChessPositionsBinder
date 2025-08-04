@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:equatable/equatable.dart';
 
 const parentFolder = '@ParentFolder@';
 
-class CommanderItem {
+class CommanderItem extends Equatable {
   final String simpleName;
   final bool isFolder;
 
-  CommanderItem({required this.simpleName, required this.isFolder});
+  const CommanderItem({required this.simpleName, required this.isFolder});
 
   @override
   String toString() {
     return "CommanderItem({$simpleName, $isFolder})";
   }
+
+  @override
+  List<Object> get props => [simpleName, isFolder];
 }
 
 class CommanderFilesWidget extends StatelessWidget {

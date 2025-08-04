@@ -223,7 +223,21 @@ class _DropboxPageState extends State<DropboxPage> {
   }
 
   Future<void> _handleDropboxFolderSelection(String folderName) async {
-    //TODO
+    if (_dropboxItems == null) return;
+    final isAFolderOfCurrentPath = _dropboxItems!.contains(
+      CommanderItem(simpleName: folderName, isFolder: true),
+    );
+    if (!isAFolderOfCurrentPath) return;
+
+    final newPath = _dropboxPath == '/'
+        ? "/$folderName"
+        : "$_dropboxPath/$folderName";
+    setState(() {
+      _dropboxItems = null;
+      _dropboxPath = newPath;
+    });
+
+    await _refreshDropboxContent();
   }
 
   Future<void> _handleDisconnection() async {
