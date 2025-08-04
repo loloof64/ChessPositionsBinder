@@ -31,6 +31,7 @@ class _DropboxPageState extends State<DropboxPage> {
   List<CommanderItem>? _localItems;
   String _dropboxPath = "/";
   String? _localPath;
+  String? _documentsPath;
 
   @override
   void initState() {
@@ -285,6 +286,7 @@ class _DropboxPageState extends State<DropboxPage> {
 
       setState(() {
         _localPath = rootPath;
+        _documentsPath = rootPath;
       });
 
       await _refreshLocalExplorerContent();
@@ -306,9 +308,53 @@ class _DropboxPageState extends State<DropboxPage> {
       final simpleName = path.split("/").last;
       return CommanderItem(simpleName: simpleName, isFolder: isFolder);
     }).toList();
+    final isRootFolder = _localPath == _documentsPath;
+    final allItems = isRootFolder
+        ? localElements
+        : [
+            CommanderItem(simpleName: parentFolder, isFolder: true),
+            ...localElements,
+          ];
     setState(() {
-      _localItems = localElements;
+      _localItems = allItems;
     });
+  }
+
+  Future<void> _handleLocalFolderSelection(String folderName) async {
+    if (_localPath == null || _localItems == null) return;
+    final isParentFolder = folderName == parentFolder;
+    final currentDirectory = Directory(_localPath!);
+    if (isParentFolder) {
+      final parentDirectory = currentDirectory.parent;
+      setState(() {
+        _localPath = parentDirectory.path;
+      });
+      await _refreshLocalExplorerContent();
+      return;
+    }
+
+    final isAFolderOfCurrentPath = _localItems!.contains(
+      CommanderItem(simpleName: folderName, isFolder: true),
+    );
+    if (!isAFolderOfCurrentPath) return;
+
+    try {
+      final pathSeparator = Platform.pathSeparator;
+      final newPath = "$_localPath$pathSeparator$folderName";
+      setState(() {
+        _localPath = newPath;
+      });
+
+      await _refreshLocalExplorerContent();
+    } catch (e) {
+      debugPrint(e.toString());
+      if (!context.mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(t.pages.home.misc_errors.failed_opening_folder)),
+      );
+    }
   }
 
   @override
@@ -372,7 +418,8 @@ class _DropboxPageState extends State<DropboxPage> {
                     await _handleDropboxFolderSelection(folderName),
                 localPath: _localPath,
                 localItems: _localItems,
-                handleLocalFolderSelection: (folderName) async => {},
+                handleLocalFolderSelection: (folderName) async =>
+                    await _handleLocalFolderSelection(folderName),
               ),
       ),
     );
