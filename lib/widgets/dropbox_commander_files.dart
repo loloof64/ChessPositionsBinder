@@ -19,7 +19,7 @@ class CommanderItem extends Equatable {
   List<Object> get props => [simpleName, isFolder];
 }
 
-class CommanderFilesWidget extends StatelessWidget {
+class CommanderFilesWidget extends StatefulWidget {
   final List<CommanderItem>? items;
   final String? pathText;
   final String? explorerLabel;
@@ -35,6 +35,19 @@ class CommanderFilesWidget extends StatelessWidget {
   });
 
   @override
+  State<CommanderFilesWidget> createState() => _CommanderFilesWidgetState();
+}
+
+class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -44,47 +57,51 @@ class CommanderFilesWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (explorerLabel != null)
+            if (widget.explorerLabel != null)
               Container(
                 width: availableWidth,
                 color: Colors.redAccent,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Text(
-                    explorerLabel!,
-                    softWrap: false,
-                    style: const TextStyle(fontSize: 20),
-                  ),
+                child: Text(
+                  widget.explorerLabel!,
+                  softWrap: false,
+                  style: const TextStyle(fontSize: 20),
                 ),
               ),
-            if (items == null) Center(child: CircularProgressIndicator()),
-            if (items != null && pathText != null)
+            if (widget.items == null)
+              Center(child: CircularProgressIndicator()),
+            if (widget.items != null && widget.pathText != null)
               Container(
                 width: availableWidth,
                 color: Colors.amberAccent,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Text(
-                    pathText!,
-                    softWrap: false,
-                    style: const TextStyle(fontSize: 20),
+                child: Scrollbar(
+                  thumbVisibility: true,
+                  controller: _scrollController,
+                  child: SingleChildScrollView(
+                    controller: _scrollController,
+                    scrollDirection: Axis.horizontal,
+                    child: Text(
+                      widget.pathText!,
+                      softWrap: false,
+                      overflow: TextOverflow.visible,
+                      style: const TextStyle(fontSize: 20),
+                    ),
                   ),
                 ),
               ),
-            if (items != null)
+            if (widget.items != null)
               Expanded(
                 child: ListView.separated(
                   padding: const EdgeInsets.all(8.0),
                   separatorBuilder: (context, index) => const Divider(),
-                  itemCount: items!.length,
+                  itemCount: widget.items!.length,
                   itemBuilder: (context, index) {
-                    final currentItem = items![index];
+                    final currentItem = widget.items![index];
                     final itemName = currentItem.simpleName;
                     final isFolder = currentItem.isFolder;
                     final isParentFolder = isFolder && itemName == parentFolder;
                     if (isParentFolder) {
                       return GestureDetector(
-                        onTap: () => handleFolderSelection(parentFolder),
+                        onTap: () => widget.handleFolderSelection(parentFolder),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -100,7 +117,7 @@ class CommanderFilesWidget extends StatelessWidget {
                       );
                     } else if (isFolder) {
                       return GestureDetector(
-                        onTap: () => handleFolderSelection(itemName),
+                        onTap: () => widget.handleFolderSelection(itemName),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.start,
