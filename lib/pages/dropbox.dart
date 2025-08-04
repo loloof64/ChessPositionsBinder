@@ -204,14 +204,20 @@ class _DropboxPageState extends State<DropboxPage> {
         switch (reqResult) {
           case Success():
             final String content = reqResult.success;
-            resultItems.add(
-              CommanderItem(
-                simpleName: name,
-                pgnContent: content,
-                isFolder: false,
-              ),
-            );
-            break;
+            final isExpectedPGNFormat = isPGNWithHeaders(content);
+            if (isExpectedPGNFormat) {
+              resultItems.add(
+                CommanderItem(
+                  simpleName: name,
+                  pgnContent: content,
+                  isFolder: false,
+                ),
+              );
+              break;
+            } else {
+              debugPrint("File $name has not the expected PGN format.");
+              continue;
+            }
           case Error():
             debugPrint(
               "Error getting text from file $name :  ${reqResult.error}",
@@ -390,4 +396,19 @@ class ConnectedWidget extends StatelessWidget {
             ),
     );
   }
+}
+
+/*
+We only need to parse PGN headers,
+so that's all we need to check.
+*/
+bool isPGNWithHeaders(String content) {
+  // Normalize line endings and trim the content
+  final normalized = content.replaceAll('\r\n', '\n').trim();
+
+  // Check for presence of at least one valid PGN tag line: [TagName "Value"]
+  final tagRegex = RegExp(r'^\[\w+\s+"[^"\n]*"\]$', multiLine: true);
+  final tagMatches = tagRegex.allMatches(normalized);
+
+  return tagMatches.isNotEmpty;
 }
