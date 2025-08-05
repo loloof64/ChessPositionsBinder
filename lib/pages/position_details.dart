@@ -30,6 +30,9 @@ class PositionDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenMinSize = MediaQuery.of(context).size.shortestSide;
+    final isPortrait =
+        MediaQuery.of(context).orientation == Orientation.portrait;
+    final positionSize = isPortrait ? screenMinSize * 0.9 : screenMinSize * 0.5;
     return Scaffold(
       appBar: AppBar(
         title: Text(t.pages.position_details.title(fileName: fileName)),
@@ -46,7 +49,7 @@ class PositionDetailsPage extends StatelessWidget {
               spacing: 8,
               children: [
                 ChessboardEditor(
-                  size: screenMinSize * 0.5,
+                  size: positionSize,
                   settings: ChessboardSettings(enableCoordinates: true),
                   orientation: _isBlackTurn
                       ? chess.Side.black
