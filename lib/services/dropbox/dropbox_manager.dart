@@ -322,6 +322,37 @@ class DropboxManager {
     }
   }
 
+  Future<Result<(), RequestError>> createFolder(String path) async {
+    oauth2.Client client;
+    if (_client == null) {
+      return Error(NoClientAvailable());
+    }
+    client = _client!;
+
+    try {
+      final response = await client.post(
+        Uri.parse("https://api.dropboxapi.com/2/files/create_folder_v2"),
+        body: jsonEncode({"autorename": true, "path": path}),
+        headers: {'Content-Type': 'application/json'},
+      );
+      if (response.statusCode == 200) {
+        return Success(());
+      } else {
+        return Error(convertError(response.statusCode, response.body));
+      }
+    } catch (e) {
+      final message = e.toString();
+      debugPrint(message);
+      final isExpiredCredentialsError = message.contains(
+        "credentials have expired",
+      );
+      return Error(
+        isExpiredCredentialsError ? ExpiredCredentials() : UnknownError(),
+      );
+    }
+  }
+
+  /* TODO remove when not needed any more
   Future<Result<String, RequestError>> getRawItemContent(String path) async {
     oauth2.Client client;
     if (_client == null) {
@@ -358,7 +389,7 @@ class DropboxManager {
         isExpiredCredentialsError ? ExpiredCredentials() : UnknownError(),
       );
     }
-  }
+  }*/
 
   String _convertToUnit(int bytesStorage) {
     if (bytesStorage < 1024) {

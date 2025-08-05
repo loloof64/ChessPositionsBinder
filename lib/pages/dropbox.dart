@@ -363,6 +363,38 @@ class _DropboxPageState extends State<DropboxPage> {
     }
   }
 
+  Future<void> _handleDropboxFolderCreation(String folderName) async {
+    setState(() {
+      _dropboxItems = null;
+    });
+    final path = _dropboxPath == '/'
+        ? "/$folderName"
+        : "$_dropboxPath/$folderName";
+    try {
+      final result = await _dropboxManager.createFolder(path);
+      switch (result) {
+        case Success():
+          await _refreshDropboxContent();
+          break;
+        case Error():
+          final error = result.error;
+          _handleError(error);
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      if (!context.mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(t.pages.home.create_folder_errors.creation_error),
+        ),
+      );
+    }
+  }
+
+  Future<void> _handleLocalFolderCreation(String folderName) async {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -441,6 +473,8 @@ class _DropboxPageState extends State<DropboxPage> {
                   });
                   await _refreshDropboxContent();
                 },
+                handleDropboxCreateFolder: (folderName) async =>
+                    await _handleDropboxFolderCreation(folderName),
                 localPath: _localPath,
                 localItems: _localItems,
                 handleLocalFolderSelection: (folderName) async =>
@@ -451,6 +485,8 @@ class _DropboxPageState extends State<DropboxPage> {
                   });
                   await _refreshLocalExplorerContent();
                 },
+                handleLocalCreateFolder: (folderName) async =>
+                    await _handleLocalFolderCreation(folderName),
               ),
       ),
     );
@@ -501,11 +537,13 @@ class ConnectedWidget extends StatelessWidget {
   final List<CommanderItem>? dropboxItems;
   final Future<void> Function(String folderName) handleDropboxFolderSelection;
   final Future<void> Function() handleDropboxContentReload;
+  final Future<void> Function(String folderName) handleDropboxCreateFolder;
 
   final String? localPath;
   final List<CommanderItem>? localItems;
   final Future<void> Function(String folderName) handleLocalFolderSelection;
   final Future<void> Function() handleLocalContentReload;
+  final Future<void> Function(String folderName) handleLocalCreateFolder;
 
   const ConnectedWidget({
     super.key,
@@ -513,11 +551,13 @@ class ConnectedWidget extends StatelessWidget {
     required this.dropboxItems,
     required this.handleDropboxFolderSelection,
     required this.handleDropboxContentReload,
+    required this.handleDropboxCreateFolder,
     required this.localPath,
     required this.localExplorerBasePath,
     required this.localItems,
     required this.handleLocalFolderSelection,
     required this.handleLocalContentReload,
+    required this.handleLocalCreateFolder,
   });
 
   @override
@@ -531,6 +571,7 @@ class ConnectedWidget extends StatelessWidget {
       pathText: dropboxPath,
       handleFolderSelection: handleDropboxFolderSelection,
       handleReload: handleDropboxContentReload,
+      handleCreateFolder: handleDropboxCreateFolder,
     );
 
     final commander2 = CommanderFilesWidget(
@@ -540,6 +581,7 @@ class ConnectedWidget extends StatelessWidget {
       pathText: localPath,
       handleFolderSelection: handleLocalFolderSelection,
       handleReload: handleLocalContentReload,
+      handleCreateFolder: handleLocalCreateFolder,
     );
 
     return SafeArea(

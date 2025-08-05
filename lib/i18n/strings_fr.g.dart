@@ -49,6 +49,7 @@ class _TranslationsWidgetsFr implements TranslationsWidgetsEn {
 	// Translations
 	@override late final _TranslationsWidgetsBoardEditorFr board_editor = _TranslationsWidgetsBoardEditorFr._(_root);
 	@override late final _TranslationsWidgetsPositionInformationFormFr position_information_form = _TranslationsWidgetsPositionInformationFormFr._(_root);
+	@override late final _TranslationsWidgetsCommanderFr commander = _TranslationsWidgetsCommanderFr._(_root);
 }
 
 // Path: pages
@@ -88,6 +89,16 @@ class _TranslationsWidgetsPositionInformationFormFr implements TranslationsWidge
 	@override String get event => 'Évènement';
 	@override String get date => 'Date';
 	@override String get exercise => 'Exercice';
+}
+
+// Path: widgets.commander
+class _TranslationsWidgetsCommanderFr implements TranslationsWidgetsCommanderEn {
+	_TranslationsWidgetsCommanderFr._(this._root);
+
+	final TranslationsFr _root; // ignore: unused_field
+
+	// Translations
+	@override late final _TranslationsWidgetsCommanderNewFolderFr new_folder = _TranslationsWidgetsCommanderNewFolderFr._(_root);
 }
 
 // Path: pages.overall
@@ -169,6 +180,17 @@ class _TranslationsPagesDropboxFr implements TranslationsPagesDropboxEn {
 	@override String get local_explorer => 'Local';
 	@override String get disconnected => 'Vous êtes déconnecté.';
 	@override String get failed_reading_local_content => 'Échec de lecture du contenu local.';
+}
+
+// Path: widgets.commander.new_folder
+class _TranslationsWidgetsCommanderNewFolderFr implements TranslationsWidgetsCommanderNewFolderEn {
+	_TranslationsWidgetsCommanderNewFolderFr._(this._root);
+
+	final TranslationsFr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Créér un dossier';
+	@override String get name_placeholder => 'Nom du dossier';
 }
 
 // Path: pages.overall.buttons
@@ -375,6 +397,8 @@ extension on TranslationsFr {
 			case 'widgets.position_information_form.event': return 'Évènement';
 			case 'widgets.position_information_form.date': return 'Date';
 			case 'widgets.position_information_form.exercise': return 'Exercice';
+			case 'widgets.commander.new_folder.title': return 'Créér un dossier';
+			case 'widgets.commander.new_folder.name_placeholder': return 'Nom du dossier';
 			case 'pages.overall.buttons.ok': return 'Ok';
 			case 'pages.overall.buttons.cancel': return 'Annuler';
 			case 'pages.overall.buttons.save': return 'Sauvegarder';

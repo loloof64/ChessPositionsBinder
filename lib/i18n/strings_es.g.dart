@@ -49,6 +49,7 @@ class _TranslationsWidgetsEs implements TranslationsWidgetsEn {
 	// Translations
 	@override late final _TranslationsWidgetsBoardEditorEs board_editor = _TranslationsWidgetsBoardEditorEs._(_root);
 	@override late final _TranslationsWidgetsPositionInformationFormEs position_information_form = _TranslationsWidgetsPositionInformationFormEs._(_root);
+	@override late final _TranslationsWidgetsCommanderEs commander = _TranslationsWidgetsCommanderEs._(_root);
 }
 
 // Path: pages
@@ -88,6 +89,16 @@ class _TranslationsWidgetsPositionInformationFormEs implements TranslationsWidge
 	@override String get event => 'Evento';
 	@override String get date => 'Fecha';
 	@override String get exercise => 'Ejercicio';
+}
+
+// Path: widgets.commander
+class _TranslationsWidgetsCommanderEs implements TranslationsWidgetsCommanderEn {
+	_TranslationsWidgetsCommanderEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override late final _TranslationsWidgetsCommanderNewFolderEs new_folder = _TranslationsWidgetsCommanderNewFolderEs._(_root);
 }
 
 // Path: pages.overall
@@ -169,6 +180,17 @@ class _TranslationsPagesDropboxEs implements TranslationsPagesDropboxEn {
 	@override String get local_explorer => 'Local';
 	@override String get disconnected => 'Has cerrado sesión.';
 	@override String get failed_reading_local_content => 'Error al leer el contenido local.';
+}
+
+// Path: widgets.commander.new_folder
+class _TranslationsWidgetsCommanderNewFolderEs implements TranslationsWidgetsCommanderNewFolderEn {
+	_TranslationsWidgetsCommanderNewFolderEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Crear carpeta';
+	@override String get name_placeholder => 'Nombre de carpeta';
 }
 
 // Path: pages.overall.buttons
@@ -375,6 +397,8 @@ extension on TranslationsEs {
 			case 'widgets.position_information_form.event': return 'Evento';
 			case 'widgets.position_information_form.date': return 'Fecha';
 			case 'widgets.position_information_form.exercise': return 'Ejercicio';
+			case 'widgets.commander.new_folder.title': return 'Crear carpeta';
+			case 'widgets.commander.new_folder.name_placeholder': return 'Nombre de carpeta';
 			case 'pages.overall.buttons.ok': return 'De Acuerdo';
 			case 'pages.overall.buttons.cancel': return 'Anular';
 			case 'pages.overall.buttons.save': return 'Guardar';

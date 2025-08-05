@@ -28,6 +28,7 @@ class CommanderFilesWidget extends StatefulWidget {
 
   final Future<void> Function(String folderName) handleFolderSelection;
   final Future<void> Function() handleReload;
+  final Future<void> Function(String folderName) handleCreateFolder;
 
   const CommanderFilesWidget({
     super.key,
@@ -37,6 +38,7 @@ class CommanderFilesWidget extends StatefulWidget {
     required this.items,
     required this.handleFolderSelection,
     required this.handleReload,
+    required this.handleCreateFolder,
   });
 
   @override
@@ -45,11 +47,55 @@ class CommanderFilesWidget extends StatefulWidget {
 
 class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
   final ScrollController _scrollController = ScrollController();
+  final TextEditingController _newFolderNameController =
+      TextEditingController();
 
   @override
   void dispose() {
+    _newFolderNameController.dispose();
     _scrollController.dispose();
     super.dispose();
+  }
+
+  void _handleFolderCreation() {
+    setState(() {
+      _newFolderNameController.text = '';
+    });
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(t.widgets.commander.new_folder.title),
+          content: TextField(
+            controller: _newFolderNameController,
+            decoration: InputDecoration(
+              hintText: t.widgets.commander.new_folder.name_placeholder,
+            ),
+          ),
+          actions: [
+            TextButton(
+              child: Text(
+                t.pages.overall.buttons.cancel,
+                style: TextStyle(color: Colors.red),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text(
+                t.pages.overall.buttons.ok,
+                style: TextStyle(color: Colors.green),
+              ),
+              onPressed: () async {
+                Navigator.of(context).pop();
+                widget.handleCreateFolder(_newFolderNameController.text);
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -78,9 +124,20 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
                         softWrap: false,
                         style: const TextStyle(fontSize: 20),
                       ),
-                      IconButton(
-                        onPressed: widget.handleReload,
-                        icon: Icon(Icons.refresh),
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            IconButton(
+                              onPressed: widget.handleReload,
+                              icon: Icon(Icons.refresh),
+                            ),
+                            IconButton(
+                              onPressed: _handleFolderCreation,
+                              icon: Icon(Icons.folder),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

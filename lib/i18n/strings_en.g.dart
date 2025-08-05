@@ -52,6 +52,7 @@ class TranslationsWidgetsEn {
 	// Translations
 	late final TranslationsWidgetsBoardEditorEn board_editor = TranslationsWidgetsBoardEditorEn._(_root);
 	late final TranslationsWidgetsPositionInformationFormEn position_information_form = TranslationsWidgetsPositionInformationFormEn._(_root);
+	late final TranslationsWidgetsCommanderEn commander = TranslationsWidgetsCommanderEn._(_root);
 }
 
 // Path: pages
@@ -91,6 +92,16 @@ class TranslationsWidgetsPositionInformationFormEn {
 	String get event => 'Event';
 	String get date => 'Date';
 	String get exercise => 'Exercise';
+}
+
+// Path: widgets.commander
+class TranslationsWidgetsCommanderEn {
+	TranslationsWidgetsCommanderEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final TranslationsWidgetsCommanderNewFolderEn new_folder = TranslationsWidgetsCommanderNewFolderEn._(_root);
 }
 
 // Path: pages.overall
@@ -172,6 +183,17 @@ class TranslationsPagesDropboxEn {
 	String get local_explorer => 'Local';
 	String get disconnected => 'You are logged out.';
 	String get failed_reading_local_content => 'Failed to read local content.';
+}
+
+// Path: widgets.commander.new_folder
+class TranslationsWidgetsCommanderNewFolderEn {
+	TranslationsWidgetsCommanderNewFolderEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'Create folder';
+	String get name_placeholder => 'Folder name';
 }
 
 // Path: pages.overall.buttons
@@ -378,6 +400,8 @@ extension on Translations {
 			case 'widgets.position_information_form.event': return 'Event';
 			case 'widgets.position_information_form.date': return 'Date';
 			case 'widgets.position_information_form.exercise': return 'Exercise';
+			case 'widgets.commander.new_folder.title': return 'Create folder';
+			case 'widgets.commander.new_folder.name_placeholder': return 'Folder name';
 			case 'pages.overall.buttons.ok': return 'Ok';
 			case 'pages.overall.buttons.cancel': return 'Cancel';
 			case 'pages.overall.buttons.save': return 'Save';

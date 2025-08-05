@@ -9,6 +9,12 @@
       "event": "Evento",
       "date": "Fecha",
       "exercise": "Ejercicio"
+    },
+    "commander": {
+      "new_folder": {
+        "title": "Crear carpeta",
+        "name_placeholder": "Nombre de carpeta"
+      }
     }
   },
   "pages": {

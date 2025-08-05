@@ -9,6 +9,12 @@
       "event": "Event",
       "date": "Date",
       "exercise": "Exercise"
+    },
+    "commander": {
+      "new_folder": {
+        "title": "Create folder",
+        "name_placeholder": "Folder name"
+      }
     }
   },
   "pages": {
