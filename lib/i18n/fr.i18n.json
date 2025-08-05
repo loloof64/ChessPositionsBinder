@@ -70,7 +70,7 @@
       }
     },
     "position_details": {
-      "title": "Détails position ($fileName)"
+      "title": "Position ($fileName)"
     },
     "position_editor": {
       "title": "Éditeur de position ($fileName)",

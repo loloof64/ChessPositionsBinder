@@ -130,7 +130,7 @@ class TranslationsPagesPositionDetailsEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	String title({required Object fileName}) => 'Position details (${fileName})';
+	String title({required Object fileName}) => 'Position (${fileName})';
 }
 
 // Path: pages.position_editor
@@ -409,7 +409,7 @@ extension on Translations {
 			case 'pages.home.rename_folder_dialog.name_placeholder': return 'New name';
 			case 'pages.home.misc.base_directory': return '[BASE_DIR]';
 			case 'pages.home.misc.no_item': return 'No item';
-			case 'pages.position_details.title': return ({required Object fileName}) => 'Position details (${fileName})';
+			case 'pages.position_details.title': return ({required Object fileName}) => 'Position (${fileName})';
 			case 'pages.position_editor.title': return ({required Object fileName}) => 'Position editor (${fileName})';
 			case 'pages.position_editor.simple_title': return 'Position editor';
 			case 'pages.position_editor.saved_file_name_dialog.title': return 'Select saved file name';
