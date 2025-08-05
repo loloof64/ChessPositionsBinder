@@ -371,10 +371,11 @@ class _DropboxPageState extends State<DropboxPage> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
+          spacing: 5,
           children: [
-            const Text("Dropbox"),
+            const Text("Dropbox", style: TextStyle(fontSize: 16)),
             Row(
-              spacing: 10,
+              spacing: 5,
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
