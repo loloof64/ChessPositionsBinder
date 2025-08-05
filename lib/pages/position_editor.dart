@@ -92,7 +92,7 @@ class _PositionEditorPageState extends State<PositionEditorPage> {
             TextButton(
               child: Text(t.pages.overall.buttons.save),
               onPressed: () {
-                Navigator.of(context).pop(inputValue);
+                Navigator.of(context).pop(inputValue?.trim());
               },
             ),
           ],

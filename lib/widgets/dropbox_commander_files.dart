@@ -89,7 +89,7 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
               ),
               onPressed: () async {
                 Navigator.of(context).pop();
-                widget.handleCreateFolder(_newFolderNameController.text);
+                widget.handleCreateFolder(_newFolderNameController.text.trim());
               },
             ),
           ],

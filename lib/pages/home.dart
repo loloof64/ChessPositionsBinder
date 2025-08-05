@@ -562,7 +562,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   onPressed: () async {
                     Navigator.of(context).pop();
-                    await _renameFolder(path, newFolderName);
+                    await _renameFolder(path, newFolderName.trim());
                   },
                 ),
               ],
