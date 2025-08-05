@@ -24,9 +24,9 @@ class _MyHomePageState extends State<MyHomePage> {
   Directory? _currentDirectory;
   Directory? _baseDirectory;
   bool _contentIsReady = false;
-  Future<List<(String, String, bool)>> _contentFuture = Future.value([]);
+  Future<List<RawFolderElement>> _contentFuture = Future.value([]);
   final ScrollController _scrollController = ScrollController();
-  List<(String, String, bool)>? _lastContentsState;
+  List<RawFolderElement>? _lastContentsState;
 
   @override
   void initState() {
@@ -47,8 +47,10 @@ class _MyHomePageState extends State<MyHomePage> {
       _contentFuture = readElements(_currentDirectory!);
     });
     _contentFuture.then((value) {
+      final usedContent = _filterUnwantedFolders(value);
+
       setState(() {
-        _lastContentsState = value;
+        _lastContentsState = usedContent;
         _contentIsReady = true;
       });
     });
@@ -93,10 +95,10 @@ class _MyHomePageState extends State<MyHomePage> {
       }
       return _lastContentsState!
           .where((elt) {
-            return !elt.$3;
+            return !elt.isFolder;
           })
           .toList()
-          .map((elt) => elt.$1.split("/").last)
+          .map((elt) => elt.name.split("/").last)
           .toList();
     } else {
       return [];
@@ -583,6 +585,27 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  List<RawFolderElement> _filterUnwantedFolders(
+    List<RawFolderElement> elements,
+  ) {
+    final isAndroid = Platform.isAndroid;
+    final isBaseFolder =
+        (_currentDirectory?.path == _baseDirectory?.path) &&
+        (_currentDirectory != null);
+
+    final usedContent = (isAndroid && isBaseFolder)
+        ? elements
+              .where(
+                (elt) =>
+                    !elt.isFolder ||
+                    elt.name.split("/").last != "flutter_assets",
+              )
+              .toList()
+        : elements;
+
+    return usedContent;
+  }
+
   @override
   Widget build(BuildContext context) {
     var pathText = _currentDirectory?.path ?? "";
@@ -596,14 +619,18 @@ class _MyHomePageState extends State<MyHomePage> {
         MediaQuery.of(context).orientation == Orientation.portrait;
     final width = MediaQuery.of(context).size.width;
     final boardSize = isPortrait ? width * 0.4 : width * 0.28;
-    final content = FutureBuilder<List<(String, String, bool)>>(
+    final content = FutureBuilder<List<RawFolderElement>>(
       future: _contentFuture,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           var allItems = snapshot.data!;
           if (_currentDirectory?.path != _baseDirectory?.path) {
-            allItems = [(parentFolder, "", true), ...allItems];
+            allItems = [
+              RawFolderElement(name: parentFolder, content: "", isFolder: true),
+              ...allItems,
+            ];
           }
+          allItems = _filterUnwantedFolders(allItems);
           return allItems.isEmpty && _currentDirectory == _baseDirectory
               ? Text(t.pages.home.misc.no_item)
               : Padding(
@@ -613,10 +640,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     itemCount: allItems.length,
                     itemBuilder: (context, index) {
                       final currentItem = allItems[index];
-                      final itemPath = currentItem.$1;
+                      final itemPath = currentItem.name;
                       final itemName = itemPath.split('/').last;
-                      final itemPgn = currentItem.$2;
-                      final isFolder = currentItem.$3;
+                      final itemPgn = currentItem.content;
+                      final isFolder = currentItem.isFolder;
                       final isParentFolder =
                           isFolder && itemPath == parentFolder;
                       if (isParentFolder) {

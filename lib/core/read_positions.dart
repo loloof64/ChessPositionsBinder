@@ -1,12 +1,29 @@
 import 'dart:io';
 
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-/*
-Returns a Future of List of Tuple
-Tuple def = (path, content, isFolder)
-*/
-Future<List<(String, String, bool)>> readElements(Directory directory) async {
+class RawFolderElement extends Equatable {
+  final String name;
+  final String content;
+  final bool isFolder;
+
+  const RawFolderElement({
+    required this.name,
+    required this.content,
+    required this.isFolder,
+  });
+
+  @override
+  String toString() {
+    return "RawFolderElement($name, $isFolder)";
+  }
+
+  @override
+  List<Object?> get props => [name, isFolder];
+}
+
+Future<List<RawFolderElement>> readElements(Directory directory) async {
   final filesAndFolders = await directory.list().toList();
   final pgnFiles = filesAndFolders.where((elt) {
     final isFile = elt is File;
@@ -14,16 +31,20 @@ Future<List<(String, String, bool)>> readElements(Directory directory) async {
     return isFile && isPgn || !isFile;
   });
 
-  List<(String, String, bool)> results = [];
+  List<RawFolderElement> results = [];
 
   for (var file in pgnFiles) {
     try {
       final isFolder = await FileSystemEntity.isDirectory(file.path);
       if (isFolder) {
-        results.add((file.path, '', true));
+        results.add(
+          RawFolderElement(name: file.path, content: '', isFolder: true),
+        );
       } else {
         final content = await (file as File).readAsString();
-        results.add((file.path, content, false));
+        results.add(
+          RawFolderElement(name: file.path, content: content, isFolder: false),
+        );
       }
     } catch (e) {
       debugPrint(e.toString());
@@ -32,15 +53,15 @@ Future<List<(String, String, bool)>> readElements(Directory directory) async {
   }
 
   results.sort((a, b) {
-    final aIsFolder = FileSystemEntity.isDirectorySync(a.$1);
-    final bIsFolder = FileSystemEntity.isDirectorySync(b.$1);
+    final aIsFolder = FileSystemEntity.isDirectorySync(a.name);
+    final bIsFolder = FileSystemEntity.isDirectorySync(b.name);
     if (aIsFolder && !bIsFolder) {
       return -1;
     }
     if (!aIsFolder && bIsFolder) {
       return 1;
     }
-    return a.$1.toLowerCase().compareTo(b.$1.toLowerCase());
+    return a.name.toLowerCase().compareTo(b.name.toLowerCase());
   });
 
   return results;
