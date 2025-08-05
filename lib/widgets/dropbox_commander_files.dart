@@ -21,6 +21,7 @@ class CommanderItem extends Equatable {
 }
 
 class CommanderFilesWidget extends StatefulWidget {
+  final bool areLocalFiles;
   final List<CommanderItem>? items;
   final String? pathText;
   final String? explorerLabel;
@@ -29,9 +30,11 @@ class CommanderFilesWidget extends StatefulWidget {
   final Future<void> Function(String folderName) handleFolderSelection;
   final Future<void> Function() handleReload;
   final Future<void> Function(String folderName) handleCreateFolder;
+  final void Function() handleFilesTransferRequest;
 
   const CommanderFilesWidget({
     super.key,
+    required this.areLocalFiles,
     required this.explorerLabel,
     required this.pathText,
     required this.basePath,
@@ -39,6 +42,7 @@ class CommanderFilesWidget extends StatefulWidget {
     required this.handleFolderSelection,
     required this.handleReload,
     required this.handleCreateFolder,
+    required this.handleFilesTransferRequest,
   });
 
   @override
@@ -135,6 +139,14 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
                             IconButton(
                               onPressed: _handleFolderCreation,
                               icon: Icon(Icons.folder),
+                            ),
+                            IconButton(
+                              onPressed: widget.handleFilesTransferRequest,
+                              icon: Icon(
+                                widget.areLocalFiles
+                                    ? Icons.upload
+                                    : Icons.download,
+                              ),
                             ),
                           ],
                         ),

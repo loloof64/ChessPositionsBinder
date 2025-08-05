@@ -422,6 +422,10 @@ class _DropboxPageState extends State<DropboxPage> {
     }
   }
 
+  void _purposeDownloadDropboxFiles() {}
+
+  void _purposeUploadLocalFiles() {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -502,6 +506,7 @@ class _DropboxPageState extends State<DropboxPage> {
                 },
                 handleDropboxCreateFolder: (folderName) async =>
                     await _handleDropboxFolderCreation(folderName),
+                handleDropboxFilesTransferRequest: _purposeDownloadDropboxFiles,
                 localPath: _localPath,
                 localItems: _localItems,
                 handleLocalFolderSelection: (folderName) async =>
@@ -514,6 +519,7 @@ class _DropboxPageState extends State<DropboxPage> {
                 },
                 handleLocalCreateFolder: (folderName) async =>
                     await _handleLocalFolderCreation(folderName),
+                handleLocalFilesTransferRequest: _purposeUploadLocalFiles,
               ),
       ),
     );
@@ -565,12 +571,14 @@ class ConnectedWidget extends StatelessWidget {
   final Future<void> Function(String folderName) handleDropboxFolderSelection;
   final Future<void> Function() handleDropboxContentReload;
   final Future<void> Function(String folderName) handleDropboxCreateFolder;
+  final void Function() handleDropboxFilesTransferRequest;
 
   final String? localPath;
   final List<CommanderItem>? localItems;
   final Future<void> Function(String folderName) handleLocalFolderSelection;
   final Future<void> Function() handleLocalContentReload;
   final Future<void> Function(String folderName) handleLocalCreateFolder;
+  final void Function() handleLocalFilesTransferRequest;
 
   const ConnectedWidget({
     super.key,
@@ -579,19 +587,22 @@ class ConnectedWidget extends StatelessWidget {
     required this.handleDropboxFolderSelection,
     required this.handleDropboxContentReload,
     required this.handleDropboxCreateFolder,
+    required this.handleDropboxFilesTransferRequest,
     required this.localPath,
     required this.localExplorerBasePath,
     required this.localItems,
     required this.handleLocalFolderSelection,
     required this.handleLocalContentReload,
     required this.handleLocalCreateFolder,
+    required this.handleLocalFilesTransferRequest,
   });
 
   @override
   Widget build(BuildContext context) {
     final orientation = MediaQuery.of(context).orientation;
 
-    final commander1 = CommanderFilesWidget(
+    final dropboxCommander = CommanderFilesWidget(
+      areLocalFiles: false,
       basePath: null,
       explorerLabel: t.pages.dropbox.dropbox_explorer,
       items: dropboxItems,
@@ -599,9 +610,11 @@ class ConnectedWidget extends StatelessWidget {
       handleFolderSelection: handleDropboxFolderSelection,
       handleReload: handleDropboxContentReload,
       handleCreateFolder: handleDropboxCreateFolder,
+      handleFilesTransferRequest: handleDropboxFilesTransferRequest,
     );
 
-    final commander2 = CommanderFilesWidget(
+    final localCommander = CommanderFilesWidget(
+      areLocalFiles: true,
       basePath: localExplorerBasePath,
       explorerLabel: t.pages.dropbox.local_explorer,
       items: localItems,
@@ -609,22 +622,23 @@ class ConnectedWidget extends StatelessWidget {
       handleFolderSelection: handleLocalFolderSelection,
       handleReload: handleLocalContentReload,
       handleCreateFolder: handleLocalCreateFolder,
+      handleFilesTransferRequest: handleLocalFilesTransferRequest,
     );
 
     return SafeArea(
       child: orientation == Orientation.landscape
           ? Row(
               children: [
-                Expanded(child: commander1),
+                Expanded(child: dropboxCommander),
                 VerticalDivider(width: 1),
-                Expanded(child: commander2),
+                Expanded(child: localCommander),
               ],
             )
           : Column(
               children: [
-                Expanded(child: commander1),
+                Expanded(child: dropboxCommander),
                 Divider(height: 1),
-                Expanded(child: commander2),
+                Expanded(child: localCommander),
               ],
             ),
     );
