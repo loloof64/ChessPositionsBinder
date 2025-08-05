@@ -22,8 +22,10 @@ class _DropboxPageState extends State<DropboxPage> {
   bool _isConnected = false;
   String _displayName = "";
   String? _photoUrl;
-  String? _freeSpace;
-  String? _usedSpace;
+  int? _usedSpace;
+  int? _freeSpace;
+  String? _freeSpaceStr;
+  String? _usedSpaceStr;
   late DropboxManager _dropboxManager;
   final TextEditingController _codeController = TextEditingController(text: '');
 
@@ -88,10 +90,14 @@ class _DropboxPageState extends State<DropboxPage> {
       case Success():
         final freeSpace = userUsageData.success.freeSpace;
         final usedSpace = userUsageData.success.usedSpace;
+        final freeSpaceStr = userUsageData.success.freeSpaceStr;
+        final usedSpaceStr = userUsageData.success.usedSpaceStr;
 
         setState(() {
           _freeSpace = freeSpace;
           _usedSpace = usedSpace;
+          _freeSpaceStr = freeSpaceStr;
+          _usedSpaceStr = usedSpaceStr;
         });
         break;
       case Error():
@@ -375,14 +381,25 @@ class _DropboxPageState extends State<DropboxPage> {
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   spacing: 4,
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(_displayName),
-                    if (_freeSpace != null && _usedSpace != null)
+                    Text(_displayName, style: TextStyle(fontSize: 14)),
+                    if (_freeSpaceStr != null && _usedSpaceStr != null)
                       Text(
-                        "$_usedSpace / $_freeSpace",
+                        "$_usedSpaceStr / $_freeSpaceStr",
                         style: TextStyle(fontSize: 14),
+                      ),
+                    if (_freeSpace != null && _usedSpace != null)
+                      SizedBox(
+                        width: 100,
+                        height: 10,
+                        child: LinearProgressIndicator(
+                          backgroundColor: Colors.black54,
+                          color: Colors.blueAccent,
+                          value:
+                              _usedSpace!.toDouble() / _freeSpace!.toDouble(),
+                        ),
                       ),
                   ],
                 ),

@@ -30,10 +30,17 @@ class UserProfile {
 }
 
 class UserUsageData {
-  final String freeSpace;
-  final String usedSpace;
+  final int freeSpace;
+  final int usedSpace;
+  final String freeSpaceStr;
+  final String usedSpaceStr;
 
-  UserUsageData({required this.freeSpace, required this.usedSpace});
+  UserUsageData({
+    required this.freeSpace,
+    required this.usedSpace,
+    required this.freeSpaceStr,
+    required this.usedSpaceStr,
+  });
 }
 
 class FoldersRequestResult {
@@ -182,11 +189,16 @@ class DropboxManager {
         final int freeSpaceBytes = bodyJson["allocation"]["allocated"];
         final int usedSpaceBytes = bodyJson["used"];
 
-        final String freeSpace = _convertToUnit(freeSpaceBytes);
-        final String usedSpace = _convertToUnit(usedSpaceBytes);
+        final String freeSpaceStr = _convertToUnit(freeSpaceBytes);
+        final String usedSpaceStr = _convertToUnit(usedSpaceBytes);
 
         return Success(
-          UserUsageData(freeSpace: freeSpace, usedSpace: usedSpace),
+          UserUsageData(
+            freeSpace: freeSpaceBytes,
+            usedSpace: usedSpaceBytes,
+            freeSpaceStr: freeSpaceStr,
+            usedSpaceStr: usedSpaceStr,
+          ),
         );
       } else {
         return Error(convertError(response.statusCode, response.body));
