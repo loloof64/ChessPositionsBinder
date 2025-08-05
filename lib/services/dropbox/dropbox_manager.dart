@@ -352,13 +352,13 @@ class DropboxManager {
     if (bytesStorage < 1024) {
       return "$bytesStorage o";
     } else if (bytesStorage < 1024 * 1024) {
-      return "${(bytesStorage / 1024).toStringAsFixed(0)}Ko";
+      return "${(bytesStorage / 1024).toStringAsFixed(2)}Ko";
     } else if (bytesStorage < 1024 * 1024 * 1024) {
-      return "${(bytesStorage / (1024 * 1024)).toStringAsFixed(0)}Mo";
+      return "${(bytesStorage / (1024 * 1024)).toStringAsFixed(2)}Mo";
     } else if (bytesStorage < 1024 * 1024 * 1024 * 1024) {
-      return "${(bytesStorage / (1024 * 1024 * 1024)).toStringAsFixed(0)}Go";
+      return "${(bytesStorage / (1024 * 1024 * 1024)).toStringAsFixed(2)}Go";
     } else {
-      return "${(bytesStorage / (1024 * 1024 * 1024 * 1024)).toStringAsFixed(0)}To";
+      return "${(bytesStorage / (1024 * 1024 * 1024 * 1024)).toStringAsFixed(2)}To";
     }
   }
 
