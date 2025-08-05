@@ -127,7 +127,7 @@ class _TranslationsPagesPositionDetailsEs implements TranslationsPagesPositionDe
 	final TranslationsEs _root; // ignore: unused_field
 
 	// Translations
-	@override String title({required Object fileName}) => 'Detalles de la posición (${fileName})';
+	@override String title({required Object fileName}) => 'Detalles posición (${fileName})';
 }
 
 // Path: pages.position_editor
@@ -406,7 +406,7 @@ extension on TranslationsEs {
 			case 'pages.home.rename_folder_dialog.name_placeholder': return 'Nuevo nombre';
 			case 'pages.home.misc.base_directory': return '[PRIMERA_CARPETA]';
 			case 'pages.home.misc.no_item': return 'Ningún elemento';
-			case 'pages.position_details.title': return ({required Object fileName}) => 'Detalles de la posición (${fileName})';
+			case 'pages.position_details.title': return ({required Object fileName}) => 'Detalles posición (${fileName})';
 			case 'pages.position_editor.title': return ({required Object fileName}) => 'Editor de posición (${fileName})';
 			case 'pages.position_editor.simple_title': return 'Editor de posición';
 			case 'pages.position_editor.saved_file_name_dialog.title': return 'Seleccionar nombre de archivo';
