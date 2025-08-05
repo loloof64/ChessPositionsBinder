@@ -104,42 +104,45 @@ class _PositionEditorPageState extends State<PositionEditorPage> {
   }
 
   Future<void> _purposeReturnPgn() async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(
-            t.pages.position_editor.overwrite_file_confirmation_dialog.title,
-          ),
-          content: Text(
-            t.pages.position_editor.overwrite_file_confirmation_dialog.message(
-              fileName: widget.fileName,
+    if (widget.editingExistingFile) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              t.pages.position_editor.overwrite_file_confirmation_dialog.title,
             ),
-          ),
-          actions: [
-            TextButton(
-              child: Text(
-                t.pages.overall.buttons.cancel,
-                style: TextStyle(color: Colors.red),
+            content: Text(
+              t.pages.position_editor.overwrite_file_confirmation_dialog
+                  .message(fileName: widget.fileName),
+            ),
+            actions: [
+              TextButton(
+                child: Text(
+                  t.pages.overall.buttons.cancel,
+                  style: TextStyle(color: Colors.red),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
               ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text(
-                t.pages.overall.buttons.ok,
-                style: TextStyle(color: Colors.green),
+              TextButton(
+                child: Text(
+                  t.pages.overall.buttons.ok,
+                  style: TextStyle(color: Colors.green),
+                ),
+                onPressed: () async {
+                  Navigator.of(context).pop();
+                  _returnPgn();
+                },
               ),
-              onPressed: () async {
-                Navigator.of(context).pop();
-                _returnPgn();
-              },
-            ),
-          ],
-        );
-      },
-    );
+            ],
+          );
+        },
+      );
+    } else {
+      _returnPgn();
+    }
   }
 
   void _returnPgn() async {
