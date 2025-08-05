@@ -38,8 +38,24 @@ class PositionDetailsPage extends StatelessWidget {
         : fileName;
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          t.pages.position_details.title(fileName: displayedFilename),
+        title: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          spacing: 5,
+          children: [
+            Container(
+              width: 30,
+              height: 30,
+              decoration: BoxDecoration(
+                color: _isBlackTurn ? Colors.black : Colors.white,
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.grey),
+              ),
+            ),
+
+            Text(t.pages.position_details.title(fileName: displayedFilename)),
+          ],
         ),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
