@@ -186,51 +186,63 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
                     if (isParentFolder) {
                       return GestureDetector(
                         onTap: () => widget.handleFolderSelection(parentFolder),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.arrow_back,
-                              size: 25,
-                              color: Colors.blueAccent,
-                            ),
-                          ],
+                        child: Container(
+                          color: Colors.transparent,
+                          width: double.infinity,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.arrow_back,
+                                size: 25,
+                                color: Colors.blueAccent,
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     } else if (isFolder) {
                       return GestureDetector(
                         onTap: () => widget.handleFolderSelection(itemName),
+                        child: Container(
+                          width: double.infinity,
+                          color: Colors.transparent,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            spacing: 2,
+                            children: [
+                              Icon(
+                                Icons.folder,
+                                size: 25,
+                                color: Colors.amberAccent,
+                              ),
+                              Text(itemName),
+                            ],
+                          ),
+                        ),
+                      );
+                    } else {
+                      return Container(
+                        width: double.infinity,
+                        color: Colors.transparent,
                         child: Row(
-                          mainAxisSize: MainAxisSize.min,
+                          mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          spacing: 2,
+                          spacing: 4,
                           children: [
                             Icon(
-                              Icons.folder,
+                              Ionicons.document_text,
                               size: 25,
-                              color: Colors.amberAccent,
+                              color: Colors.blueAccent,
                             ),
                             Text(itemName),
                           ],
                         ),
-                      );
-                    } else {
-                      return Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        spacing: 4,
-                        children: [
-                          Icon(
-                            Ionicons.document_text,
-                            size: 25,
-                            color: Colors.blueAccent,
-                          ),
-                          Text(itemName),
-                        ],
                       );
                     }
                   },
