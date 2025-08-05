@@ -107,7 +107,7 @@ class _TranslationsPagesHomeFr implements TranslationsPagesHomeEn {
 	final TranslationsFr _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'Page principale';
+	@override String get title => 'Accueil';
 	@override late final _TranslationsPagesHomeCreateFolderDialogFr create_folder_dialog = _TranslationsPagesHomeCreateFolderDialogFr._(_root);
 	@override late final _TranslationsPagesHomeCreateFolderErrorsFr create_folder_errors = _TranslationsPagesHomeCreateFolderErrorsFr._(_root);
 	@override late final _TranslationsPagesHomeMiscErrorsFr misc_errors = _TranslationsPagesHomeMiscErrorsFr._(_root);
@@ -380,7 +380,7 @@ extension on TranslationsFr {
 			case 'pages.overall.buttons.save': return 'Sauvegarder';
 			case 'pages.overall.buttons.validate': return 'Valider';
 			case 'pages.overall.buttons.paste': return 'Coller';
-			case 'pages.home.title': return 'Page principale';
+			case 'pages.home.title': return 'Accueil';
 			case 'pages.home.create_folder_dialog.title': return 'Créer un dossier';
 			case 'pages.home.create_folder_dialog.folder_name_placeholder': return 'Nom du dossier';
 			case 'pages.home.create_folder_errors.already_exists': return 'Le dossier existe déjà';

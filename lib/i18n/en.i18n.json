@@ -22,7 +22,7 @@
       }
     },
     "home": {
-      "title": "Main page",
+      "title": "Home",
       "create_folder_dialog": {
         "title": "Create folder",
         "folder_name_placeholder": "Folder name"

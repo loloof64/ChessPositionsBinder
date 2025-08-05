@@ -110,7 +110,7 @@ class TranslationsPagesHomeEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	String get title => 'Main page';
+	String get title => 'Home';
 	late final TranslationsPagesHomeCreateFolderDialogEn create_folder_dialog = TranslationsPagesHomeCreateFolderDialogEn._(_root);
 	late final TranslationsPagesHomeCreateFolderErrorsEn create_folder_errors = TranslationsPagesHomeCreateFolderErrorsEn._(_root);
 	late final TranslationsPagesHomeMiscErrorsEn misc_errors = TranslationsPagesHomeMiscErrorsEn._(_root);
@@ -383,7 +383,7 @@ extension on Translations {
 			case 'pages.overall.buttons.save': return 'Save';
 			case 'pages.overall.buttons.validate': return 'Validate';
 			case 'pages.overall.buttons.paste': return 'Paste';
-			case 'pages.home.title': return 'Main page';
+			case 'pages.home.title': return 'Home';
 			case 'pages.home.create_folder_dialog.title': return 'Create folder';
 			case 'pages.home.create_folder_dialog.folder_name_placeholder': return 'Folder name';
 			case 'pages.home.create_folder_errors.already_exists': return 'Folder already exists';

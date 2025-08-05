@@ -22,7 +22,7 @@
       }
     },
     "home": {
-      "title": "Página principal",
+      "title": "Inicio",
       "create_folder_dialog": {
         "title": "Crear carpeta",
         "folder_name_placeholder": "Nombre de la carpeta"

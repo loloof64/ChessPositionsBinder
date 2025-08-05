@@ -22,7 +22,7 @@
       }
     },
     "home": {
-      "title": "Page principale",
+      "title": "Accueil",
       "create_folder_dialog": {
         "title": "Créer un dossier",
         "folder_name_placeholder": "Nom du dossier"

@@ -107,7 +107,7 @@ class _TranslationsPagesHomeEs implements TranslationsPagesHomeEn {
 	final TranslationsEs _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'Página principal';
+	@override String get title => 'Inicio';
 	@override late final _TranslationsPagesHomeCreateFolderDialogEs create_folder_dialog = _TranslationsPagesHomeCreateFolderDialogEs._(_root);
 	@override late final _TranslationsPagesHomeCreateFolderErrorsEs create_folder_errors = _TranslationsPagesHomeCreateFolderErrorsEs._(_root);
 	@override late final _TranslationsPagesHomeMiscErrorsEs misc_errors = _TranslationsPagesHomeMiscErrorsEs._(_root);
@@ -380,7 +380,7 @@ extension on TranslationsEs {
 			case 'pages.overall.buttons.save': return 'Guardar';
 			case 'pages.overall.buttons.validate': return 'Validar';
 			case 'pages.overall.buttons.paste': return 'Pegar';
-			case 'pages.home.title': return 'Página principal';
+			case 'pages.home.title': return 'Inicio';
 			case 'pages.home.create_folder_dialog.title': return 'Crear carpeta';
 			case 'pages.home.create_folder_dialog.folder_name_placeholder': return 'Nombre de la carpeta';
 			case 'pages.home.create_folder_errors.already_exists': return 'La carpeta ya existe';
