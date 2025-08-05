@@ -393,7 +393,34 @@ class _DropboxPageState extends State<DropboxPage> {
     }
   }
 
-  Future<void> _handleLocalFolderCreation(String folderName) async {}
+  Future<void> _handleLocalFolderCreation(String folderName) async {
+    String path = "$_localPath${Platform.pathSeparator}$folderName";
+    bool alreadyExists = true;
+    int copyRef = 0;
+
+    try {
+      do {
+        final directory = Directory(path);
+        if (await directory.exists()) {
+          copyRef += 1;
+          path = "$_localPath${Platform.pathSeparator}$folderName ($copyRef)";
+        } else {
+          break;
+        }
+      } while (alreadyExists);
+      final directory = Directory(path);
+      await directory.create();
+      await _refreshLocalExplorerContent();
+    } catch (e) {
+      debugPrint(e.toString());
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(t.pages.home.create_folder_errors.creation_error),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
