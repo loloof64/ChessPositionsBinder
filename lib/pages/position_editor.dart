@@ -16,6 +16,7 @@ class PositionEditorPage extends StatefulWidget {
   final String date;
   final String exercice;
   final bool editingExistingFile;
+  final List<String> alreadyExistingNames;
 
   const PositionEditorPage({
     super.key,
@@ -26,6 +27,7 @@ class PositionEditorPage extends StatefulWidget {
     this.event = "",
     this.date = "",
     this.exercice = "",
+    required this.alreadyExistingNames,
     required this.fileName,
     required this.editingExistingFile,
   });
@@ -37,6 +39,7 @@ class PositionEditorPage extends StatefulWidget {
 class _PositionEditorPageState extends State<PositionEditorPage> {
   PositionController? _positionController;
   PositionMetadataControlller? _positionMetadataController;
+  String? _savedFileName;
 
   @override
   void initState() {
@@ -104,44 +107,70 @@ class _PositionEditorPageState extends State<PositionEditorPage> {
   }
 
   Future<void> _purposeReturnPgn() async {
+    AlertDialog overwriteFileConfirmationDialog() {
+      return AlertDialog(
+        title: Text(
+          t.pages.position_editor.overwrite_file_confirmation_dialog.title,
+        ),
+        content: Text(
+          t.pages.position_editor.overwrite_file_confirmation_dialog.message(
+            fileName: _savedFileName ?? widget.fileName,
+          ),
+        ),
+        actions: [
+          TextButton(
+            child: Text(
+              t.pages.overall.buttons.cancel,
+              style: TextStyle(color: Colors.red),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            child: Text(
+              t.pages.overall.buttons.ok,
+              style: TextStyle(color: Colors.green),
+            ),
+            onPressed: () async {
+              Navigator.of(context).pop();
+              _returnPgn();
+            },
+          ),
+        ],
+      );
+    }
+
     if (widget.editingExistingFile) {
       showDialog(
         context: context,
         builder: (context) {
-          return AlertDialog(
-            title: Text(
-              t.pages.position_editor.overwrite_file_confirmation_dialog.title,
-            ),
-            content: Text(
-              t.pages.position_editor.overwrite_file_confirmation_dialog
-                  .message(fileName: widget.fileName),
-            ),
-            actions: [
-              TextButton(
-                child: Text(
-                  t.pages.overall.buttons.cancel,
-                  style: TextStyle(color: Colors.red),
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              TextButton(
-                child: Text(
-                  t.pages.overall.buttons.ok,
-                  style: TextStyle(color: Colors.green),
-                ),
-                onPressed: () async {
-                  Navigator.of(context).pop();
-                  _returnPgn();
-                },
-              ),
-            ],
-          );
+          return overwriteFileConfirmationDialog();
         },
       );
     } else {
-      _returnPgn();
+      final savedName = await _getSavedFileName();
+      if (savedName == null) return;
+      String fileName = savedName;
+      if (!fileName.endsWith('pgn')) {
+        fileName += '.pgn';
+      }
+      setState(() {
+        _savedFileName = fileName;
+      });
+      final isOverwritingExistingFile = widget.alreadyExistingNames.contains(
+        _savedFileName,
+      );
+      if (isOverwritingExistingFile) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return overwriteFileConfirmationDialog();
+          },
+        );
+      } else {
+        _returnPgn();
+      }
     }
   }
 
@@ -180,14 +209,8 @@ class _PositionEditorPageState extends State<PositionEditorPage> {
     if (widget.editingExistingFile) {
       Navigator.of(context).pop((pgn, ""));
     } else {
-      final savedName = await _getSavedFileName();
-      if (savedName == null) return;
-      String fileName = savedName;
-      if (!fileName.endsWith('pgn')) {
-        fileName += '.pgn';
-      }
       if (context.mounted) {
-        Navigator.of(context).pop((pgn, fileName));
+        Navigator.of(context).pop((pgn, _savedFileName));
       }
     }
   }

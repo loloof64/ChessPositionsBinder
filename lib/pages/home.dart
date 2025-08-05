@@ -23,8 +23,10 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   Directory? _currentDirectory;
   Directory? _baseDirectory;
+  bool _contentIsReady = false;
   Future<List<(String, String, bool)>> _contentFuture = Future.value([]);
   final ScrollController _scrollController = ScrollController();
+  List<(String, String, bool)>? _lastContentsState;
 
   @override
   void initState() {
@@ -40,7 +42,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> _reloadContent() async {
     setState(() {
+      _contentIsReady = false;
+      _lastContentsState = null;
       _contentFuture = readElements(_currentDirectory!);
+    });
+    _contentFuture.then((value) {
+      setState(() {
+        _lastContentsState = value;
+        _contentIsReady = true;
+      });
     });
   }
 
@@ -54,10 +64,12 @@ class _MyHomePageState extends State<MyHomePage> {
     final result = await Navigator.of(context).push<(String, String)?>(
       MaterialPageRoute(
         builder: (context) {
+          final contentsNames = _getCurrentPositionsNames();
           return PositionEditorPage(
             fileName: "",
             initialFen: chess.Chess.initial.fen,
             editingExistingFile: false,
+            alreadyExistingNames: contentsNames,
           );
         },
       ),
@@ -72,6 +84,23 @@ class _MyHomePageState extends State<MyHomePage> {
     await savedFile.writeAsString(pgn);
 
     _reloadContent();
+  }
+
+  List<String> _getCurrentPositionsNames() {
+    if (_contentIsReady) {
+      if (_lastContentsState == null) {
+        throw "Current page content is not yet ready !";
+      }
+      return _lastContentsState!
+          .where((elt) {
+            return !elt.$3;
+          })
+          .toList()
+          .map((elt) => elt.$1.split("/").last)
+          .toList();
+    } else {
+      return [];
+    }
   }
 
   Future<void> _purposeCreateFolder() async {
@@ -169,6 +198,7 @@ class _MyHomePageState extends State<MyHomePage> {
               event: event,
               date: date,
               exercice: exercice,
+              alreadyExistingNames: [], // has no importance here
             );
           },
         ),
