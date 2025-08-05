@@ -33,9 +33,14 @@ class PositionDetailsPage extends StatelessWidget {
     final isPortrait =
         MediaQuery.of(context).orientation == Orientation.portrait;
     final positionSize = isPortrait ? screenMinSize * 0.9 : screenMinSize * 0.5;
+    final displayedFilename = fileName.endsWith(".pgn")
+        ? fileName.substring(0, fileName.length - 4)
+        : fileName;
     return Scaffold(
       appBar: AppBar(
-        title: Text(t.pages.position_details.title(fileName: fileName)),
+        title: Text(
+          t.pages.position_details.title(fileName: displayedFilename),
+        ),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: SingleChildScrollView(
