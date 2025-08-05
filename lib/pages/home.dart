@@ -153,9 +153,10 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Future<void> _createFolder(name) async {
+  Future<void> _createFolder(String name) async {
     try {
-      final newFolder = Directory("${_currentDirectory!.path}/$name");
+      final usedName = name.trim();
+      final newFolder = Directory("${_currentDirectory!.path}/$usedName");
       if (await newFolder.exists()) {
         throw Exception(t.pages.home.create_folder_errors.already_exists);
       }
