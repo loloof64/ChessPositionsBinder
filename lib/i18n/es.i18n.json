@@ -11,9 +11,16 @@
       "exercise": "Ejercicio"
     },
     "commander": {
+      "no_item_selected": "Ningún elemento seleccionado.",
+      "folder": "carpeta",
+      "file": "archivo",
       "new_folder": {
         "title": "Crear carpeta",
         "name_placeholder": "Nombre de carpeta"
+      },
+      "delete_items": {
+        "title": "¿Eliminar elementos?",
+        "message": "¿Desea eliminar los siguientes elementos?"
       }
     }
   },

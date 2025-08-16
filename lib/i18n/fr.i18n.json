@@ -11,9 +11,16 @@
       "exercise": "Exercice"
     },
     "commander": {
+      "no_item_selected": "Aucun élément sélectionné.",
+      "folder": "dossier",
+      "file": "fichier",
       "new_folder": {
         "title": "Créér un dossier",
         "name_placeholder": "Nom du dossier"
+      },
+      "delete_items": {
+        "title": "Supprimer les éléments ?",
+        "message": "Souhaitez-vous supprimer les éléments ci-dessous ?"
       }
     }
   },

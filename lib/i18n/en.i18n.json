@@ -11,9 +11,16 @@
       "exercise": "Exercise"
     },
     "commander": {
+      "no_item_selected": "No item selected.",
+      "folder": "folder",
+      "file": "file",
       "new_folder": {
         "title": "Create folder",
         "name_placeholder": "Folder name"
+      },
+      "delete_items": {
+        "title": "Delete items ?",
+        "message": "Do you want to delete the following items ?"
       }
     }
   },

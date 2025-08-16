@@ -139,6 +139,84 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
     );
   }
 
+  Future<void> _purposeConfirmDeletion() async {
+    if (_selectedItems.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(t.widgets.commander.no_item_selected)),
+      );
+      return;
+    }
+    final hasConfirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(t.widgets.commander.delete_items.title),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            spacing: 4,
+            children: [
+              Text(t.widgets.commander.delete_items.message),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.blue.shade300, width: 1),
+                ),
+                constraints: BoxConstraints(maxHeight: 200),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ..._selectedItems.entries.map((entry) {
+                        final currentItem = entry.key;
+                        return Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text("*"),
+                            Text(currentItem.simpleName),
+                            Text(
+                              "(${currentItem.isFolder ? t.widgets.commander.folder : t.widgets.commander.file})",
+                            ),
+                          ],
+                        );
+                      }).toList(),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              child: Text(
+                t.pages.overall.buttons.cancel,
+                style: TextStyle(color: Colors.red),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+            ),
+            TextButton(
+              child: Text(
+                t.pages.overall.buttons.ok,
+                style: TextStyle(color: Colors.green),
+              ),
+              onPressed: () async {
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    );
+
+    if (hasConfirmed != true) return;
+  }
+
   @override
   Widget build(BuildContext context) {
     final items = _filteredLocalItems();
@@ -192,11 +270,20 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
                                       : Icons.download,
                                 ),
                               ),
+                            if (widget.isSelectionMode)
+                              IconButton(
+                                onPressed: _purposeConfirmDeletion,
+                                icon: Icon(Icons.delete),
+                              ),
                             IconButton(
-                              onPressed: () =>
-                                  widget.handleSelectionModeToggling(
-                                    !widget.isSelectionMode,
-                                  ),
+                              onPressed: () {
+                                setState(() {
+                                  _selectedItems.clear();
+                                });
+                                widget.handleSelectionModeToggling(
+                                  !widget.isSelectionMode,
+                                );
+                              },
                               icon: Icon(Icons.check_box_rounded),
                             ),
                           ],
@@ -265,7 +352,9 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
                               ),
                             )
                           : GestureDetector(
-                              onTap: () => _onToggleItemSelection(currentItem),
+                              onTap: () {
+                                _onToggleItemSelection(currentItem);
+                              },
                               child: Container(
                                 width: double.infinity,
                                 color: Colors.transparent,

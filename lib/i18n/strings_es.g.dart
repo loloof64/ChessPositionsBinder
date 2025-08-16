@@ -98,7 +98,11 @@ class _TranslationsWidgetsCommanderEs implements TranslationsWidgetsCommanderEn 
 	final TranslationsEs _root; // ignore: unused_field
 
 	// Translations
+	@override String get no_item_selected => 'Ningún elemento seleccionado.';
+	@override String get folder => 'carpeta';
+	@override String get file => 'archivo';
 	@override late final _TranslationsWidgetsCommanderNewFolderEs new_folder = _TranslationsWidgetsCommanderNewFolderEs._(_root);
+	@override late final _TranslationsWidgetsCommanderDeleteItemsEs delete_items = _TranslationsWidgetsCommanderDeleteItemsEs._(_root);
 }
 
 // Path: pages.overall
@@ -191,6 +195,17 @@ class _TranslationsWidgetsCommanderNewFolderEs implements TranslationsWidgetsCom
 	// Translations
 	@override String get title => 'Crear carpeta';
 	@override String get name_placeholder => 'Nombre de carpeta';
+}
+
+// Path: widgets.commander.delete_items
+class _TranslationsWidgetsCommanderDeleteItemsEs implements TranslationsWidgetsCommanderDeleteItemsEn {
+	_TranslationsWidgetsCommanderDeleteItemsEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => '¿Eliminar elementos?';
+	@override String get message => '¿Desea eliminar los siguientes elementos?';
 }
 
 // Path: pages.overall.buttons
@@ -397,8 +412,13 @@ extension on TranslationsEs {
 			case 'widgets.position_information_form.event': return 'Evento';
 			case 'widgets.position_information_form.date': return 'Fecha';
 			case 'widgets.position_information_form.exercise': return 'Ejercicio';
+			case 'widgets.commander.no_item_selected': return 'Ningún elemento seleccionado.';
+			case 'widgets.commander.folder': return 'carpeta';
+			case 'widgets.commander.file': return 'archivo';
 			case 'widgets.commander.new_folder.title': return 'Crear carpeta';
 			case 'widgets.commander.new_folder.name_placeholder': return 'Nombre de carpeta';
+			case 'widgets.commander.delete_items.title': return '¿Eliminar elementos?';
+			case 'widgets.commander.delete_items.message': return '¿Desea eliminar los siguientes elementos?';
 			case 'pages.overall.buttons.ok': return 'De Acuerdo';
 			case 'pages.overall.buttons.cancel': return 'Anular';
 			case 'pages.overall.buttons.save': return 'Guardar';

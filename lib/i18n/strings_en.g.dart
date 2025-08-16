@@ -101,7 +101,11 @@ class TranslationsWidgetsCommanderEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+	String get no_item_selected => 'No item selected.';
+	String get folder => 'folder';
+	String get file => 'file';
 	late final TranslationsWidgetsCommanderNewFolderEn new_folder = TranslationsWidgetsCommanderNewFolderEn._(_root);
+	late final TranslationsWidgetsCommanderDeleteItemsEn delete_items = TranslationsWidgetsCommanderDeleteItemsEn._(_root);
 }
 
 // Path: pages.overall
@@ -194,6 +198,17 @@ class TranslationsWidgetsCommanderNewFolderEn {
 	// Translations
 	String get title => 'Create folder';
 	String get name_placeholder => 'Folder name';
+}
+
+// Path: widgets.commander.delete_items
+class TranslationsWidgetsCommanderDeleteItemsEn {
+	TranslationsWidgetsCommanderDeleteItemsEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'Delete items ?';
+	String get message => 'Do you want to delete the following items ?';
 }
 
 // Path: pages.overall.buttons
@@ -400,8 +415,13 @@ extension on Translations {
 			case 'widgets.position_information_form.event': return 'Event';
 			case 'widgets.position_information_form.date': return 'Date';
 			case 'widgets.position_information_form.exercise': return 'Exercise';
+			case 'widgets.commander.no_item_selected': return 'No item selected.';
+			case 'widgets.commander.folder': return 'folder';
+			case 'widgets.commander.file': return 'file';
 			case 'widgets.commander.new_folder.title': return 'Create folder';
 			case 'widgets.commander.new_folder.name_placeholder': return 'Folder name';
+			case 'widgets.commander.delete_items.title': return 'Delete items ?';
+			case 'widgets.commander.delete_items.message': return 'Do you want to delete the following items ?';
 			case 'pages.overall.buttons.ok': return 'Ok';
 			case 'pages.overall.buttons.cancel': return 'Cancel';
 			case 'pages.overall.buttons.save': return 'Save';
