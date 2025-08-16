@@ -36,8 +36,21 @@ class TranslationsFr implements Translations {
 	TranslationsFr $copyWith({TranslationMetadata<AppLocale, Translations>? meta}) => TranslationsFr(meta: meta ?? this.$meta);
 
 	// Translations
+	@override late final _TranslationsMiscFr misc = _TranslationsMiscFr._(_root);
 	@override late final _TranslationsWidgetsFr widgets = _TranslationsWidgetsFr._(_root);
 	@override late final _TranslationsPagesFr pages = _TranslationsPagesFr._(_root);
+}
+
+// Path: misc
+class _TranslationsMiscFr implements TranslationsMiscEn {
+	_TranslationsMiscFr._(this._root);
+
+	final TranslationsFr _root; // ignore: unused_field
+
+	// Translations
+	@override late final _TranslationsMiscButtonsFr buttons = _TranslationsMiscButtonsFr._(_root);
+	@override String get folder => 'dossier';
+	@override String get file => 'fichier';
 }
 
 // Path: widgets
@@ -59,12 +72,25 @@ class _TranslationsPagesFr implements TranslationsPagesEn {
 	final TranslationsFr _root; // ignore: unused_field
 
 	// Translations
-	@override late final _TranslationsPagesOverallFr overall = _TranslationsPagesOverallFr._(_root);
 	@override late final _TranslationsPagesHomeFr home = _TranslationsPagesHomeFr._(_root);
 	@override late final _TranslationsPagesPositionDetailsFr position_details = _TranslationsPagesPositionDetailsFr._(_root);
 	@override late final _TranslationsPagesPositionEditorFr position_editor = _TranslationsPagesPositionEditorFr._(_root);
 	@override late final _TranslationsPagesPositionShortcutsFr position_shortcuts = _TranslationsPagesPositionShortcutsFr._(_root);
 	@override late final _TranslationsPagesDropboxFr dropbox = _TranslationsPagesDropboxFr._(_root);
+}
+
+// Path: misc.buttons
+class _TranslationsMiscButtonsFr implements TranslationsMiscButtonsEn {
+	_TranslationsMiscButtonsFr._(this._root);
+
+	final TranslationsFr _root; // ignore: unused_field
+
+	// Translations
+	@override String get ok => 'Ok';
+	@override String get cancel => 'Annuler';
+	@override String get save => 'Sauvegarder';
+	@override String get validate => 'Valider';
+	@override String get paste => 'Coller';
 }
 
 // Path: widgets.board_editor
@@ -99,20 +125,8 @@ class _TranslationsWidgetsCommanderFr implements TranslationsWidgetsCommanderEn 
 
 	// Translations
 	@override String get no_item_selected => 'Aucun élément sélectionné.';
-	@override String get folder => 'dossier';
-	@override String get file => 'fichier';
 	@override late final _TranslationsWidgetsCommanderNewFolderFr new_folder = _TranslationsWidgetsCommanderNewFolderFr._(_root);
 	@override late final _TranslationsWidgetsCommanderDeleteItemsFr delete_items = _TranslationsWidgetsCommanderDeleteItemsFr._(_root);
-}
-
-// Path: pages.overall
-class _TranslationsPagesOverallFr implements TranslationsPagesOverallEn {
-	_TranslationsPagesOverallFr._(this._root);
-
-	final TranslationsFr _root; // ignore: unused_field
-
-	// Translations
-	@override late final _TranslationsPagesOverallButtonsFr buttons = _TranslationsPagesOverallButtonsFr._(_root);
 }
 
 // Path: pages.home
@@ -184,6 +198,7 @@ class _TranslationsPagesDropboxFr implements TranslationsPagesDropboxEn {
 	@override String get local_explorer => 'Local';
 	@override String get disconnected => 'Vous êtes déconnecté.';
 	@override String get failed_reading_local_content => 'Échec de lecture du contenu local.';
+	@override String get failed_deleting_items => 'Échec de la suppression des éléments :';
 }
 
 // Path: widgets.commander.new_folder
@@ -206,20 +221,6 @@ class _TranslationsWidgetsCommanderDeleteItemsFr implements TranslationsWidgetsC
 	// Translations
 	@override String get title => 'Supprimer les éléments ?';
 	@override String get message => 'Souhaitez-vous supprimer les éléments ci-dessous ?';
-}
-
-// Path: pages.overall.buttons
-class _TranslationsPagesOverallButtonsFr implements TranslationsPagesOverallButtonsEn {
-	_TranslationsPagesOverallButtonsFr._(this._root);
-
-	final TranslationsFr _root; // ignore: unused_field
-
-	// Translations
-	@override String get ok => 'Ok';
-	@override String get cancel => 'Annuler';
-	@override String get save => 'Sauvegarder';
-	@override String get validate => 'Valider';
-	@override String get paste => 'Coller';
 }
 
 // Path: pages.home.create_folder_dialog
@@ -406,6 +407,13 @@ class _TranslationsPagesDropboxRequestErrorsFr implements TranslationsPagesDropb
 extension on TranslationsFr {
 	dynamic _flatMapFunction(String path) {
 		switch (path) {
+			case 'misc.buttons.ok': return 'Ok';
+			case 'misc.buttons.cancel': return 'Annuler';
+			case 'misc.buttons.save': return 'Sauvegarder';
+			case 'misc.buttons.validate': return 'Valider';
+			case 'misc.buttons.paste': return 'Coller';
+			case 'misc.folder': return 'dossier';
+			case 'misc.file': return 'fichier';
 			case 'widgets.board_editor.black_turn': return 'Trait aux Noirs:';
 			case 'widgets.position_information_form.white_player': return 'Joueur Blanc';
 			case 'widgets.position_information_form.black_player': return 'Joueur Noir';
@@ -413,17 +421,10 @@ extension on TranslationsFr {
 			case 'widgets.position_information_form.date': return 'Date';
 			case 'widgets.position_information_form.exercise': return 'Exercice';
 			case 'widgets.commander.no_item_selected': return 'Aucun élément sélectionné.';
-			case 'widgets.commander.folder': return 'dossier';
-			case 'widgets.commander.file': return 'fichier';
 			case 'widgets.commander.new_folder.title': return 'Créér un dossier';
 			case 'widgets.commander.new_folder.name_placeholder': return 'Nom du dossier';
 			case 'widgets.commander.delete_items.title': return 'Supprimer les éléments ?';
 			case 'widgets.commander.delete_items.message': return 'Souhaitez-vous supprimer les éléments ci-dessous ?';
-			case 'pages.overall.buttons.ok': return 'Ok';
-			case 'pages.overall.buttons.cancel': return 'Annuler';
-			case 'pages.overall.buttons.save': return 'Sauvegarder';
-			case 'pages.overall.buttons.validate': return 'Valider';
-			case 'pages.overall.buttons.paste': return 'Coller';
 			case 'pages.home.title': return 'Accueil';
 			case 'pages.home.create_folder_dialog.title': return 'Créer un dossier';
 			case 'pages.home.create_folder_dialog.folder_name_placeholder': return 'Nom du dossier';
@@ -479,6 +480,7 @@ extension on TranslationsFr {
 			case 'pages.dropbox.local_explorer': return 'Local';
 			case 'pages.dropbox.disconnected': return 'Vous êtes déconnecté.';
 			case 'pages.dropbox.failed_reading_local_content': return 'Échec de lecture du contenu local.';
+			case 'pages.dropbox.failed_deleting_items': return 'Échec de la suppression des éléments :';
 			default: return null;
 		}
 	}

@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:chess_position_binder/core/read_positions.dart';
 import 'package:chess_position_binder/i18n/strings.g.dart';
+import 'package:chess_position_binder/pages/dropbox_widgets.dart';
 import 'package:chess_position_binder/services/dropbox/dropbox_errors.dart';
 import 'package:chess_position_binder/services/dropbox/dropbox_manager.dart';
 import 'package:chess_position_binder/widgets/dropbox_commander_files.dart';
@@ -10,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:path_provider/path_provider.dart';
+
+enum GroupedOperation { deletion }
 
 class DropboxPage extends StatefulWidget {
   const DropboxPage({super.key});
@@ -428,6 +431,99 @@ class _DropboxPageState extends State<DropboxPage> {
 
   void _purposeUploadLocalFiles() {}
 
+  Future<void> _onDropboxItemsDeletionRequest(
+    List<CommanderItem> itemsToDelete,
+  ) async {
+    if (_dropboxItems == null || itemsToDelete.isEmpty) return;
+
+    setState(() {
+      _isDropboxSelectionMode = false;
+    });
+
+    try {
+      final result = await _dropboxManager.deleteItems(
+        currentPath: _dropboxPath,
+        itemsToDelete: itemsToDelete,
+      );
+      switch (result) {
+        case Success():
+          final failedItems = result.success;
+          if (failedItems.isNotEmpty) {
+            await _showFailedDialog(
+              operation: GroupedOperation.deletion,
+              failureItems: failedItems,
+            );
+          }
+          await _refreshDropboxContent();
+          break;
+        case Error():
+          final error = result.error;
+          _handleError(error);
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      if (!context.mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(t.pages.home.create_folder_errors.creation_error),
+        ),
+      );
+    }
+  }
+
+  Future<void> _showFailedDialog({
+    required GroupedOperation operation,
+    required List<CommanderItem> failureItems,
+  }) async {
+    final title = switch (operation) {
+      GroupedOperation.deletion => t.pages.dropbox.failed_deleting_items,
+    };
+    final lines = failureItems.map((elt) {
+      return Text(
+        "* ${elt.simpleName} (${elt.isFolder ? t.misc.folder : t.misc.file})",
+      );
+    }).toList();
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Container(
+            decoration: BoxDecoration(
+              border: BoxBorder.all(color: Colors.blue.shade300, width: 1),
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 1,
+                children: lines,
+              ),
+            ),
+          ),
+          actions: [
+            TextButton(
+              child: Text(
+                t.misc.buttons.ok,
+                style: TextStyle(color: Colors.green),
+              ),
+              onPressed: () async {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _onLocalItemsDeletionRequest(
+    List<CommanderItem> itemsToDelete,
+  ) async {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -516,6 +612,7 @@ class _DropboxPageState extends State<DropboxPage> {
                     _isDropboxSelectionMode = isSelectionMode;
                   });
                 },
+                handleDropboxDeleteItems: _onDropboxItemsDeletionRequest,
                 localPath: _localPath,
                 localItems: _localItems,
                 handleLocalFolderSelection: (folderName) async =>
@@ -534,139 +631,9 @@ class _DropboxPageState extends State<DropboxPage> {
                     _isLocalSelectionMode = isSelectionMode;
                   });
                 },
+                handleLocalDeleteItems: _onLocalItemsDeletionRequest,
               ),
       ),
-    );
-  }
-}
-
-class UnconnectedWidget extends StatefulWidget {
-  final TextEditingController codeController;
-  final Future<void> Function() checkCode;
-  final Future<void> Function() pasteFromClipboard;
-  const UnconnectedWidget({
-    super.key,
-    required this.codeController,
-    required this.checkCode,
-    required this.pasteFromClipboard,
-  });
-
-  @override
-  State<UnconnectedWidget> createState() => _UnconnectedWidgetState();
-}
-
-class _UnconnectedWidgetState extends State<UnconnectedWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      spacing: 8,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(t.pages.dropbox.enter_auth_code),
-        TextField(controller: widget.codeController),
-        ElevatedButton(
-          onPressed: widget.pasteFromClipboard,
-          child: Text(t.pages.overall.buttons.paste),
-        ),
-        ElevatedButton(
-          onPressed: widget.checkCode,
-          child: Text(t.pages.overall.buttons.validate),
-        ),
-      ],
-    );
-  }
-}
-
-class ConnectedWidget extends StatelessWidget {
-  final String? dropboxPath;
-  final String? localExplorerBasePath;
-  final bool isLocalSelectionMode;
-  final bool isDropboxSelectionMode;
-  final List<CommanderItem>? dropboxItems;
-  final Future<void> Function(String folderName) handleDropboxFolderSelection;
-  final Future<void> Function() handleDropboxContentReload;
-  final Future<void> Function(String folderName) handleDropboxCreateFolder;
-  final void Function() handleDropboxFilesTransferRequest;
-  final void Function(bool isSelectionMode) handleDropboxSelectionModeToggling;
-
-  final String? localPath;
-  final List<CommanderItem>? localItems;
-  final Future<void> Function(String folderName) handleLocalFolderSelection;
-  final Future<void> Function() handleLocalContentReload;
-  final Future<void> Function(String folderName) handleLocalCreateFolder;
-  final void Function() handleLocalFilesTransferRequest;
-  final void Function(bool isSelectionMode) handleLocalSelectionModeToggling;
-
-  const ConnectedWidget({
-    super.key,
-    required this.dropboxPath,
-    required this.dropboxItems,
-    required this.isDropboxSelectionMode,
-    required this.handleDropboxFolderSelection,
-    required this.handleDropboxContentReload,
-    required this.handleDropboxCreateFolder,
-    required this.handleDropboxFilesTransferRequest,
-    required this.handleDropboxSelectionModeToggling,
-    required this.localPath,
-    required this.localExplorerBasePath,
-    required this.localItems,
-    required this.isLocalSelectionMode,
-    required this.handleLocalFolderSelection,
-    required this.handleLocalContentReload,
-    required this.handleLocalCreateFolder,
-    required this.handleLocalFilesTransferRequest,
-    required this.handleLocalSelectionModeToggling,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final orientation = MediaQuery.orientationOf(context);
-
-    final dropboxCommander = CommanderFilesWidget(
-      areLocalFiles: false,
-      isSelectionMode: isDropboxSelectionMode,
-      basePath: null,
-      explorerLabel: t.pages.dropbox.dropbox_explorer,
-      items: dropboxItems,
-      pathText: dropboxPath,
-      handleFolderSelection: handleDropboxFolderSelection,
-      handleReload: handleDropboxContentReload,
-      handleCreateFolder: handleDropboxCreateFolder,
-      handleFilesTransferRequest: handleDropboxFilesTransferRequest,
-      handleSelectionModeToggling: handleDropboxSelectionModeToggling,
-    );
-
-    final localCommander = CommanderFilesWidget(
-      areLocalFiles: true,
-      isSelectionMode: isLocalSelectionMode,
-      basePath: localExplorerBasePath,
-      explorerLabel: t.pages.dropbox.local_explorer,
-      items: localItems,
-      pathText: localPath,
-      handleFolderSelection: handleLocalFolderSelection,
-      handleReload: handleLocalContentReload,
-      handleCreateFolder: handleLocalCreateFolder,
-      handleFilesTransferRequest: handleLocalFilesTransferRequest,
-      handleSelectionModeToggling: handleLocalSelectionModeToggling,
-    );
-
-    return SafeArea(
-      child: orientation == Orientation.landscape
-          ? Row(
-              children: [
-                Expanded(child: dropboxCommander),
-                VerticalDivider(width: 1),
-                Expanded(child: localCommander),
-              ],
-            )
-          : Column(
-              children: [
-                Expanded(child: dropboxCommander),
-                Divider(height: 1),
-                Expanded(child: localCommander),
-              ],
-            ),
     );
   }
 }

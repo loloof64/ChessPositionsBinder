@@ -352,7 +352,50 @@ class DropboxManager {
     }
   }
 
-  /* TODO remove when not needed any more
+  /*
+  If result is Ok, then the wrapped list contains the items for which it failed, if any.s
+  */
+  Future<Result<List<CommanderItem>, RequestError>> deleteItems({
+    required String currentPath,
+    required List<CommanderItem> itemsToDelete,
+  }) async {
+    oauth2.Client client;
+    if (_client == null) {
+      return Error(NoClientAvailable());
+    }
+    client = _client!;
+
+    List<CommanderItem> failedItems = [];
+
+    try {
+      for (final currentItem in itemsToDelete) {
+        final basePath = currentPath == "/" ? "" : currentPath;
+        final response = await client.post(
+          Uri.parse("https://api.dropboxapi.com/2/files/delete_v2"),
+          body: jsonEncode({"path": "$basePath/${currentItem.simpleName}"}),
+          headers: {'Content-Type': 'application/json'},
+        );
+        if (response.statusCode != 200) {
+          debugPrint(
+            convertError(response.statusCode, response.body).toString(),
+          );
+          failedItems.add(currentItem);
+        }
+      }
+      return Success(failedItems);
+    } catch (e) {
+      final message = e.toString();
+      debugPrint(message);
+      final isExpiredCredentialsError = message.contains(
+        "credentials have expired",
+      );
+      return Error(
+        isExpiredCredentialsError ? ExpiredCredentials() : UnknownError(),
+      );
+    }
+  }
+
+  /* TODO remove when not needed any more (download from Dropbox implemented)
   Future<Result<String, RequestError>> getRawItemContent(String path) async {
     oauth2.Client client;
     if (_client == null) {

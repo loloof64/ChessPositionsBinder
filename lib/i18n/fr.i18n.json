@@ -1,4 +1,15 @@
 {
+  "misc": {
+    "buttons": {
+      "ok": "Ok",
+      "cancel": "Annuler",
+      "save": "Sauvegarder",
+      "validate": "Valider",
+      "paste": "Coller"
+    },
+    "folder": "dossier",
+    "file": "fichier"
+  },
   "widgets": {
     "board_editor": {
       "black_turn": "Trait aux Noirs:"
@@ -12,8 +23,6 @@
     },
     "commander": {
       "no_item_selected": "Aucun élément sélectionné.",
-      "folder": "dossier",
-      "file": "fichier",
       "new_folder": {
         "title": "Créér un dossier",
         "name_placeholder": "Nom du dossier"
@@ -25,15 +34,6 @@
     }
   },
   "pages": {
-    "overall": {
-      "buttons": {
-        "ok": "Ok",
-        "cancel": "Annuler",
-        "save": "Sauvegarder",
-        "validate": "Valider",
-        "paste": "Coller"
-      }
-    },
     "home": {
       "title": "Accueil",
       "create_folder_dialog": {
@@ -127,7 +127,8 @@
       "dropbox_explorer": "Dropbox",
       "local_explorer": "Local",
       "disconnected": "Vous êtes déconnecté.",
-      "failed_reading_local_content": "Échec de lecture du contenu local."
+      "failed_reading_local_content": "Échec de lecture du contenu local.",
+      "failed_deleting_items": "Échec de la suppression des éléments :"
     }
   }
 }

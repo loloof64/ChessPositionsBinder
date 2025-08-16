@@ -35,6 +35,7 @@ class CommanderFilesWidget extends StatefulWidget {
   final Future<void> Function(String folderName) handleCreateFolder;
   final void Function() handleFilesTransferRequest;
   final void Function(bool isSelectionMode) handleSelectionModeToggling;
+  final void Function(List<CommanderItem> selectedItems) handleDeleteItems;
 
   const CommanderFilesWidget({
     super.key,
@@ -49,6 +50,7 @@ class CommanderFilesWidget extends StatefulWidget {
     required this.handleCreateFolder,
     required this.handleFilesTransferRequest,
     required this.handleSelectionModeToggling,
+    required this.handleDeleteItems,
   });
 
   @override
@@ -116,7 +118,7 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
           actions: [
             TextButton(
               child: Text(
-                t.pages.overall.buttons.cancel,
+                t.misc.buttons.cancel,
                 style: TextStyle(color: Colors.red),
               ),
               onPressed: () {
@@ -125,7 +127,7 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
             ),
             TextButton(
               child: Text(
-                t.pages.overall.buttons.ok,
+                t.misc.buttons.ok,
                 style: TextStyle(color: Colors.green),
               ),
               onPressed: () async {
@@ -179,11 +181,11 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
                             Text("*"),
                             Text(currentItem.simpleName),
                             Text(
-                              "(${currentItem.isFolder ? t.widgets.commander.folder : t.widgets.commander.file})",
+                              "(${currentItem.isFolder ? t.misc.folder : t.misc.file})",
                             ),
                           ],
                         );
-                      }).toList(),
+                      }),
                     ],
                   ),
                 ),
@@ -193,7 +195,7 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
           actions: [
             TextButton(
               child: Text(
-                t.pages.overall.buttons.cancel,
+                t.misc.buttons.cancel,
                 style: TextStyle(color: Colors.red),
               ),
               onPressed: () {
@@ -202,7 +204,7 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
             ),
             TextButton(
               child: Text(
-                t.pages.overall.buttons.ok,
+                t.misc.buttons.ok,
                 style: TextStyle(color: Colors.green),
               ),
               onPressed: () async {
@@ -215,6 +217,9 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
     );
 
     if (hasConfirmed != true) return;
+
+    final itemsToDelete = _selectedItems.keys.toList();
+    widget.handleDeleteItems(itemsToDelete);
   }
 
   @override

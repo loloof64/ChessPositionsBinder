@@ -1,4 +1,15 @@
 {
+  "misc": {
+    "buttons": {
+      "ok": "Ok",
+      "cancel": "Cancel",
+      "save": "Save",
+      "validate": "Validate",
+      "paste": "Paste"
+    },
+    "folder": "folder",
+    "file": "file"
+  },
   "widgets": {
     "board_editor": {
       "black_turn": "Black turn:"
@@ -12,8 +23,6 @@
     },
     "commander": {
       "no_item_selected": "No item selected.",
-      "folder": "folder",
-      "file": "file",
       "new_folder": {
         "title": "Create folder",
         "name_placeholder": "Folder name"
@@ -25,15 +34,6 @@
     }
   },
   "pages": {
-    "overall": {
-      "buttons": {
-        "ok": "Ok",
-        "cancel": "Cancel",
-        "save": "Save",
-        "validate": "Validate",
-        "paste": "Paste"
-      }
-    },
     "home": {
       "title": "Home",
       "create_folder_dialog": {
@@ -127,7 +127,8 @@
       "dropbox_explorer": "Dropbox",
       "local_explorer": "Local",
       "disconnected": "You are logged out.",
-      "failed_reading_local_content": "Failed to read local content."
+      "failed_reading_local_content": "Failed to read local content.",
+      "failed_deleting_items": "Failed to delete items :"
     }
   }
 }

@@ -39,8 +39,21 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	Translations $copyWith({TranslationMetadata<AppLocale, Translations>? meta}) => Translations(meta: meta ?? this.$meta);
 
 	// Translations
+	late final TranslationsMiscEn misc = TranslationsMiscEn._(_root);
 	late final TranslationsWidgetsEn widgets = TranslationsWidgetsEn._(_root);
 	late final TranslationsPagesEn pages = TranslationsPagesEn._(_root);
+}
+
+// Path: misc
+class TranslationsMiscEn {
+	TranslationsMiscEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final TranslationsMiscButtonsEn buttons = TranslationsMiscButtonsEn._(_root);
+	String get folder => 'folder';
+	String get file => 'file';
 }
 
 // Path: widgets
@@ -62,12 +75,25 @@ class TranslationsPagesEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	late final TranslationsPagesOverallEn overall = TranslationsPagesOverallEn._(_root);
 	late final TranslationsPagesHomeEn home = TranslationsPagesHomeEn._(_root);
 	late final TranslationsPagesPositionDetailsEn position_details = TranslationsPagesPositionDetailsEn._(_root);
 	late final TranslationsPagesPositionEditorEn position_editor = TranslationsPagesPositionEditorEn._(_root);
 	late final TranslationsPagesPositionShortcutsEn position_shortcuts = TranslationsPagesPositionShortcutsEn._(_root);
 	late final TranslationsPagesDropboxEn dropbox = TranslationsPagesDropboxEn._(_root);
+}
+
+// Path: misc.buttons
+class TranslationsMiscButtonsEn {
+	TranslationsMiscButtonsEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get ok => 'Ok';
+	String get cancel => 'Cancel';
+	String get save => 'Save';
+	String get validate => 'Validate';
+	String get paste => 'Paste';
 }
 
 // Path: widgets.board_editor
@@ -102,20 +128,8 @@ class TranslationsWidgetsCommanderEn {
 
 	// Translations
 	String get no_item_selected => 'No item selected.';
-	String get folder => 'folder';
-	String get file => 'file';
 	late final TranslationsWidgetsCommanderNewFolderEn new_folder = TranslationsWidgetsCommanderNewFolderEn._(_root);
 	late final TranslationsWidgetsCommanderDeleteItemsEn delete_items = TranslationsWidgetsCommanderDeleteItemsEn._(_root);
-}
-
-// Path: pages.overall
-class TranslationsPagesOverallEn {
-	TranslationsPagesOverallEn._(this._root);
-
-	final Translations _root; // ignore: unused_field
-
-	// Translations
-	late final TranslationsPagesOverallButtonsEn buttons = TranslationsPagesOverallButtonsEn._(_root);
 }
 
 // Path: pages.home
@@ -187,6 +201,7 @@ class TranslationsPagesDropboxEn {
 	String get local_explorer => 'Local';
 	String get disconnected => 'You are logged out.';
 	String get failed_reading_local_content => 'Failed to read local content.';
+	String get failed_deleting_items => 'Failed to delete items :';
 }
 
 // Path: widgets.commander.new_folder
@@ -209,20 +224,6 @@ class TranslationsWidgetsCommanderDeleteItemsEn {
 	// Translations
 	String get title => 'Delete items ?';
 	String get message => 'Do you want to delete the following items ?';
-}
-
-// Path: pages.overall.buttons
-class TranslationsPagesOverallButtonsEn {
-	TranslationsPagesOverallButtonsEn._(this._root);
-
-	final Translations _root; // ignore: unused_field
-
-	// Translations
-	String get ok => 'Ok';
-	String get cancel => 'Cancel';
-	String get save => 'Save';
-	String get validate => 'Validate';
-	String get paste => 'Paste';
 }
 
 // Path: pages.home.create_folder_dialog
@@ -409,6 +410,13 @@ class TranslationsPagesDropboxRequestErrorsEn {
 extension on Translations {
 	dynamic _flatMapFunction(String path) {
 		switch (path) {
+			case 'misc.buttons.ok': return 'Ok';
+			case 'misc.buttons.cancel': return 'Cancel';
+			case 'misc.buttons.save': return 'Save';
+			case 'misc.buttons.validate': return 'Validate';
+			case 'misc.buttons.paste': return 'Paste';
+			case 'misc.folder': return 'folder';
+			case 'misc.file': return 'file';
 			case 'widgets.board_editor.black_turn': return 'Black turn:';
 			case 'widgets.position_information_form.white_player': return 'White player';
 			case 'widgets.position_information_form.black_player': return 'Black player';
@@ -416,17 +424,10 @@ extension on Translations {
 			case 'widgets.position_information_form.date': return 'Date';
 			case 'widgets.position_information_form.exercise': return 'Exercise';
 			case 'widgets.commander.no_item_selected': return 'No item selected.';
-			case 'widgets.commander.folder': return 'folder';
-			case 'widgets.commander.file': return 'file';
 			case 'widgets.commander.new_folder.title': return 'Create folder';
 			case 'widgets.commander.new_folder.name_placeholder': return 'Folder name';
 			case 'widgets.commander.delete_items.title': return 'Delete items ?';
 			case 'widgets.commander.delete_items.message': return 'Do you want to delete the following items ?';
-			case 'pages.overall.buttons.ok': return 'Ok';
-			case 'pages.overall.buttons.cancel': return 'Cancel';
-			case 'pages.overall.buttons.save': return 'Save';
-			case 'pages.overall.buttons.validate': return 'Validate';
-			case 'pages.overall.buttons.paste': return 'Paste';
 			case 'pages.home.title': return 'Home';
 			case 'pages.home.create_folder_dialog.title': return 'Create folder';
 			case 'pages.home.create_folder_dialog.folder_name_placeholder': return 'Folder name';
@@ -482,6 +483,7 @@ extension on Translations {
 			case 'pages.dropbox.local_explorer': return 'Local';
 			case 'pages.dropbox.disconnected': return 'You are logged out.';
 			case 'pages.dropbox.failed_reading_local_content': return 'Failed to read local content.';
+			case 'pages.dropbox.failed_deleting_items': return 'Failed to delete items :';
 			default: return null;
 		}
 	}

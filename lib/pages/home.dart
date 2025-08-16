@@ -128,7 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
               actions: [
                 TextButton(
                   child: Text(
-                    t.pages.overall.buttons.cancel,
+                    t.misc.buttons.cancel,
                     style: TextStyle(color: Colors.red),
                   ),
                   onPressed: () {
@@ -137,7 +137,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 TextButton(
                   child: Text(
-                    t.pages.overall.buttons.ok,
+                    t.misc.buttons.ok,
                     style: TextStyle(color: Colors.green),
                   ),
                   onPressed: () async {
@@ -285,7 +285,7 @@ class _MyHomePageState extends State<MyHomePage> {
           actions: [
             TextButton(
               child: Text(
-                t.pages.overall.buttons.cancel,
+                t.misc.buttons.cancel,
                 style: TextStyle(color: Colors.red),
               ),
               onPressed: () {
@@ -294,7 +294,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             TextButton(
               child: Text(
-                t.pages.overall.buttons.ok,
+                t.misc.buttons.ok,
                 style: TextStyle(color: Colors.green),
               ),
               onPressed: () async {
@@ -319,7 +319,7 @@ class _MyHomePageState extends State<MyHomePage> {
           actions: [
             TextButton(
               child: Text(
-                t.pages.overall.buttons.cancel,
+                t.misc.buttons.cancel,
                 style: TextStyle(color: Colors.red),
               ),
               onPressed: () {
@@ -328,7 +328,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             TextButton(
               child: Text(
-                t.pages.overall.buttons.ok,
+                t.misc.buttons.ok,
                 style: TextStyle(color: Colors.green),
               ),
               onPressed: () async {
@@ -407,7 +407,7 @@ class _MyHomePageState extends State<MyHomePage> {
               actions: [
                 TextButton(
                   child: Text(
-                    t.pages.overall.buttons.cancel,
+                    t.misc.buttons.cancel,
                     style: TextStyle(color: Colors.red),
                   ),
                   onPressed: () {
@@ -416,7 +416,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 TextButton(
                   child: Text(
-                    t.pages.overall.buttons.ok,
+                    t.misc.buttons.ok,
                     style: TextStyle(color: Colors.green),
                   ),
                   onPressed: () async {
@@ -551,7 +551,7 @@ class _MyHomePageState extends State<MyHomePage> {
               actions: [
                 TextButton(
                   child: Text(
-                    t.pages.overall.buttons.cancel,
+                    t.misc.buttons.cancel,
                     style: TextStyle(color: Colors.red),
                   ),
                   onPressed: () {
@@ -560,7 +560,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 TextButton(
                   child: Text(
-                    t.pages.overall.buttons.ok,
+                    t.misc.buttons.ok,
                     style: TextStyle(color: Colors.green),
                   ),
                   onPressed: () async {

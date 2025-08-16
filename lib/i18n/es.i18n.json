@@ -1,4 +1,15 @@
 {
+  "misc": {
+    "buttons": {
+      "ok": "De Acuerdo",
+      "cancel": "Anular",
+      "save": "Guardar",
+      "validate": "Validar",
+      "paste": "Pegar"
+    },
+    "folder": "carpeta",
+    "file": "archivo"
+  },
   "widgets": {
     "board_editor": {
       "black_turn": "Turno de Negras:"
@@ -12,8 +23,6 @@
     },
     "commander": {
       "no_item_selected": "Ningún elemento seleccionado.",
-      "folder": "carpeta",
-      "file": "archivo",
       "new_folder": {
         "title": "Crear carpeta",
         "name_placeholder": "Nombre de carpeta"
@@ -25,15 +34,6 @@
     }
   },
   "pages": {
-    "overall": {
-      "buttons": {
-        "ok": "De Acuerdo",
-        "cancel": "Anular",
-        "save": "Guardar",
-        "validate": "Validar",
-        "paste": "Pegar"
-      }
-    },
     "home": {
       "title": "Inicio",
       "create_folder_dialog": {
@@ -127,7 +127,8 @@
       "dropbox_explorer": "Dropbox",
       "local_explorer": "Local",
       "disconnected": "Has cerrado sesión.",
-      "failed_reading_local_content": "Error al leer el contenido local."
+      "failed_reading_local_content": "Error al leer el contenido local.",
+      "failed_deleting_items": "Error al eliminar algunos elementos :"
     }
   }
 }
