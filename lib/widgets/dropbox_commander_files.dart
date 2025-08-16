@@ -59,6 +59,7 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _newFolderNameController =
       TextEditingController();
+  final Map<CommanderItem, bool> _selectedItems = <CommanderItem, bool>{};
 
   @override
   void dispose() {
@@ -82,6 +83,19 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
     }).toList();
 
     return result;
+  }
+
+  void _onToggleItemSelection(CommanderItem item) {
+    final currentState = _selectedItems[item];
+    if (currentState == null) {
+      setState(() {
+        _selectedItems[item] = true;
+      });
+    } else {
+      setState(() {
+        _selectedItems[item] = !currentState;
+      });
+    }
   }
 
   void _handleFolderCreation() {
@@ -232,7 +246,57 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
                     final itemName = currentItem.simpleName;
                     final isFolder = currentItem.isFolder;
                     final isParentFolder = isFolder && itemName == parentFolder;
-                    if (isParentFolder) {
+                    if (widget.isSelectionMode) {
+                      return isParentFolder
+                          ? Container(
+                              color: Colors.transparent,
+                              width: double.infinity,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.arrow_back,
+                                    size: 25,
+                                    color: Colors.blueAccent,
+                                  ),
+                                ],
+                              ),
+                            )
+                          : GestureDetector(
+                              onTap: () => _onToggleItemSelection(currentItem),
+                              child: Container(
+                                width: double.infinity,
+                                color: Colors.transparent,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  spacing: 2,
+                                  children: [
+                                    SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child: Checkbox(
+                                        value:
+                                            _selectedItems[currentItem] == true,
+                                        onChanged: (newValue) {
+                                          _onToggleItemSelection(currentItem);
+                                        },
+                                      ),
+                                    ),
+                                    Icon(
+                                      Icons.folder,
+                                      size: 25,
+                                      color: Colors.amberAccent,
+                                    ),
+                                    Text(itemName),
+                                  ],
+                                ),
+                              ),
+                            );
+                    } else if (isParentFolder) {
                       return GestureDetector(
                         onTap: () => widget.handleFolderSelection(parentFolder),
                         child: Container(
