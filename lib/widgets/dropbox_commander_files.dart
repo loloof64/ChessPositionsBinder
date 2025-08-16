@@ -381,9 +381,13 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
                                       ),
                                     ),
                                     Icon(
-                                      Icons.folder,
+                                      isFolder
+                                          ? Icons.folder
+                                          : Ionicons.document_text,
                                       size: 25,
-                                      color: Colors.amberAccent,
+                                      color: isFolder
+                                          ? Colors.amberAccent
+                                          : Colors.blueAccent,
                                     ),
                                     Text(itemName),
                                   ],
