@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:chess_position_binder/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
@@ -61,6 +63,23 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
     super.dispose();
   }
 
+  List<CommanderItem> _filteredLocalItems() {
+    var result = widget.items ?? [];
+
+    if (!widget.areLocalFiles) return result;
+    if (widget.pathText == null || widget.basePath == null) return result;
+
+    result = result.where((elt) {
+      final isFlutterAssetsFolder =
+          elt.simpleName == "flutter_assets" &&
+          (widget.pathText! == widget.basePath!) &&
+          Platform.isAndroid;
+      return !isFlutterAssetsFolder;
+    }).toList();
+
+    return result;
+  }
+
   void _handleFolderCreation() {
     setState(() {
       _newFolderNameController.text = '';
@@ -104,6 +123,7 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final items = _filteredLocalItems();
     return LayoutBuilder(
       builder: (context, constraints) {
         final availableWidth = constraints.maxWidth;
@@ -184,14 +204,14 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
                   ),
                 ),
               ),
-            if (widget.items != null)
+            if (items.isNotEmpty)
               Expanded(
                 child: ListView.separated(
                   padding: const EdgeInsets.all(8.0),
                   separatorBuilder: (context, index) => const Divider(),
-                  itemCount: widget.items!.length,
+                  itemCount: items.length,
                   itemBuilder: (context, index) {
-                    final currentItem = widget.items![index];
+                    final currentItem = items[index];
                     final itemName = currentItem.simpleName;
                     final isFolder = currentItem.isFolder;
                     final isParentFolder = isFolder && itemName == parentFolder;
