@@ -31,6 +31,8 @@ class _DropboxPageState extends State<DropboxPage> {
 
   List<CommanderItem>? _dropboxItems;
   List<CommanderItem>? _localItems;
+  bool _isDropboxSelectionMode = false;
+  bool _isLocalSelectionMode = false;
   String _dropboxPath = "/";
   String? _localPath;
   String? _documentsPath;
@@ -493,6 +495,8 @@ class _DropboxPageState extends State<DropboxPage> {
                 pasteFromClipboard: _pasteFromClipboard,
               )
             : ConnectedWidget(
+                isDropboxSelectionMode: _isDropboxSelectionMode,
+                isLocalSelectionMode: _isLocalSelectionMode,
                 localExplorerBasePath: _documentsPath,
                 dropboxPath: _dropboxPath,
                 dropboxItems: _dropboxItems,
@@ -507,6 +511,11 @@ class _DropboxPageState extends State<DropboxPage> {
                 handleDropboxCreateFolder: (folderName) async =>
                     await _handleDropboxFolderCreation(folderName),
                 handleDropboxFilesTransferRequest: _purposeDownloadDropboxFiles,
+                handleDropboxSelectionModeToggling: (isSelectionMode) {
+                  setState(() {
+                    _isDropboxSelectionMode = isSelectionMode;
+                  });
+                },
                 localPath: _localPath,
                 localItems: _localItems,
                 handleLocalFolderSelection: (folderName) async =>
@@ -520,6 +529,11 @@ class _DropboxPageState extends State<DropboxPage> {
                 handleLocalCreateFolder: (folderName) async =>
                     await _handleLocalFolderCreation(folderName),
                 handleLocalFilesTransferRequest: _purposeUploadLocalFiles,
+                handleLocalSelectionModeToggling: (isSelectionMode) {
+                  setState(() {
+                    _isLocalSelectionMode = isSelectionMode;
+                  });
+                },
               ),
       ),
     );
@@ -567,11 +581,14 @@ class _UnconnectedWidgetState extends State<UnconnectedWidget> {
 class ConnectedWidget extends StatelessWidget {
   final String? dropboxPath;
   final String? localExplorerBasePath;
+  final bool isLocalSelectionMode;
+  final bool isDropboxSelectionMode;
   final List<CommanderItem>? dropboxItems;
   final Future<void> Function(String folderName) handleDropboxFolderSelection;
   final Future<void> Function() handleDropboxContentReload;
   final Future<void> Function(String folderName) handleDropboxCreateFolder;
   final void Function() handleDropboxFilesTransferRequest;
+  final void Function(bool isSelectionMode) handleDropboxSelectionModeToggling;
 
   final String? localPath;
   final List<CommanderItem>? localItems;
@@ -579,22 +596,27 @@ class ConnectedWidget extends StatelessWidget {
   final Future<void> Function() handleLocalContentReload;
   final Future<void> Function(String folderName) handleLocalCreateFolder;
   final void Function() handleLocalFilesTransferRequest;
+  final void Function(bool isSelectionMode) handleLocalSelectionModeToggling;
 
   const ConnectedWidget({
     super.key,
     required this.dropboxPath,
     required this.dropboxItems,
+    required this.isDropboxSelectionMode,
     required this.handleDropboxFolderSelection,
     required this.handleDropboxContentReload,
     required this.handleDropboxCreateFolder,
     required this.handleDropboxFilesTransferRequest,
+    required this.handleDropboxSelectionModeToggling,
     required this.localPath,
     required this.localExplorerBasePath,
     required this.localItems,
+    required this.isLocalSelectionMode,
     required this.handleLocalFolderSelection,
     required this.handleLocalContentReload,
     required this.handleLocalCreateFolder,
     required this.handleLocalFilesTransferRequest,
+    required this.handleLocalSelectionModeToggling,
   });
 
   @override
@@ -603,6 +625,7 @@ class ConnectedWidget extends StatelessWidget {
 
     final dropboxCommander = CommanderFilesWidget(
       areLocalFiles: false,
+      isSelectionMode: isDropboxSelectionMode,
       basePath: null,
       explorerLabel: t.pages.dropbox.dropbox_explorer,
       items: dropboxItems,
@@ -611,10 +634,12 @@ class ConnectedWidget extends StatelessWidget {
       handleReload: handleDropboxContentReload,
       handleCreateFolder: handleDropboxCreateFolder,
       handleFilesTransferRequest: handleDropboxFilesTransferRequest,
+      handleSelectionModeToggling: handleDropboxSelectionModeToggling,
     );
 
     final localCommander = CommanderFilesWidget(
       areLocalFiles: true,
+      isSelectionMode: isLocalSelectionMode,
       basePath: localExplorerBasePath,
       explorerLabel: t.pages.dropbox.local_explorer,
       items: localItems,
@@ -623,6 +648,7 @@ class ConnectedWidget extends StatelessWidget {
       handleReload: handleLocalContentReload,
       handleCreateFolder: handleLocalCreateFolder,
       handleFilesTransferRequest: handleLocalFilesTransferRequest,
+      handleSelectionModeToggling: handleLocalSelectionModeToggling,
     );
 
     return SafeArea(

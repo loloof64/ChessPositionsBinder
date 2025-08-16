@@ -24,6 +24,7 @@ class CommanderItem extends Equatable {
 
 class CommanderFilesWidget extends StatefulWidget {
   final bool areLocalFiles;
+  final bool isSelectionMode;
   final List<CommanderItem>? items;
   final String? pathText;
   final String? explorerLabel;
@@ -33,10 +34,12 @@ class CommanderFilesWidget extends StatefulWidget {
   final Future<void> Function() handleReload;
   final Future<void> Function(String folderName) handleCreateFolder;
   final void Function() handleFilesTransferRequest;
+  final void Function(bool isSelectionMode) handleSelectionModeToggling;
 
   const CommanderFilesWidget({
     super.key,
     required this.areLocalFiles,
+    required this.isSelectionMode,
     required this.explorerLabel,
     required this.pathText,
     required this.basePath,
@@ -45,6 +48,7 @@ class CommanderFilesWidget extends StatefulWidget {
     required this.handleReload,
     required this.handleCreateFolder,
     required this.handleFilesTransferRequest,
+    required this.handleSelectionModeToggling,
   });
 
   @override
@@ -133,6 +137,7 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (widget.explorerLabel != null)
+              // Title bar
               Container(
                 width: availableWidth,
                 color: Colors.redAccent,
@@ -143,30 +148,42 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
                     children: [
+                      // Explorer type
                       Text(
                         widget.explorerLabel!,
                         softWrap: false,
                         style: const TextStyle(fontSize: 20),
                       ),
+                      // Icon buttons
                       Expanded(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            IconButton(
-                              onPressed: widget.handleReload,
-                              icon: Icon(Icons.refresh),
-                            ),
-                            IconButton(
-                              onPressed: _handleFolderCreation,
-                              icon: Icon(Icons.folder),
-                            ),
-                            IconButton(
-                              onPressed: widget.handleFilesTransferRequest,
-                              icon: Icon(
-                                widget.areLocalFiles
-                                    ? Icons.upload
-                                    : Icons.download,
+                            if (!widget.isSelectionMode)
+                              IconButton(
+                                onPressed: widget.handleReload,
+                                icon: Icon(Icons.refresh),
                               ),
+                            if (!widget.isSelectionMode)
+                              IconButton(
+                                onPressed: _handleFolderCreation,
+                                icon: Icon(Icons.folder),
+                              ),
+                            if (widget.isSelectionMode)
+                              IconButton(
+                                onPressed: widget.handleFilesTransferRequest,
+                                icon: Icon(
+                                  widget.areLocalFiles
+                                      ? Icons.upload
+                                      : Icons.download,
+                                ),
+                              ),
+                            IconButton(
+                              onPressed: () =>
+                                  widget.handleSelectionModeToggling(
+                                    !widget.isSelectionMode,
+                                  ),
+                              icon: Icon(Icons.check_box_rounded),
                             ),
                           ],
                         ),
