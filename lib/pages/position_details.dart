@@ -29,9 +29,9 @@ class PositionDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenMinSize = MediaQuery.of(context).size.shortestSide;
+    final screenMinSize = MediaQuery.sizeOf(context).shortestSide;
     final isPortrait =
-        MediaQuery.of(context).orientation == Orientation.portrait;
+        MediaQuery.orientationOf(context) == Orientation.portrait;
     final positionSize = isPortrait ? screenMinSize * 0.9 : screenMinSize * 0.5;
     final displayedFilename = fileName.endsWith(".pgn")
         ? fileName.substring(0, fileName.length - 4)

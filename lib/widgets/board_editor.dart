@@ -40,13 +40,13 @@ class _BoardEditorState extends State<BoardEditor> {
 
   @override
   Widget build(BuildContext context) {
-    final screenMinSize = MediaQuery.of(context).size.shortestSide;
+    final screenMinSize = MediaQuery.sizeOf(context).shortestSide;
     final pieceButtonSize = screenMinSize * 0.065;
     final piecesButtonsRowSize = screenMinSize * 0.07;
     final piecesButtonsRowSpacing = 4.0;
 
     final isPortrait =
-        MediaQuery.of(context).orientation == Orientation.portrait;
+        MediaQuery.orientationOf(context) == Orientation.portrait;
 
     final editorButtons = Column(
       spacing: 8,

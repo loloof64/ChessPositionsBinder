@@ -617,8 +617,8 @@ class _MyHomePageState extends State<MyHomePage> {
       );
     }
     final isPortrait =
-        MediaQuery.of(context).orientation == Orientation.portrait;
-    final width = MediaQuery.of(context).size.width;
+        MediaQuery.orientationOf(context) == Orientation.portrait;
+    final width = MediaQuery.sizeOf(context).width;
     final boardSize = isPortrait ? width * 0.4 : width * 0.28;
     final content = FutureBuilder<List<RawFolderElement>>(
       future: _contentFuture,
@@ -824,7 +824,7 @@ class _MyHomePageState extends State<MyHomePage> {
       },
     );
 
-    var screenWidth = MediaQuery.of(context).size.width;
+    var screenWidth = MediaQuery.sizeOf(context).width;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
