@@ -27,6 +27,7 @@ class CommanderFilesWidget extends StatefulWidget {
   final String? pathText;
   final String? explorerLabel;
   final String? basePath;
+  final List<CommanderItem>? selectedItems;
 
   final Future<void> Function(String folderName) handleFolderSelection;
   final Future<void> Function() handleReload;
@@ -34,6 +35,8 @@ class CommanderFilesWidget extends StatefulWidget {
   final void Function() handleFilesTransferRequest;
   final void Function(bool isSelectionMode) handleSelectionModeToggling;
   final void Function(List<CommanderItem> selectedItems) handleDeleteItems;
+  final void Function(bool newState) handleAllItemsSelectionSetting;
+  final void Function(CommanderItem item) handleToggleItemSelection;
 
   const CommanderFilesWidget({
     super.key,
@@ -43,12 +46,15 @@ class CommanderFilesWidget extends StatefulWidget {
     required this.pathText,
     required this.basePath,
     required this.items,
+    required this.selectedItems,
     required this.handleFolderSelection,
     required this.handleReload,
     required this.handleCreateFolder,
     required this.handleFilesTransferRequest,
     required this.handleSelectionModeToggling,
     required this.handleDeleteItems,
+    required this.handleAllItemsSelectionSetting,
+    required this.handleToggleItemSelection,
   });
 
   @override
@@ -59,26 +65,12 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _newFolderNameController =
       TextEditingController();
-  final Map<CommanderItem, bool> _selectedItems = <CommanderItem, bool>{};
 
   @override
   void dispose() {
     _newFolderNameController.dispose();
     _scrollController.dispose();
     super.dispose();
-  }
-
-  void _onToggleItemSelection(CommanderItem item) {
-    final currentState = _selectedItems[item];
-    if (currentState == null) {
-      setState(() {
-        _selectedItems[item] = true;
-      });
-    } else {
-      setState(() {
-        _selectedItems[item] = !currentState;
-      });
-    }
   }
 
   void _handleFolderCreation() {
@@ -123,7 +115,9 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
   }
 
   Future<void> _purposeConfirmDeletion() async {
-    if (_selectedItems.isEmpty) {
+    if (widget.selectedItems == null) return;
+    final selectedItems = widget.selectedItems!;
+    if (selectedItems.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(t.widgets.commander.no_item_selected)),
       );
@@ -152,8 +146,7 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ..._selectedItems.entries.map((entry) {
-                        final currentItem = entry.key;
+                      ...selectedItems.map((currentItem) {
                         return Row(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -199,8 +192,16 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
 
     if (hasConfirmed != true) return;
 
-    final itemsToDelete = _selectedItems.keys.toList();
+    final itemsToDelete = widget.selectedItems ?? [];
     widget.handleDeleteItems(itemsToDelete);
+  }
+
+  void _handleSelectAllItems() {
+    widget.handleAllItemsSelectionSetting(true);
+  }
+
+  void _handleUnselectAllItems() {
+    widget.handleAllItemsSelectionSetting(false);
   }
 
   @override
@@ -261,11 +262,19 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
                                 onPressed: _purposeConfirmDeletion,
                                 icon: Icon(Icons.delete),
                               ),
+                            if (widget.isSelectionMode)
+                              IconButton(
+                                onPressed: () => _handleSelectAllItems(),
+                                icon: Icon(Icons.select_all),
+                              ),
+                            if (widget.isSelectionMode)
+                              IconButton(
+                                onPressed: () => _handleUnselectAllItems(),
+                                icon: Icon(Icons.clear_all),
+                              ),
                             IconButton(
                               onPressed: () {
-                                setState(() {
-                                  _selectedItems.clear();
-                                });
+                                widget.handleAllItemsSelectionSetting(false);
                                 widget.handleSelectionModeToggling(
                                   !widget.isSelectionMode,
                                 );
@@ -339,7 +348,7 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
                             )
                           : GestureDetector(
                               onTap: () {
-                                _onToggleItemSelection(currentItem);
+                                widget.handleToggleItemSelection(currentItem);
                               },
                               child: Container(
                                 width: double.infinity,
@@ -350,17 +359,21 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   spacing: 2,
                                   children: [
-                                    SizedBox(
-                                      width: 20,
-                                      height: 20,
-                                      child: Checkbox(
-                                        value:
-                                            _selectedItems[currentItem] == true,
-                                        onChanged: (newValue) {
-                                          _onToggleItemSelection(currentItem);
-                                        },
+                                    if (widget.selectedItems != null)
+                                      SizedBox(
+                                        width: 20,
+                                        height: 20,
+                                        child: Checkbox(
+                                          value: widget.selectedItems!.contains(
+                                            currentItem,
+                                          ),
+                                          onChanged: (newValue) {
+                                            widget.handleToggleItemSelection(
+                                              currentItem,
+                                            );
+                                          },
+                                        ),
                                       ),
-                                    ),
                                     Icon(
                                       isFolder
                                           ? Icons.folder

@@ -34,6 +34,8 @@ class _DropboxPageState extends State<DropboxPage> {
 
   List<CommanderItem>? _dropboxItems;
   List<CommanderItem>? _localItems;
+  List<CommanderItem> _dropboxSelectedItems = [];
+  List<CommanderItem> _localSelectedItems = [];
   bool _isDropboxSelectionMode = false;
   bool _isLocalSelectionMode = false;
   String _dropboxPath = "/";
@@ -548,8 +550,83 @@ class _DropboxPageState extends State<DropboxPage> {
     await _refreshLocalExplorerContent();
   }
 
+  void _onDropboxToggleItemSelection(CommanderItem item) {
+    if (_dropboxItems == null) return;
+    setState(() {
+      if (_dropboxSelectedItems.contains(item)) {
+        _dropboxSelectedItems.remove(item);
+      } else {
+        _dropboxSelectedItems.add(item);
+      }
+    });
+  }
+
+  void _onLocalToggleItemSelection(CommanderItem item) {
+    if (_localItems == null) return;
+    setState(() {
+      if (_localSelectedItems.contains(item)) {
+        _localSelectedItems.remove(item);
+      } else {
+        _localSelectedItems.add(item);
+      }
+    });
+  }
+
+  void _onDropboxAllItemsSelectionToggling(bool newState) {
+    if (_dropboxItems == null) {
+      return;
+    }
+    for (final currentItem in _dropboxItems!) {
+      final isParentFolderItem =
+          (currentItem.isFolder) && (currentItem.simpleName == parentFolder);
+      if (isParentFolderItem) continue;
+      setState(() {
+        if (newState && !_dropboxSelectedItems.contains(currentItem)) {
+          _dropboxSelectedItems.add(currentItem);
+        } else if (!newState && _dropboxSelectedItems.contains(currentItem)) {
+          _dropboxSelectedItems.remove(currentItem);
+        }
+      });
+    }
+  }
+
+  void _onLocalAllItemsSelectionToggling(bool newState) {
+    if (_localItems == null || _localPath == null || _documentsPath == null) {
+      return;
+    }
+    for (final currentItem in _filteredLocalItems()) {
+      final isParentFolderItem =
+          (currentItem.isFolder) && (currentItem.simpleName == parentFolder);
+      if (isParentFolderItem) continue;
+      setState(() {
+        if (newState && !_localSelectedItems.contains(currentItem)) {
+          _localSelectedItems.add(currentItem);
+        } else if (!newState && _localSelectedItems.contains(currentItem)) {
+          _localSelectedItems.remove(currentItem);
+        }
+      });
+    }
+  }
+
+  List<CommanderItem> _filteredLocalItems() {
+    var result = _localItems ?? [];
+
+    if (_localPath == null || _documentsPath == null) return result;
+
+    result = result.where((elt) {
+      final isFlutterAssetsFolder =
+          elt.simpleName == "flutter_assets" &&
+          (_localPath! == _documentsPath!) &&
+          Platform.isAndroid;
+      return !isFlutterAssetsFolder;
+    }).toList();
+
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final filteredLocalItems = _filteredLocalItems();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -620,6 +697,7 @@ class _DropboxPageState extends State<DropboxPage> {
                 localExplorerBasePath: _documentsPath,
                 dropboxPath: _dropboxPath,
                 dropboxItems: _dropboxItems,
+                dropboxSelectedItems: _dropboxSelectedItems,
                 handleDropboxFolderSelection: (folderName) async =>
                     await _handleDropboxFolderSelection(folderName),
                 handleDropboxContentReload: () async {
@@ -637,8 +715,12 @@ class _DropboxPageState extends State<DropboxPage> {
                   });
                 },
                 handleDropboxDeleteItems: _onDropboxItemsDeletionRequest,
+                handleDropboxToggleItemSelection: _onDropboxToggleItemSelection,
+                handleDropboxAllItemsSelectionSetting:
+                    _onDropboxAllItemsSelectionToggling,
                 localPath: _localPath,
-                localItems: _localItems,
+                localItems: filteredLocalItems,
+                localSelectedItems: _localSelectedItems,
                 handleLocalFolderSelection: (folderName) async =>
                     await _handleLocalFolderSelection(folderName),
                 handleLocalContentReload: () async {
@@ -656,6 +738,9 @@ class _DropboxPageState extends State<DropboxPage> {
                   });
                 },
                 handleLocalDeleteItems: _onLocalItemsDeletionRequest,
+                handleLocalToggleItemSelection: _onLocalToggleItemSelection,
+                handleLocalAllItemsSelectionSetting:
+                    _onLocalAllItemsSelectionToggling,
               ),
       ),
     );

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:chess_position_binder/i18n/strings.g.dart';
 import 'package:chess_position_binder/widgets/dropbox_commander_files.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +8,7 @@ class ConnectedWidget extends StatelessWidget {
   final bool isLocalSelectionMode;
   final bool isDropboxSelectionMode;
   final List<CommanderItem>? dropboxItems;
+  final List<CommanderItem>? dropboxSelectedItems;
   final Future<void> Function(String folderName) handleDropboxFolderSelection;
   final Future<void> Function() handleDropboxContentReload;
   final Future<void> Function(String folderName) handleDropboxCreateFolder;
@@ -17,20 +16,26 @@ class ConnectedWidget extends StatelessWidget {
   final void Function(bool isSelectionMode) handleDropboxSelectionModeToggling;
   final void Function(List<CommanderItem> selectedItems)
   handleDropboxDeleteItems;
+  final void Function(bool newState) handleDropboxAllItemsSelectionSetting;
+  final void Function(CommanderItem item) handleDropboxToggleItemSelection;
 
   final String? localPath;
   final List<CommanderItem>? localItems;
+  final List<CommanderItem>? localSelectedItems;
   final Future<void> Function(String folderName) handleLocalFolderSelection;
   final Future<void> Function() handleLocalContentReload;
   final Future<void> Function(String folderName) handleLocalCreateFolder;
   final void Function() handleLocalFilesTransferRequest;
   final void Function(bool isSelectionMode) handleLocalSelectionModeToggling;
   final void Function(List<CommanderItem> selectedItems) handleLocalDeleteItems;
+  final void Function(bool newState) handleLocalAllItemsSelectionSetting;
+  final void Function(CommanderItem item) handleLocalToggleItemSelection;
 
   const ConnectedWidget({
     super.key,
     required this.dropboxPath,
     required this.dropboxItems,
+    required this.dropboxSelectedItems,
     required this.isDropboxSelectionMode,
     required this.handleDropboxFolderSelection,
     required this.handleDropboxContentReload,
@@ -38,9 +43,12 @@ class ConnectedWidget extends StatelessWidget {
     required this.handleDropboxFilesTransferRequest,
     required this.handleDropboxSelectionModeToggling,
     required this.handleDropboxDeleteItems,
+    required this.handleDropboxAllItemsSelectionSetting,
+    required this.handleDropboxToggleItemSelection,
     required this.localPath,
     required this.localExplorerBasePath,
     required this.localItems,
+    required this.localSelectedItems,
     required this.isLocalSelectionMode,
     required this.handleLocalFolderSelection,
     required this.handleLocalContentReload,
@@ -48,28 +56,13 @@ class ConnectedWidget extends StatelessWidget {
     required this.handleLocalFilesTransferRequest,
     required this.handleLocalSelectionModeToggling,
     required this.handleLocalDeleteItems,
+    required this.handleLocalAllItemsSelectionSetting,
+    required this.handleLocalToggleItemSelection,
   });
-
-  List<CommanderItem> _filteredLocalItems() {
-    var result = localItems ?? [];
-
-    if (localPath == null || localExplorerBasePath == null) return result;
-
-    result = result.where((elt) {
-      final isFlutterAssetsFolder =
-          elt.simpleName == "flutter_assets" &&
-          (localPath! == localExplorerBasePath!) &&
-          Platform.isAndroid;
-      return !isFlutterAssetsFolder;
-    }).toList();
-
-    return result;
-  }
 
   @override
   Widget build(BuildContext context) {
     final orientation = MediaQuery.orientationOf(context);
-    final usedLocalItems = _filteredLocalItems();
 
     final dropboxCommander = CommanderFilesWidget(
       areLocalFiles: false,
@@ -77,6 +70,7 @@ class ConnectedWidget extends StatelessWidget {
       basePath: null,
       explorerLabel: t.pages.dropbox.dropbox_explorer,
       items: dropboxItems,
+      selectedItems: dropboxSelectedItems,
       pathText: dropboxPath,
       handleFolderSelection: handleDropboxFolderSelection,
       handleReload: handleDropboxContentReload,
@@ -84,6 +78,8 @@ class ConnectedWidget extends StatelessWidget {
       handleFilesTransferRequest: handleDropboxFilesTransferRequest,
       handleSelectionModeToggling: handleDropboxSelectionModeToggling,
       handleDeleteItems: handleDropboxDeleteItems,
+      handleAllItemsSelectionSetting: handleDropboxAllItemsSelectionSetting,
+      handleToggleItemSelection: handleDropboxToggleItemSelection,
     );
 
     final localCommander = CommanderFilesWidget(
@@ -91,7 +87,8 @@ class ConnectedWidget extends StatelessWidget {
       isSelectionMode: isLocalSelectionMode,
       basePath: localExplorerBasePath,
       explorerLabel: t.pages.dropbox.local_explorer,
-      items: usedLocalItems,
+      items: localItems,
+      selectedItems: localSelectedItems,
       pathText: localPath,
       handleFolderSelection: handleLocalFolderSelection,
       handleReload: handleLocalContentReload,
@@ -99,6 +96,8 @@ class ConnectedWidget extends StatelessWidget {
       handleFilesTransferRequest: handleLocalFilesTransferRequest,
       handleSelectionModeToggling: handleLocalSelectionModeToggling,
       handleDeleteItems: handleLocalDeleteItems,
+      handleAllItemsSelectionSetting: handleLocalAllItemsSelectionSetting,
+      handleToggleItemSelection: handleLocalToggleItemSelection,
     );
 
     return SafeArea(
