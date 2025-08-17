@@ -162,6 +162,7 @@ class _PositionEditorPageState extends State<PositionEditorPage> {
         _savedFileName,
       );
       if (isOverwritingExistingFile) {
+        if (!mounted) return;
         showDialog(
           context: context,
           builder: (context) {

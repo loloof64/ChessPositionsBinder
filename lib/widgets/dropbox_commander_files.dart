@@ -32,7 +32,8 @@ class CommanderFilesWidget extends StatefulWidget {
   final Future<void> Function(String folderName) handleFolderSelection;
   final Future<void> Function() handleReload;
   final Future<void> Function(String folderName) handleCreateFolder;
-  final void Function() handleFilesTransferRequest;
+  final Future<void> Function(List<CommanderItem>? itemsToUpload)
+  handleFilesTransferRequest;
   final void Function(bool isSelectionMode) handleSelectionModeToggling;
   final void Function(List<CommanderItem> selectedItems) handleDeleteItems;
   final void Function(bool newState) handleAllItemsSelectionSetting;
@@ -250,7 +251,10 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
                               ),
                             if (widget.isSelectionMode)
                               IconButton(
-                                onPressed: widget.handleFilesTransferRequest,
+                                onPressed: () =>
+                                    widget.handleFilesTransferRequest(
+                                      widget.selectedItems,
+                                    ),
                                 icon: Icon(
                                   widget.areLocalFiles
                                       ? Icons.upload

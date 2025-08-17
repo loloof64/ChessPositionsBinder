@@ -202,6 +202,9 @@ class TranslationsPagesDropboxEn {
 	String get disconnected => 'You are logged out.';
 	String get failed_reading_local_content => 'Failed to read local content.';
 	String get failed_deleting_items => 'Failed to delete items :';
+	String get failed_uploading_items => 'Failed to upload items :';
+	String get skipped_folders => 'Folders have been ignored.';
+	String get upload_done => 'Done upload.';
 }
 
 // Path: widgets.commander.new_folder
@@ -484,6 +487,9 @@ extension on Translations {
 			case 'pages.dropbox.disconnected': return 'You are logged out.';
 			case 'pages.dropbox.failed_reading_local_content': return 'Failed to read local content.';
 			case 'pages.dropbox.failed_deleting_items': return 'Failed to delete items :';
+			case 'pages.dropbox.failed_uploading_items': return 'Failed to upload items :';
+			case 'pages.dropbox.skipped_folders': return 'Folders have been ignored.';
+			case 'pages.dropbox.upload_done': return 'Done upload.';
 			default: return null;
 		}
 	}

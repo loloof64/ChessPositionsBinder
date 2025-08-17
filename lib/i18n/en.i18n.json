@@ -128,7 +128,10 @@
       "local_explorer": "Local",
       "disconnected": "You are logged out.",
       "failed_reading_local_content": "Failed to read local content.",
-      "failed_deleting_items": "Failed to delete items :"
+      "failed_deleting_items": "Failed to delete items :",
+      "failed_uploading_items": "Failed to upload items :",
+      "skipped_folders": "Folders have been ignored.",
+      "upload_done": "Done upload."
     }
   }
 }

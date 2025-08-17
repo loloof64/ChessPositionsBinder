@@ -353,7 +353,7 @@ class DropboxManager {
   }
 
   /*
-  If result is Ok, then the wrapped list contains the items for which it failed, if any.s
+  If result is Ok, then the wrapped list contains the items for which it failed, if any.
   */
   Future<Result<List<CommanderItem>, RequestError>> deleteItems({
     required String currentPath,
@@ -367,9 +367,9 @@ class DropboxManager {
 
     List<CommanderItem> failedItems = [];
 
+    final basePath = currentPath == "/" ? "" : currentPath;
     try {
       for (final currentItem in itemsToDelete) {
-        final basePath = currentPath == "/" ? "" : currentPath;
         final response = await client.post(
           Uri.parse("https://api.dropboxapi.com/2/files/delete_v2"),
           body: jsonEncode({"path": "$basePath/${currentItem.simpleName}"}),
@@ -383,6 +383,73 @@ class DropboxManager {
         }
       }
       return Success(failedItems);
+    } catch (e) {
+      final message = e.toString();
+      debugPrint(message);
+      final isExpiredCredentialsError = message.contains(
+        "credentials have expired",
+      );
+      return Error(
+        isExpiredCredentialsError ? ExpiredCredentials() : UnknownError(),
+      );
+    }
+  }
+
+  /*
+  Upload files, ignore folders.
+  If result is Ok, then the wrapped tuple contains
+  1) a list that contains the items for which it failed, if any,
+  2) a bool that indicates if the user selection contained folders.
+  */
+  Future<Result<(List<CommanderItem>, bool), RequestError>> uploadFiles({
+    required String currentLocalPath,
+    required String currentDropboxPath,
+    required List<CommanderItem> itemsToUpload,
+  }) async {
+    oauth2.Client client;
+    if (_client == null) {
+      return Error(NoClientAvailable());
+    }
+    client = _client!;
+
+    List<CommanderItem> failedItems = [];
+
+    final baseLocalPath = currentLocalPath == "/" ? "" : currentLocalPath;
+    final pathSeparator = Platform.pathSeparator;
+    bool hadToPassFolders = false;
+    try {
+      for (final currentItem in itemsToUpload) {
+        if (currentItem.isFolder) {
+          hadToPassFolders = true;
+          continue;
+        }
+        final localFile = File(
+          "$baseLocalPath$pathSeparator${currentItem.simpleName}",
+        );
+        final fileBytes = await localFile.readAsBytes();
+        final response = await client.post(
+          Uri.parse("https://content.dropboxapi.com/2/files/upload"),
+          body: fileBytes,
+          headers: {
+            'Content-Type': 'application/octet-stream',
+            'Dropbox-API-Arg': jsonEncode({
+              "autorename": true,
+              "mode": "add",
+              "mute": false,
+              "path": "$currentDropboxPath/${currentItem.simpleName}",
+              "strict_conflict": false,
+            }),
+          },
+        );
+
+        if (response.statusCode != 200) {
+          debugPrint(
+            convertError(response.statusCode, response.body).toString(),
+          );
+          failedItems.add(currentItem);
+        }
+      }
+      return Success((failedItems, hadToPassFolders));
     } catch (e) {
       final message = e.toString();
       debugPrint(message);

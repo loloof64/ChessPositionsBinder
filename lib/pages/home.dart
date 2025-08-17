@@ -164,7 +164,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _reloadContent();
     } catch (e) {
       debugPrint(e.toString());
-      if (!context.mounted) {
+      if (!mounted) {
         return;
       }
       ScaffoldMessenger.of(context).showSnackBar(
@@ -186,7 +186,7 @@ class _MyHomePageState extends State<MyHomePage> {
       final event = chessGame.headers["Event"] ?? "";
       final date = chessGame.headers["Date"] ?? "";
       final exercice = chessGame.headers["Exercice"] ?? "";
-      if (!context.mounted) {
+      if (!mounted) {
         return;
       }
       final result = await Navigator.of(context).push<(String, String)?>(
@@ -217,7 +217,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _reloadContent();
     } catch (e) {
       debugPrint(e.toString());
-      if (!context.mounted) {
+      if (!mounted) {
         return;
       }
       ScaffoldMessenger.of(context).showSnackBar(
@@ -239,7 +239,7 @@ class _MyHomePageState extends State<MyHomePage> {
       final event = chessGame.headers["Event"] ?? "?";
       final date = chessGame.headers["Date"] ?? "????.??.??";
       final exercice = chessGame.headers["Exercice"] ?? "";
-      if (!context.mounted) {
+      if (!mounted) {
         return;
       }
       await Navigator.of(context).push(
@@ -259,7 +259,7 @@ class _MyHomePageState extends State<MyHomePage> {
       );
     } catch (e) {
       debugPrint(e.toString());
-      if (!context.mounted) {
+      if (!mounted) {
         return;
       }
       ScaffoldMessenger.of(context).showSnackBar(
@@ -349,7 +349,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _reloadContent();
     } catch (e) {
       debugPrint(e.toString());
-      if (!context.mounted) {
+      if (!mounted) {
         return;
       }
       ScaffoldMessenger.of(context).showSnackBar(
@@ -367,7 +367,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _reloadContent();
     } catch (e) {
       debugPrint(e.toString());
-      if (!context.mounted) {
+      if (!mounted) {
         return;
       }
       ScaffoldMessenger.of(context).showSnackBar(
@@ -447,7 +447,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _reloadContent();
     } catch (e) {
       debugPrint(e.toString());
-      if (!context.mounted) {
+      if (!mounted) {
         return;
       }
       ScaffoldMessenger.of(context).showSnackBar(
@@ -469,7 +469,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _reloadContent();
     } catch (e) {
       debugPrint(e.toString());
-      if (!context.mounted) {
+      if (!mounted) {
         return;
       }
       ScaffoldMessenger.of(context).showSnackBar(
@@ -499,7 +499,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _reloadContent();
     } catch (e) {
       debugPrint(e.toString());
-      if (!context.mounted) {
+      if (!mounted) {
         return;
       }
       ScaffoldMessenger.of(context).showSnackBar(
@@ -516,7 +516,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _purposeViewPositionDetails(path);
     } catch (e) {
       debugPrint(e.toString());
-      if (!context.mounted) {
+      if (!mounted) {
         return;
       }
       ScaffoldMessenger.of(context).showSnackBar(

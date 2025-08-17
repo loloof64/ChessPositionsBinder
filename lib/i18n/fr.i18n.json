@@ -128,7 +128,10 @@
       "local_explorer": "Local",
       "disconnected": "Vous êtes déconnecté.",
       "failed_reading_local_content": "Échec de lecture du contenu local.",
-      "failed_deleting_items": "Échec de la suppression des éléments :"
+      "failed_deleting_items": "Échec de la suppression des éléments :",
+      "failed_uploading_items": "Échec d'upload des éléments :",
+      "skipped_folders": "Les dossiers ont été ignorés.",
+      "upload_done": "Upload effectué."
     }
   }
 }

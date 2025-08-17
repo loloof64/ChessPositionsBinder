@@ -199,6 +199,9 @@ class _TranslationsPagesDropboxFr implements TranslationsPagesDropboxEn {
 	@override String get disconnected => 'Vous êtes déconnecté.';
 	@override String get failed_reading_local_content => 'Échec de lecture du contenu local.';
 	@override String get failed_deleting_items => 'Échec de la suppression des éléments :';
+	@override String get failed_uploading_items => 'Échec d\'upload des éléments :';
+	@override String get skipped_folders => 'Les dossiers ont été ignorés.';
+	@override String get upload_done => 'Upload effectué.';
 }
 
 // Path: widgets.commander.new_folder
@@ -481,6 +484,9 @@ extension on TranslationsFr {
 			case 'pages.dropbox.disconnected': return 'Vous êtes déconnecté.';
 			case 'pages.dropbox.failed_reading_local_content': return 'Échec de lecture du contenu local.';
 			case 'pages.dropbox.failed_deleting_items': return 'Échec de la suppression des éléments :';
+			case 'pages.dropbox.failed_uploading_items': return 'Échec d\'upload des éléments :';
+			case 'pages.dropbox.skipped_folders': return 'Les dossiers ont été ignorés.';
+			case 'pages.dropbox.upload_done': return 'Upload effectué.';
 			default: return null;
 		}
 	}

@@ -12,7 +12,8 @@ class ConnectedWidget extends StatelessWidget {
   final Future<void> Function(String folderName) handleDropboxFolderSelection;
   final Future<void> Function() handleDropboxContentReload;
   final Future<void> Function(String folderName) handleDropboxCreateFolder;
-  final void Function() handleDropboxFilesTransferRequest;
+  final Future<void> Function(List<CommanderItem>? itemsToUpload)
+  handleDropboxFilesTransferRequest;
   final void Function(bool isSelectionMode) handleDropboxSelectionModeToggling;
   final void Function(List<CommanderItem> selectedItems)
   handleDropboxDeleteItems;
@@ -25,7 +26,8 @@ class ConnectedWidget extends StatelessWidget {
   final Future<void> Function(String folderName) handleLocalFolderSelection;
   final Future<void> Function() handleLocalContentReload;
   final Future<void> Function(String folderName) handleLocalCreateFolder;
-  final void Function() handleLocalFilesTransferRequest;
+  final Future<void> Function(List<CommanderItem>? itemsToUpload)
+  handleLocalFilesTransferRequest;
   final void Function(bool isSelectionMode) handleLocalSelectionModeToggling;
   final void Function(List<CommanderItem> selectedItems) handleLocalDeleteItems;
   final void Function(bool newState) handleLocalAllItemsSelectionSetting;

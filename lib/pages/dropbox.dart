@@ -12,7 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:path_provider/path_provider.dart';
 
-enum GroupedOperation { deletion }
+enum GroupedOperation { deletion, upload }
 
 class DropboxPage extends StatefulWidget {
   const DropboxPage({super.key});
@@ -34,8 +34,8 @@ class _DropboxPageState extends State<DropboxPage> {
 
   List<CommanderItem>? _dropboxItems;
   List<CommanderItem>? _localItems;
-  List<CommanderItem> _dropboxSelectedItems = [];
-  List<CommanderItem> _localSelectedItems = [];
+  final List<CommanderItem> _dropboxSelectedItems = [];
+  final List<CommanderItem> _localSelectedItems = [];
   bool _isDropboxSelectionMode = false;
   bool _isLocalSelectionMode = false;
   String _dropboxPath = "/";
@@ -138,10 +138,10 @@ class _DropboxPageState extends State<DropboxPage> {
   }
 
   Future<void> _onFailedLaunchingDropboxAuthPage() async {
+    if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(t.pages.dropbox.failed_getting_auth_page)),
     );
-    if (!context.mounted) return;
     Navigator.of(context).pop();
   }
 
@@ -149,7 +149,7 @@ class _DropboxPageState extends State<DropboxPage> {
     final token = _codeController.text;
     final authSuccess = await _dropboxManager.authenticateWithToken(token);
     if (authSuccess != TokenAuthResult.success) {
-      if (!context.mounted) return;
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(t.pages.dropbox.invalid_auth_code)),
       );
@@ -285,7 +285,7 @@ class _DropboxPageState extends State<DropboxPage> {
 
   Future<void> _handleDisconnection() async {
     await _dropboxManager.logout();
-    if (!context.mounted) return;
+    if (!mounted) return;
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(SnackBar(content: Text(t.pages.dropbox.disconnected)));
@@ -304,7 +304,7 @@ class _DropboxPageState extends State<DropboxPage> {
 
       await _refreshLocalExplorerContent();
     } catch (e) {
-      if (!context.mounted) return;
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(t.pages.dropbox.failed_reading_local_content)),
       );
@@ -361,7 +361,7 @@ class _DropboxPageState extends State<DropboxPage> {
       await _refreshLocalExplorerContent();
     } catch (e) {
       debugPrint(e.toString());
-      if (!context.mounted) {
+      if (!mounted) {
         return;
       }
       ScaffoldMessenger.of(context).showSnackBar(
@@ -389,7 +389,7 @@ class _DropboxPageState extends State<DropboxPage> {
       }
     } catch (e) {
       debugPrint(e.toString());
-      if (!context.mounted) {
+      if (!mounted) {
         return;
       }
       ScaffoldMessenger.of(context).showSnackBar(
@@ -420,7 +420,7 @@ class _DropboxPageState extends State<DropboxPage> {
       await _refreshLocalExplorerContent();
     } catch (e) {
       debugPrint(e.toString());
-      if (!context.mounted) return;
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(t.pages.home.create_folder_errors.creation_error),
@@ -429,9 +429,87 @@ class _DropboxPageState extends State<DropboxPage> {
     }
   }
 
-  void _purposeDownloadDropboxFiles() {}
+  Future<void> _purposeDownloadDropboxFiles(
+    List<CommanderItem>? itemsToUpload,
+  ) async {}
 
-  void _purposeUploadLocalFiles() {}
+  Future<void> _purposeUploadLocalFiles(
+    List<CommanderItem>? itemsToUpload,
+  ) async {
+    if (_dropboxItems == null ||
+        itemsToUpload == null ||
+        _localPath == null ||
+        itemsToUpload.isEmpty) {
+      return;
+    }
+
+    setState(() {
+      _isDropboxSelectionMode = false;
+    });
+
+    try {
+      final result = await _dropboxManager.uploadFiles(
+        currentDropboxPath: _dropboxPath,
+        currentLocalPath: _localPath!,
+        itemsToUpload: itemsToUpload,
+      );
+      switch (result) {
+        case Success():
+          final failedItems = result.success.$1;
+          final hadFolders = result.success.$2;
+          if (hadFolders) {
+            await _showFilteredFoldersDialog();
+          }
+          if (failedItems.isNotEmpty) {
+            await _showFailedDialog(
+              operation: GroupedOperation.upload,
+              failureItems: failedItems,
+            );
+          }
+          await _refreshDropboxContent();
+          if (!mounted) return;
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(t.pages.dropbox.upload_done)));
+          break;
+        case Error():
+          final error = result.error;
+          _handleError(error);
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      if (!mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(t.pages.home.create_folder_errors.creation_error),
+        ),
+      );
+    }
+  }
+
+  Future<void> _showFilteredFoldersDialog() async {
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: Text(t.pages.dropbox.skipped_folders),
+          actions: [
+            TextButton(
+              child: Text(
+                t.misc.buttons.ok,
+                style: TextStyle(color: Colors.green),
+              ),
+              onPressed: () async {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   Future<void> _onDropboxItemsDeletionRequest(
     List<CommanderItem> itemsToDelete,
@@ -464,7 +542,7 @@ class _DropboxPageState extends State<DropboxPage> {
       }
     } catch (e) {
       debugPrint(e.toString());
-      if (!context.mounted) {
+      if (!mounted) {
         return;
       }
       ScaffoldMessenger.of(context).showSnackBar(
@@ -481,6 +559,7 @@ class _DropboxPageState extends State<DropboxPage> {
   }) async {
     final title = switch (operation) {
       GroupedOperation.deletion => t.pages.dropbox.failed_deleting_items,
+      GroupedOperation.upload => t.pages.dropbox.failed_uploading_items,
     };
     final lines = failureItems.map((elt) {
       return Text(

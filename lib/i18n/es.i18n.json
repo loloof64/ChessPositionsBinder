@@ -128,7 +128,10 @@
       "local_explorer": "Local",
       "disconnected": "Has cerrado sesión.",
       "failed_reading_local_content": "Error al leer el contenido local.",
-      "failed_deleting_items": "Error al eliminar algunos elementos :"
+      "failed_deleting_items": "Error al eliminar algunos elementos :",
+      "failed_uploading_items": "Error al cargar algunos elementos :",
+      "skipped_folders": "Se han ignorado las carpetas.",
+      "upload_done": "Carga completada."
     }
   }
 }

@@ -199,6 +199,9 @@ class _TranslationsPagesDropboxEs implements TranslationsPagesDropboxEn {
 	@override String get disconnected => 'Has cerrado sesión.';
 	@override String get failed_reading_local_content => 'Error al leer el contenido local.';
 	@override String get failed_deleting_items => 'Error al eliminar algunos elementos :';
+	@override String get failed_uploading_items => 'Error al cargar algunos elementos :';
+	@override String get skipped_folders => 'Se han ignorado las carpetas.';
+	@override String get upload_done => 'Carga completada.';
 }
 
 // Path: widgets.commander.new_folder
@@ -481,6 +484,9 @@ extension on TranslationsEs {
 			case 'pages.dropbox.disconnected': return 'Has cerrado sesión.';
 			case 'pages.dropbox.failed_reading_local_content': return 'Error al leer el contenido local.';
 			case 'pages.dropbox.failed_deleting_items': return 'Error al eliminar algunos elementos :';
+			case 'pages.dropbox.failed_uploading_items': return 'Error al cargar algunos elementos :';
+			case 'pages.dropbox.skipped_folders': return 'Se han ignorado las carpetas.';
+			case 'pages.dropbox.upload_done': return 'Carga completada.';
 			default: return null;
 		}
 	}
