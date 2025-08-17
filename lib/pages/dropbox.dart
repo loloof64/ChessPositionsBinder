@@ -522,7 +522,31 @@ class _DropboxPageState extends State<DropboxPage> {
 
   Future<void> _onLocalItemsDeletionRequest(
     List<CommanderItem> itemsToDelete,
-  ) async {}
+  ) async {
+    setState(() {
+      _isLocalSelectionMode = false;
+    });
+    List<CommanderItem> failedItems = [];
+    for (final currentItem in itemsToDelete) {
+      String path =
+          "$_localPath${Platform.pathSeparator}${currentItem.simpleName}";
+      final concreteCurrentItem = File(path);
+      try {
+        await concreteCurrentItem.delete(recursive: true);
+      } catch (e) {
+        debugPrint(e.toString());
+        failedItems.add(currentItem);
+      }
+    }
+
+    if (failedItems.isNotEmpty) {
+      await _showFailedDialog(
+        operation: GroupedOperation.deletion,
+        failureItems: failedItems,
+      );
+    }
+    await _refreshLocalExplorerContent();
+  }
 
   @override
   Widget build(BuildContext context) {
