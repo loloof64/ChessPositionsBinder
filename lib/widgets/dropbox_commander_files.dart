@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:chess_position_binder/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
@@ -68,23 +66,6 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
     _newFolderNameController.dispose();
     _scrollController.dispose();
     super.dispose();
-  }
-
-  List<CommanderItem> _filteredLocalItems() {
-    var result = widget.items ?? [];
-
-    if (!widget.areLocalFiles) return result;
-    if (widget.pathText == null || widget.basePath == null) return result;
-
-    result = result.where((elt) {
-      final isFlutterAssetsFolder =
-          elt.simpleName == "flutter_assets" &&
-          (widget.pathText! == widget.basePath!) &&
-          Platform.isAndroid;
-      return !isFlutterAssetsFolder;
-    }).toList();
-
-    return result;
   }
 
   void _onToggleItemSelection(CommanderItem item) {
@@ -224,7 +205,7 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final items = _filteredLocalItems();
+    final items = widget.items ?? [];
     return LayoutBuilder(
       builder: (context, constraints) {
         final availableWidth = constraints.maxWidth;

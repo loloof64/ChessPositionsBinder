@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:chess_position_binder/i18n/strings.g.dart';
 import 'package:chess_position_binder/widgets/dropbox_commander_files.dart';
 import 'package:flutter/material.dart';
@@ -48,9 +50,26 @@ class ConnectedWidget extends StatelessWidget {
     required this.handleLocalDeleteItems,
   });
 
+  List<CommanderItem> _filteredLocalItems() {
+    var result = localItems ?? [];
+
+    if (localPath == null || localExplorerBasePath == null) return result;
+
+    result = result.where((elt) {
+      final isFlutterAssetsFolder =
+          elt.simpleName == "flutter_assets" &&
+          (localPath! == localExplorerBasePath!) &&
+          Platform.isAndroid;
+      return !isFlutterAssetsFolder;
+    }).toList();
+
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
     final orientation = MediaQuery.orientationOf(context);
+    final usedLocalItems = _filteredLocalItems();
 
     final dropboxCommander = CommanderFilesWidget(
       areLocalFiles: false,
@@ -72,7 +91,7 @@ class ConnectedWidget extends StatelessWidget {
       isSelectionMode: isLocalSelectionMode,
       basePath: localExplorerBasePath,
       explorerLabel: t.pages.dropbox.local_explorer,
-      items: localItems,
+      items: usedLocalItems,
       pathText: localPath,
       handleFolderSelection: handleLocalFolderSelection,
       handleReload: handleLocalContentReload,
