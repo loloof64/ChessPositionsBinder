@@ -527,6 +527,7 @@ class _DropboxPageState extends State<DropboxPage> {
 
     setState(() {
       _isLocalSelectionMode = false;
+      _localSelectedItems.clear();
     });
 
     try {
@@ -546,6 +547,7 @@ class _DropboxPageState extends State<DropboxPage> {
           }
           setState(() {
             _isDropboxSelectionMode = false;
+            _dropboxSelectedItems.clear();
           });
           await _refreshLocalExplorerContent();
           if (!mounted) return;
@@ -660,6 +662,7 @@ class _DropboxPageState extends State<DropboxPage> {
 
     setState(() {
       _isDropboxSelectionMode = false;
+      _dropboxSelectedItems.clear();
     });
 
     try {
@@ -679,6 +682,7 @@ class _DropboxPageState extends State<DropboxPage> {
           }
           setState(() {
             _isLocalSelectionMode = false;
+            _localSelectedItems.clear();
           });
           await _refreshDropboxContent();
           if (!mounted) return;
@@ -738,6 +742,10 @@ class _DropboxPageState extends State<DropboxPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(t.pages.dropbox.failed_deleting_items)),
       );
+    } finally {
+      setState(() {
+        _dropboxSelectedItems.clear();
+      });
     }
   }
 
@@ -815,6 +823,9 @@ class _DropboxPageState extends State<DropboxPage> {
         failureItems: failedItems,
       );
     }
+    setState(() {
+      _localSelectedItems.clear();
+    });
     await _refreshLocalExplorerContent();
   }
 
