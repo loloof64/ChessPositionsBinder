@@ -134,7 +134,7 @@ class DropboxManager {
   Future<Result<UserProfile, RequestError>> getUserProfile() async {
     oauth2.Client client;
     if (_client == null) {
-      return Error(NoClientAvailable());
+      return Error(NoClientAvailable(null));
     }
     client = _client!;
 
@@ -165,7 +165,9 @@ class DropboxManager {
         "credentials have expired",
       );
       return Error(
-        isExpiredCredentialsError ? ExpiredCredentials() : UnknownError(),
+        isExpiredCredentialsError
+            ? ExpiredCredentials(null)
+            : UnknownError(null),
       );
     }
   }
@@ -173,7 +175,7 @@ class DropboxManager {
   Future<Result<UserUsageData, RequestError>> getUserUsageData() async {
     oauth2.Client client;
     if (_client == null) {
-      return Error(NoClientAvailable());
+      return Error(NoClientAvailable(null));
     }
     client = _client!;
 
@@ -210,7 +212,9 @@ class DropboxManager {
         "credentials have expired",
       );
       return Error(
-        isExpiredCredentialsError ? ExpiredCredentials() : UnknownError(),
+        isExpiredCredentialsError
+            ? ExpiredCredentials(null)
+            : UnknownError(null),
       );
     }
   }
@@ -220,7 +224,7 @@ class DropboxManager {
   ) async {
     oauth2.Client client;
     if (_client == null) {
-      return Error(NoClientAvailable());
+      return Error(NoClientAvailable(null));
     }
     client = _client!;
 
@@ -267,7 +271,9 @@ class DropboxManager {
         "credentials have expired",
       );
       return Error(
-        isExpiredCredentialsError ? ExpiredCredentials() : UnknownError(),
+        isExpiredCredentialsError
+            ? ExpiredCredentials(null)
+            : UnknownError(null),
       );
     }
   }
@@ -277,7 +283,7 @@ class DropboxManager {
   ) async {
     oauth2.Client client;
     if (_client == null) {
-      return Error(NoClientAvailable());
+      return Error(NoClientAvailable(null));
     }
     client = _client!;
 
@@ -317,7 +323,9 @@ class DropboxManager {
         "credentials have expired",
       );
       return Error(
-        isExpiredCredentialsError ? ExpiredCredentials() : UnknownError(),
+        isExpiredCredentialsError
+            ? ExpiredCredentials(null)
+            : UnknownError(null),
       );
     }
   }
@@ -325,7 +333,7 @@ class DropboxManager {
   Future<Result<(), RequestError>> createFolder(String path) async {
     oauth2.Client client;
     if (_client == null) {
-      return Error(NoClientAvailable());
+      return Error(NoClientAvailable(null));
     }
     client = _client!;
 
@@ -347,7 +355,9 @@ class DropboxManager {
         "credentials have expired",
       );
       return Error(
-        isExpiredCredentialsError ? ExpiredCredentials() : UnknownError(),
+        isExpiredCredentialsError
+            ? ExpiredCredentials(null)
+            : UnknownError(null),
       );
     }
   }
@@ -361,7 +371,7 @@ class DropboxManager {
   }) async {
     oauth2.Client client;
     if (_client == null) {
-      return Error(NoClientAvailable());
+      return Error(NoClientAvailable(null));
     }
     client = _client!;
 
@@ -390,37 +400,36 @@ class DropboxManager {
         "credentials have expired",
       );
       return Error(
-        isExpiredCredentialsError ? ExpiredCredentials() : UnknownError(),
+        isExpiredCredentialsError
+            ? ExpiredCredentials(null)
+            : UnknownError(null),
       );
     }
   }
 
   /*
   Upload files, ignore folders.
-  If result is Ok, then the wrapped tuple contains
-  1) a list that contains the items for which it failed, if any,
-  2) a bool that indicates if the user selection contained folders.
+  If result is Ok, then a list that contains the items for which it failed, if any.
   */
-  Future<Result<(List<CommanderItem>, bool), RequestError>> uploadFiles({
+  Future<Result<List<CommanderItem>, RequestError>> uploadFiles({
     required String currentLocalPath,
     required String currentDropboxPath,
     required List<CommanderItem> itemsToUpload,
   }) async {
     oauth2.Client client;
     if (_client == null) {
-      return Error(NoClientAvailable());
+      return Error(NoClientAvailable(null));
     }
     client = _client!;
 
     List<CommanderItem> failedItems = [];
 
     final baseLocalPath = currentLocalPath == "/" ? "" : currentLocalPath;
+    final baseDropboxPath = currentDropboxPath == "/" ? "" : currentDropboxPath;
     final pathSeparator = Platform.pathSeparator;
-    bool hadToPassFolders = false;
     try {
       for (final currentItem in itemsToUpload) {
         if (currentItem.isFolder) {
-          hadToPassFolders = true;
           continue;
         }
         final localFile = File(
@@ -436,7 +445,7 @@ class DropboxManager {
               "autorename": true,
               "mode": "add",
               "mute": false,
-              "path": "$currentDropboxPath/${currentItem.simpleName}",
+              "path": "$baseDropboxPath/${currentItem.simpleName}",
               "strict_conflict": false,
             }),
           },
@@ -449,7 +458,7 @@ class DropboxManager {
           failedItems.add(currentItem);
         }
       }
-      return Success((failedItems, hadToPassFolders));
+      return Success(failedItems);
     } catch (e) {
       final message = e.toString();
       debugPrint(message);
@@ -457,7 +466,9 @@ class DropboxManager {
         "credentials have expired",
       );
       return Error(
-        isExpiredCredentialsError ? ExpiredCredentials() : UnknownError(),
+        isExpiredCredentialsError
+            ? ExpiredCredentials(null)
+            : UnknownError(null),
       );
     }
   }
@@ -496,7 +507,7 @@ class DropboxManager {
         "credentials have expired",
       );
       return Error(
-        isExpiredCredentialsError ? ExpiredCredentials() : UnknownError(),
+        isExpiredCredentialsError ? ExpiredCredentials(null) : UnknownError(null),
       );
     }
   }*/
@@ -528,7 +539,7 @@ class DropboxManager {
   Future<Result<(), RequestError>> logout() async {
     oauth2.Client client;
     if (_client == null) {
-      return Error(NoClientAvailable());
+      return Error(NoClientAvailable(null));
     }
     client = _client!;
 
@@ -548,7 +559,9 @@ class DropboxManager {
         "credentials have expired",
       );
       return Error(
-        isExpiredCredentialsError ? ExpiredCredentials() : UnknownError(),
+        isExpiredCredentialsError
+            ? ExpiredCredentials(null)
+            : UnknownError(null),
       );
     }
   }

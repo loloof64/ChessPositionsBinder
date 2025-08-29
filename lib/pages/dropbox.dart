@@ -114,6 +114,10 @@ class _DropboxPageState extends State<DropboxPage> {
   }
 
   void _handleError(RequestError error) {
+    if (error.body != null) {
+      debugPrint("This is the Dropbox error body :");
+      debugPrint(error.body);
+    }
     final message = switch (error) {
       NoClientAvailable() => t.pages.dropbox.request_errors.no_client_available,
       BadInput() => t.pages.dropbox.request_errors.bad_request_input,
@@ -455,11 +459,7 @@ class _DropboxPageState extends State<DropboxPage> {
       );
       switch (result) {
         case Success():
-          final failedItems = result.success.$1;
-          final hadFolders = result.success.$2;
-          if (hadFolders) {
-            await _showFilteredFoldersDialog();
-          }
+          final failedItems = result.success;
           if (failedItems.isNotEmpty) {
             await _showFailedDialog(
               operation: GroupedOperation.upload,
@@ -487,28 +487,6 @@ class _DropboxPageState extends State<DropboxPage> {
         ),
       );
     }
-  }
-
-  Future<void> _showFilteredFoldersDialog() async {
-    await showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          content: Text(t.pages.dropbox.skipped_folders),
-          actions: [
-            TextButton(
-              child: Text(
-                t.misc.buttons.ok,
-                style: TextStyle(color: Colors.green),
-              ),
-              onPressed: () async {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 
   Future<void> _onDropboxItemsDeletionRequest(

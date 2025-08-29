@@ -208,6 +208,9 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
   @override
   Widget build(BuildContext context) {
     final items = widget.items ?? [];
+    final retainedItems = widget.isSelectionMode
+        ? items.where((elt) => !elt.isFolder).toList()
+        : items;
     return LayoutBuilder(
       builder: (context, constraints) {
         final availableWidth = constraints.maxWidth;
@@ -321,14 +324,14 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
                   ),
                 ),
               ),
-            if (items.isNotEmpty)
+            if (retainedItems.isNotEmpty)
               Expanded(
                 child: ListView.separated(
                   padding: const EdgeInsets.all(8.0),
                   separatorBuilder: (context, index) => const Divider(),
-                  itemCount: items.length,
+                  itemCount: retainedItems.length,
                   itemBuilder: (context, index) {
-                    final currentItem = items[index];
+                    final currentItem = retainedItems[index];
                     final itemName = currentItem.simpleName;
                     final isFolder = currentItem.isFolder;
                     final isParentFolder = isFolder && itemName == parentFolder;
