@@ -201,11 +201,14 @@ class TranslationsPagesDropboxEn {
 	String get local_explorer => 'Local';
 	String get disconnected => 'You are logged out.';
 	String get failed_reading_local_content => 'Failed to read local content.';
-	String get failed_deleting_items => 'Failed to delete items :';
-	String get failed_uploading_items => 'Failed to upload items :';
+	String get failed_deleting_items => 'Failed to delete items.';
+	String get failed_uploading_items => 'Failed to upload some items.';
+	String get failed_downloading_items => 'Failed to download some items.';
 	String get skipped_folders => 'Folders have been ignored.';
 	String get upload_done => 'Done upload.';
+	String get download_done => 'Done download.';
 	late final TranslationsPagesDropboxConfirmUploadFilesEn confirm_upload_files = TranslationsPagesDropboxConfirmUploadFilesEn._(_root);
+	late final TranslationsPagesDropboxConfirmDownloadFilesEn confirm_download_files = TranslationsPagesDropboxConfirmDownloadFilesEn._(_root);
 }
 
 // Path: widgets.commander.new_folder
@@ -420,6 +423,17 @@ class TranslationsPagesDropboxConfirmUploadFilesEn {
 	String get message => 'Do you want to upload the following files ? (Also notice that strictly identical files will be ignored by Dropbox)';
 }
 
+// Path: pages.dropbox.confirm_download_files
+class TranslationsPagesDropboxConfirmDownloadFilesEn {
+	TranslationsPagesDropboxConfirmDownloadFilesEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'Download files ?';
+	String get message => 'Do you want to download the following files ? (\'Duplicate files\' will be slightly renamed)';
+}
+
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 extension on Translations {
@@ -498,12 +512,16 @@ extension on Translations {
 			case 'pages.dropbox.local_explorer': return 'Local';
 			case 'pages.dropbox.disconnected': return 'You are logged out.';
 			case 'pages.dropbox.failed_reading_local_content': return 'Failed to read local content.';
-			case 'pages.dropbox.failed_deleting_items': return 'Failed to delete items :';
-			case 'pages.dropbox.failed_uploading_items': return 'Failed to upload items :';
+			case 'pages.dropbox.failed_deleting_items': return 'Failed to delete items.';
+			case 'pages.dropbox.failed_uploading_items': return 'Failed to upload some items.';
+			case 'pages.dropbox.failed_downloading_items': return 'Failed to download some items.';
 			case 'pages.dropbox.skipped_folders': return 'Folders have been ignored.';
 			case 'pages.dropbox.upload_done': return 'Done upload.';
+			case 'pages.dropbox.download_done': return 'Done download.';
 			case 'pages.dropbox.confirm_upload_files.title': return 'Upload files ?';
 			case 'pages.dropbox.confirm_upload_files.message': return 'Do you want to upload the following files ? (Also notice that strictly identical files will be ignored by Dropbox)';
+			case 'pages.dropbox.confirm_download_files.title': return 'Download files ?';
+			case 'pages.dropbox.confirm_download_files.message': return 'Do you want to download the following files ? (\'Duplicate files\' will be slightly renamed)';
 			default: return null;
 		}
 	}

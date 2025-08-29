@@ -198,11 +198,14 @@ class _TranslationsPagesDropboxEs implements TranslationsPagesDropboxEn {
 	@override String get local_explorer => 'Local';
 	@override String get disconnected => 'Has cerrado sesión.';
 	@override String get failed_reading_local_content => 'Error al leer el contenido local.';
-	@override String get failed_deleting_items => 'Error al eliminar algunos elementos :';
-	@override String get failed_uploading_items => 'Error al cargar algunos elementos :';
+	@override String get failed_deleting_items => 'Error al eliminar algunos elementos.';
+	@override String get failed_uploading_items => 'Error al cargar algunos elementos.';
+	@override String get failed_downloading_items => 'Error al descargar algunos elementos.';
 	@override String get skipped_folders => 'Se han ignorado las carpetas.';
 	@override String get upload_done => 'Carga completada.';
+	@override String get download_done => 'Descarga completada.';
 	@override late final _TranslationsPagesDropboxConfirmUploadFilesEs confirm_upload_files = _TranslationsPagesDropboxConfirmUploadFilesEs._(_root);
+	@override late final _TranslationsPagesDropboxConfirmDownloadFilesEs confirm_download_files = _TranslationsPagesDropboxConfirmDownloadFilesEs._(_root);
 }
 
 // Path: widgets.commander.new_folder
@@ -417,6 +420,17 @@ class _TranslationsPagesDropboxConfirmUploadFilesEs implements TranslationsPages
 	@override String get message => '¿Desea subir los siguientes archivos? (Tenga en cuenta que los archivos estrictamente idénticos serán ignorados por Dropbox)';
 }
 
+// Path: pages.dropbox.confirm_download_files
+class _TranslationsPagesDropboxConfirmDownloadFilesEs implements TranslationsPagesDropboxConfirmDownloadFilesEn {
+	_TranslationsPagesDropboxConfirmDownloadFilesEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => '¿Descargar archivos?';
+	@override String get message => '¿Desea descargar los siguientes archivos? (Los \'archivos duplicados\' serán renombrados ligeramente)';
+}
+
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 extension on TranslationsEs {
@@ -495,12 +509,16 @@ extension on TranslationsEs {
 			case 'pages.dropbox.local_explorer': return 'Local';
 			case 'pages.dropbox.disconnected': return 'Has cerrado sesión.';
 			case 'pages.dropbox.failed_reading_local_content': return 'Error al leer el contenido local.';
-			case 'pages.dropbox.failed_deleting_items': return 'Error al eliminar algunos elementos :';
-			case 'pages.dropbox.failed_uploading_items': return 'Error al cargar algunos elementos :';
+			case 'pages.dropbox.failed_deleting_items': return 'Error al eliminar algunos elementos.';
+			case 'pages.dropbox.failed_uploading_items': return 'Error al cargar algunos elementos.';
+			case 'pages.dropbox.failed_downloading_items': return 'Error al descargar algunos elementos.';
 			case 'pages.dropbox.skipped_folders': return 'Se han ignorado las carpetas.';
 			case 'pages.dropbox.upload_done': return 'Carga completada.';
+			case 'pages.dropbox.download_done': return 'Descarga completada.';
 			case 'pages.dropbox.confirm_upload_files.title': return '¿Subir archivos?';
 			case 'pages.dropbox.confirm_upload_files.message': return '¿Desea subir los siguientes archivos? (Tenga en cuenta que los archivos estrictamente idénticos serán ignorados por Dropbox)';
+			case 'pages.dropbox.confirm_download_files.title': return '¿Descargar archivos?';
+			case 'pages.dropbox.confirm_download_files.message': return '¿Desea descargar los siguientes archivos? (Los \'archivos duplicados\' serán renombrados ligeramente)';
 			default: return null;
 		}
 	}

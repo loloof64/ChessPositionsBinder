@@ -128,13 +128,19 @@
       "local_explorer": "Local",
       "disconnected": "Has cerrado sesión.",
       "failed_reading_local_content": "Error al leer el contenido local.",
-      "failed_deleting_items": "Error al eliminar algunos elementos :",
-      "failed_uploading_items": "Error al cargar algunos elementos :",
+      "failed_deleting_items": "Error al eliminar algunos elementos.",
+      "failed_uploading_items": "Error al cargar algunos elementos.",
+      "failed_downloading_items": "Error al descargar algunos elementos.",
       "skipped_folders": "Se han ignorado las carpetas.",
       "upload_done": "Carga completada.",
+      "download_done": "Descarga completada.",
       "confirm_upload_files": {
         "title": "¿Subir archivos?",
         "message": "¿Desea subir los siguientes archivos? (Tenga en cuenta que los archivos estrictamente idénticos serán ignorados por Dropbox)"
+      },
+      "confirm_download_files": {
+        "title": "¿Descargar archivos?",
+        "message": "¿Desea descargar los siguientes archivos? (Los 'archivos duplicados' serán renombrados ligeramente)"
       }
     }
   }

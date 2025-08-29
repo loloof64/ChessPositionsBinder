@@ -198,11 +198,14 @@ class _TranslationsPagesDropboxFr implements TranslationsPagesDropboxEn {
 	@override String get local_explorer => 'Local';
 	@override String get disconnected => 'Vous êtes déconnecté.';
 	@override String get failed_reading_local_content => 'Échec de lecture du contenu local.';
-	@override String get failed_deleting_items => 'Échec de la suppression des éléments :';
-	@override String get failed_uploading_items => 'Échec d\'upload des éléments :';
+	@override String get failed_deleting_items => 'Échec de la suppression d\'éléments';
+	@override String get failed_uploading_items => 'Échec d\'upload d\'éléments';
+	@override String get failed_downloading_items => 'Échec de téléchargement d\'éléments.';
 	@override String get skipped_folders => 'Les dossiers ont été ignorés.';
 	@override String get upload_done => 'Upload effectué.';
+	@override String get download_done => 'Téléchargement effectué.';
 	@override late final _TranslationsPagesDropboxConfirmUploadFilesFr confirm_upload_files = _TranslationsPagesDropboxConfirmUploadFilesFr._(_root);
+	@override late final _TranslationsPagesDropboxConfirmDownloadFilesFr confirm_download_files = _TranslationsPagesDropboxConfirmDownloadFilesFr._(_root);
 }
 
 // Path: widgets.commander.new_folder
@@ -417,6 +420,17 @@ class _TranslationsPagesDropboxConfirmUploadFilesFr implements TranslationsPages
 	@override String get message => 'Souhaitez-vous uploader les fichiers suivants ? (Veuillez aussi remarquer les fichiers strictements identiques seront ignorés par Dropbox)';
 }
 
+// Path: pages.dropbox.confirm_download_files
+class _TranslationsPagesDropboxConfirmDownloadFilesFr implements TranslationsPagesDropboxConfirmDownloadFilesEn {
+	_TranslationsPagesDropboxConfirmDownloadFilesFr._(this._root);
+
+	final TranslationsFr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Télécharger les fichiers ?';
+	@override String get message => 'Souhaitez-vous télécharger les fichiers suivants ? (Les \'doublons\' seront légèrement renommés)';
+}
+
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 extension on TranslationsFr {
@@ -495,12 +509,16 @@ extension on TranslationsFr {
 			case 'pages.dropbox.local_explorer': return 'Local';
 			case 'pages.dropbox.disconnected': return 'Vous êtes déconnecté.';
 			case 'pages.dropbox.failed_reading_local_content': return 'Échec de lecture du contenu local.';
-			case 'pages.dropbox.failed_deleting_items': return 'Échec de la suppression des éléments :';
-			case 'pages.dropbox.failed_uploading_items': return 'Échec d\'upload des éléments :';
+			case 'pages.dropbox.failed_deleting_items': return 'Échec de la suppression d\'éléments';
+			case 'pages.dropbox.failed_uploading_items': return 'Échec d\'upload d\'éléments';
+			case 'pages.dropbox.failed_downloading_items': return 'Échec de téléchargement d\'éléments.';
 			case 'pages.dropbox.skipped_folders': return 'Les dossiers ont été ignorés.';
 			case 'pages.dropbox.upload_done': return 'Upload effectué.';
+			case 'pages.dropbox.download_done': return 'Téléchargement effectué.';
 			case 'pages.dropbox.confirm_upload_files.title': return 'Uploader les fichiers ?';
 			case 'pages.dropbox.confirm_upload_files.message': return 'Souhaitez-vous uploader les fichiers suivants ? (Veuillez aussi remarquer les fichiers strictements identiques seront ignorés par Dropbox)';
+			case 'pages.dropbox.confirm_download_files.title': return 'Télécharger les fichiers ?';
+			case 'pages.dropbox.confirm_download_files.message': return 'Souhaitez-vous télécharger les fichiers suivants ? (Les \'doublons\' seront légèrement renommés)';
 			default: return null;
 		}
 	}

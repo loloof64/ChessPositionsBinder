@@ -128,13 +128,19 @@
       "local_explorer": "Local",
       "disconnected": "You are logged out.",
       "failed_reading_local_content": "Failed to read local content.",
-      "failed_deleting_items": "Failed to delete items :",
-      "failed_uploading_items": "Failed to upload items :",
+      "failed_deleting_items": "Failed to delete items.",
+      "failed_uploading_items": "Failed to upload some items.",
+      "failed_downloading_items": "Failed to download some items.",
       "skipped_folders": "Folders have been ignored.",
       "upload_done": "Done upload.",
+      "download_done": "Done download.",
       "confirm_upload_files": {
         "title": "Upload files ?",
         "message": "Do you want to upload the following files ? (Also notice that strictly identical files will be ignored by Dropbox)"
+      },
+      "confirm_download_files": {
+        "title": "Download files ?",
+        "message": "Do you want to download the following files ? ('Duplicate files' will be slightly renamed)"
       }
     }
   }

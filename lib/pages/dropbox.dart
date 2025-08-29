@@ -12,7 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:path_provider/path_provider.dart';
 
-enum GroupedOperation { deletion, upload }
+enum GroupedOperation { deletion, upload, download }
 
 class DropboxPage extends StatefulWidget {
   const DropboxPage({super.key});
@@ -434,8 +434,137 @@ class _DropboxPageState extends State<DropboxPage> {
   }
 
   Future<void> _purposeDownloadDropboxFiles(
-    List<CommanderItem>? itemsToUpload,
-  ) async {}
+    List<CommanderItem>? itemsToDownload,
+  ) async {
+    if (_dropboxItems == null ||
+        itemsToDownload == null ||
+        _localPath == null ||
+        itemsToDownload.isEmpty) {
+      return;
+    }
+
+    final retainedItemsToDownload = itemsToDownload
+        .where((elt) => !elt.isFolder)
+        .toList();
+
+    final lines = retainedItemsToDownload.map((elt) {
+      return Text("* ${elt.simpleName}");
+    }).toList();
+
+    final userConfirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(t.pages.dropbox.confirm_download_files.title),
+          content: SizedBox(
+            width: 200.0,
+            child: Column(
+              children: [
+                Text(t.pages.dropbox.confirm_download_files.message),
+                Container(
+                  decoration: BoxDecoration(
+                    border: BoxBorder.all(
+                      color: Colors.blue.shade300,
+                      width: 1,
+                    ),
+                  ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 1,
+                      children: lines,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              child: Text(
+                t.misc.buttons.cancel,
+                style: TextStyle(color: Colors.red),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+            ),
+            TextButton(
+              child: Text(
+                t.misc.buttons.ok,
+                style: TextStyle(color: Colors.green),
+              ),
+              onPressed: () async {
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    );
+    if (userConfirmed == true) {
+      _doDownloadDropboxFiles(retainedItemsToDownload);
+    }
+  }
+
+  Future<void> _doDownloadDropboxFiles(
+    List<CommanderItem>? itemsToDownload,
+  ) async {
+    if (_dropboxItems == null ||
+        itemsToDownload == null ||
+        _localPath == null ||
+        itemsToDownload.isEmpty) {
+      return;
+    }
+
+    final retainedItemsToDownload = itemsToDownload
+        .where((elt) => !elt.isFolder)
+        .toList();
+
+    setState(() {
+      _isLocalSelectionMode = false;
+    });
+
+    try {
+      final result = await _dropboxManager.downloadFiles(
+        currentDropboxPath: _dropboxPath,
+        currentLocalPath: _localPath!,
+        itemsToDownload: retainedItemsToDownload,
+      );
+      switch (result) {
+        case Success():
+          final failedItems = result.success;
+          if (failedItems.isNotEmpty) {
+            await _showFailedDialog(
+              operation: GroupedOperation.download,
+              failureItems: failedItems,
+            );
+          }
+          setState(() {
+            _isDropboxSelectionMode = false;
+          });
+          await _refreshLocalExplorerContent();
+          if (!mounted) return;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(t.pages.dropbox.download_done)),
+          );
+          break;
+        case Error():
+          final error = result.error;
+          _handleError(error);
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      if (!mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(t.pages.dropbox.failed_downloading_items)),
+      );
+    }
+  }
 
   Future<void> _purposeUploadLocalFiles(
     List<CommanderItem>? itemsToUpload,
@@ -447,7 +576,11 @@ class _DropboxPageState extends State<DropboxPage> {
       return;
     }
 
-    final lines = itemsToUpload.map((elt) {
+    final retainedItemsToUpload = itemsToUpload
+        .where((elt) => !elt.isFolder)
+        .toList();
+
+    final lines = retainedItemsToUpload.map((elt) {
       return Text("* ${elt.simpleName}");
     }).toList();
 
@@ -505,7 +638,7 @@ class _DropboxPageState extends State<DropboxPage> {
       },
     );
     if (userConfirmed == true) {
-      _doUploadLocalFiles(itemsToUpload);
+      _doUploadLocalFiles(retainedItemsToUpload);
     }
   }
 
@@ -517,6 +650,10 @@ class _DropboxPageState extends State<DropboxPage> {
       return;
     }
 
+    final retainedItemsToUpload = itemsToUpload
+        .where((elt) => !elt.isFolder)
+        .toList();
+
     setState(() {
       _isDropboxSelectionMode = false;
     });
@@ -525,7 +662,7 @@ class _DropboxPageState extends State<DropboxPage> {
       final result = await _dropboxManager.uploadFiles(
         currentDropboxPath: _dropboxPath,
         currentLocalPath: _localPath!,
-        itemsToUpload: itemsToUpload,
+        itemsToUpload: retainedItemsToUpload,
       );
       switch (result) {
         case Success():
@@ -555,9 +692,7 @@ class _DropboxPageState extends State<DropboxPage> {
         return;
       }
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(t.pages.home.create_folder_errors.creation_error),
-        ),
+        SnackBar(content: Text(t.pages.dropbox.failed_uploading_items)),
       );
     }
   }
@@ -597,9 +732,7 @@ class _DropboxPageState extends State<DropboxPage> {
         return;
       }
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(t.pages.home.create_folder_errors.creation_error),
-        ),
+        SnackBar(content: Text(t.pages.dropbox.failed_deleting_items)),
       );
     }
   }
@@ -611,6 +744,7 @@ class _DropboxPageState extends State<DropboxPage> {
     final title = switch (operation) {
       GroupedOperation.deletion => t.pages.dropbox.failed_deleting_items,
       GroupedOperation.upload => t.pages.dropbox.failed_uploading_items,
+      GroupedOperation.download => t.pages.dropbox.failed_downloading_items,
     };
     final lines = failureItems.map((elt) {
       return Text(
