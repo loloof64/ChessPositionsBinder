@@ -536,6 +536,9 @@ class _DropboxPageState extends State<DropboxPage> {
               failureItems: failedItems,
             );
           }
+          setState(() {
+            _isLocalSelectionMode = false;
+          });
           await _refreshDropboxContent();
           if (!mounted) return;
           ScaffoldMessenger.of(
