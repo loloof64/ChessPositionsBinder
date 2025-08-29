@@ -136,11 +136,11 @@
       "download_done": "Téléchargement effectué.",
       "confirm_upload_files": {
         "title": "Uploader les fichiers ?",
-        "message": "Souhaitez-vous uploader les fichiers suivants ? (Veuillez aussi remarquer les fichiers strictements identiques seront ignorés par Dropbox)"
+        "message": "Souhaitez-vous uploader les fichiers suivants ? Les dossiers, et les fichiers strictements identiques seront ignorés."
       },
       "confirm_download_files": {
         "title": "Télécharger les fichiers ?",
-        "message": "Souhaitez-vous télécharger les fichiers suivants ? (Les 'doublons' seront légèrement renommés)"
+        "message": "Souhaitez-vous télécharger les fichiers suivants ? Les dossiers seront ignorés et les 'doublons' seront légèrement renommés."
       }
     }
   }

@@ -417,7 +417,7 @@ class _TranslationsPagesDropboxConfirmUploadFilesFr implements TranslationsPages
 
 	// Translations
 	@override String get title => 'Uploader les fichiers ?';
-	@override String get message => 'Souhaitez-vous uploader les fichiers suivants ? (Veuillez aussi remarquer les fichiers strictements identiques seront ignorés par Dropbox)';
+	@override String get message => 'Souhaitez-vous uploader les fichiers suivants ? Les dossiers, et les fichiers strictements identiques seront ignorés.';
 }
 
 // Path: pages.dropbox.confirm_download_files
@@ -428,7 +428,7 @@ class _TranslationsPagesDropboxConfirmDownloadFilesFr implements TranslationsPag
 
 	// Translations
 	@override String get title => 'Télécharger les fichiers ?';
-	@override String get message => 'Souhaitez-vous télécharger les fichiers suivants ? (Les \'doublons\' seront légèrement renommés)';
+	@override String get message => 'Souhaitez-vous télécharger les fichiers suivants ? Les dossiers seront ignorés et les \'doublons\' seront légèrement renommés.';
 }
 
 /// Flat map(s) containing all translations.
@@ -516,9 +516,9 @@ extension on TranslationsFr {
 			case 'pages.dropbox.upload_done': return 'Upload effectué.';
 			case 'pages.dropbox.download_done': return 'Téléchargement effectué.';
 			case 'pages.dropbox.confirm_upload_files.title': return 'Uploader les fichiers ?';
-			case 'pages.dropbox.confirm_upload_files.message': return 'Souhaitez-vous uploader les fichiers suivants ? (Veuillez aussi remarquer les fichiers strictements identiques seront ignorés par Dropbox)';
+			case 'pages.dropbox.confirm_upload_files.message': return 'Souhaitez-vous uploader les fichiers suivants ? Les dossiers, et les fichiers strictements identiques seront ignorés.';
 			case 'pages.dropbox.confirm_download_files.title': return 'Télécharger les fichiers ?';
-			case 'pages.dropbox.confirm_download_files.message': return 'Souhaitez-vous télécharger les fichiers suivants ? (Les \'doublons\' seront légèrement renommés)';
+			case 'pages.dropbox.confirm_download_files.message': return 'Souhaitez-vous télécharger les fichiers suivants ? Les dossiers seront ignorés et les \'doublons\' seront légèrement renommés.';
 			default: return null;
 		}
 	}

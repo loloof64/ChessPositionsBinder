@@ -448,7 +448,9 @@ class _DropboxPageState extends State<DropboxPage> {
         .toList();
 
     final lines = retainedItemsToDownload.map((elt) {
-      return Text("* ${elt.simpleName}");
+      return Text(
+        "* ${elt.simpleName} (${elt.isFolder ? t.misc.folder : t.misc.file})",
+      );
     }).toList();
 
     final userConfirmed = await showDialog<bool>(
@@ -581,7 +583,9 @@ class _DropboxPageState extends State<DropboxPage> {
         .toList();
 
     final lines = retainedItemsToUpload.map((elt) {
-      return Text("* ${elt.simpleName}");
+      return Text(
+        "* ${elt.simpleName} (${elt.isFolder ? t.misc.folder : t.misc.file})",
+      );
     }).toList();
 
     final userConfirmed = await showDialog<bool>(

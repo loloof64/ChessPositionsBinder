@@ -417,7 +417,7 @@ class _TranslationsPagesDropboxConfirmUploadFilesEs implements TranslationsPages
 
 	// Translations
 	@override String get title => '¿Subir archivos?';
-	@override String get message => '¿Desea subir los siguientes archivos? (Tenga en cuenta que los archivos estrictamente idénticos serán ignorados por Dropbox)';
+	@override String get message => '¿Desea subir los siguientes archivos? Las carpetas, y los archivos estrictamente idénticos serán ignorados.';
 }
 
 // Path: pages.dropbox.confirm_download_files
@@ -428,7 +428,7 @@ class _TranslationsPagesDropboxConfirmDownloadFilesEs implements TranslationsPag
 
 	// Translations
 	@override String get title => '¿Descargar archivos?';
-	@override String get message => '¿Desea descargar los siguientes archivos? (Los \'archivos duplicados\' serán renombrados ligeramente)';
+	@override String get message => '¿Desea descargar los siguientes archivos? Los archivos duplicados serán renombrados ligeramente y las carpetas serán ignoradas.';
 }
 
 /// Flat map(s) containing all translations.
@@ -516,9 +516,9 @@ extension on TranslationsEs {
 			case 'pages.dropbox.upload_done': return 'Carga completada.';
 			case 'pages.dropbox.download_done': return 'Descarga completada.';
 			case 'pages.dropbox.confirm_upload_files.title': return '¿Subir archivos?';
-			case 'pages.dropbox.confirm_upload_files.message': return '¿Desea subir los siguientes archivos? (Tenga en cuenta que los archivos estrictamente idénticos serán ignorados por Dropbox)';
+			case 'pages.dropbox.confirm_upload_files.message': return '¿Desea subir los siguientes archivos? Las carpetas, y los archivos estrictamente idénticos serán ignorados.';
 			case 'pages.dropbox.confirm_download_files.title': return '¿Descargar archivos?';
-			case 'pages.dropbox.confirm_download_files.message': return '¿Desea descargar los siguientes archivos? (Los \'archivos duplicados\' serán renombrados ligeramente)';
+			case 'pages.dropbox.confirm_download_files.message': return '¿Desea descargar los siguientes archivos? Los archivos duplicados serán renombrados ligeramente y las carpetas serán ignoradas.';
 			default: return null;
 		}
 	}

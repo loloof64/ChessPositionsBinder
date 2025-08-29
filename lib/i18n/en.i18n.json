@@ -136,11 +136,11 @@
       "download_done": "Done download.",
       "confirm_upload_files": {
         "title": "Upload files ?",
-        "message": "Do you want to upload the following files ? (Also notice that strictly identical files will be ignored by Dropbox)"
+        "message": "Do you want to upload the following files ? Folders, and strictly identical files will be ignored."
       },
       "confirm_download_files": {
         "title": "Download files ?",
-        "message": "Do you want to download the following files ? ('Duplicate files' will be slightly renamed)"
+        "message": "Do you want to download the following files ? 'Duplicate files' will be slightly renamed, and folders will be ignored."
       }
     }
   }

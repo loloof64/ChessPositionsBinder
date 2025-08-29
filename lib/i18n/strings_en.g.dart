@@ -420,7 +420,7 @@ class TranslationsPagesDropboxConfirmUploadFilesEn {
 
 	// Translations
 	String get title => 'Upload files ?';
-	String get message => 'Do you want to upload the following files ? (Also notice that strictly identical files will be ignored by Dropbox)';
+	String get message => 'Do you want to upload the following files ? Folders, and strictly identical files will be ignored.';
 }
 
 // Path: pages.dropbox.confirm_download_files
@@ -431,7 +431,7 @@ class TranslationsPagesDropboxConfirmDownloadFilesEn {
 
 	// Translations
 	String get title => 'Download files ?';
-	String get message => 'Do you want to download the following files ? (\'Duplicate files\' will be slightly renamed)';
+	String get message => 'Do you want to download the following files ? \'Duplicate files\' will be slightly renamed, and folders will be ignored.';
 }
 
 /// Flat map(s) containing all translations.
@@ -519,9 +519,9 @@ extension on Translations {
 			case 'pages.dropbox.upload_done': return 'Done upload.';
 			case 'pages.dropbox.download_done': return 'Done download.';
 			case 'pages.dropbox.confirm_upload_files.title': return 'Upload files ?';
-			case 'pages.dropbox.confirm_upload_files.message': return 'Do you want to upload the following files ? (Also notice that strictly identical files will be ignored by Dropbox)';
+			case 'pages.dropbox.confirm_upload_files.message': return 'Do you want to upload the following files ? Folders, and strictly identical files will be ignored.';
 			case 'pages.dropbox.confirm_download_files.title': return 'Download files ?';
-			case 'pages.dropbox.confirm_download_files.message': return 'Do you want to download the following files ? (\'Duplicate files\' will be slightly renamed)';
+			case 'pages.dropbox.confirm_download_files.message': return 'Do you want to download the following files ? \'Duplicate files\' will be slightly renamed, and folders will be ignored.';
 			default: return null;
 		}
 	}
