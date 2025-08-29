@@ -202,6 +202,7 @@ class _TranslationsPagesDropboxFr implements TranslationsPagesDropboxEn {
 	@override String get failed_uploading_items => 'Échec d\'upload des éléments :';
 	@override String get skipped_folders => 'Les dossiers ont été ignorés.';
 	@override String get upload_done => 'Upload effectué.';
+	@override late final _TranslationsPagesDropboxConfirmUploadFilesFr confirm_upload_files = _TranslationsPagesDropboxConfirmUploadFilesFr._(_root);
 }
 
 // Path: widgets.commander.new_folder
@@ -405,6 +406,17 @@ class _TranslationsPagesDropboxRequestErrorsFr implements TranslationsPagesDropb
 	@override String get unknown => 'Erreur inconnue.';
 }
 
+// Path: pages.dropbox.confirm_upload_files
+class _TranslationsPagesDropboxConfirmUploadFilesFr implements TranslationsPagesDropboxConfirmUploadFilesEn {
+	_TranslationsPagesDropboxConfirmUploadFilesFr._(this._root);
+
+	final TranslationsFr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Uploader les fichiers ?';
+	@override String get message => 'Souhaitez-vous uploader les fichiers suivants ? (Veuillez aussi remarquer les fichiers strictements identiques seront ignorés par Dropbox)';
+}
+
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 extension on TranslationsFr {
@@ -487,6 +499,8 @@ extension on TranslationsFr {
 			case 'pages.dropbox.failed_uploading_items': return 'Échec d\'upload des éléments :';
 			case 'pages.dropbox.skipped_folders': return 'Les dossiers ont été ignorés.';
 			case 'pages.dropbox.upload_done': return 'Upload effectué.';
+			case 'pages.dropbox.confirm_upload_files.title': return 'Uploader les fichiers ?';
+			case 'pages.dropbox.confirm_upload_files.message': return 'Souhaitez-vous uploader les fichiers suivants ? (Veuillez aussi remarquer les fichiers strictements identiques seront ignorés par Dropbox)';
 			default: return null;
 		}
 	}

@@ -447,6 +447,76 @@ class _DropboxPageState extends State<DropboxPage> {
       return;
     }
 
+    final lines = itemsToUpload.map((elt) {
+      return Text("* ${elt.simpleName}");
+    }).toList();
+
+    final userConfirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(t.pages.dropbox.confirm_upload_files.title),
+          content: SizedBox(
+            width: 200.0,
+            child: Column(
+              children: [
+                Text(t.pages.dropbox.confirm_upload_files.message),
+                Container(
+                  decoration: BoxDecoration(
+                    border: BoxBorder.all(
+                      color: Colors.blue.shade300,
+                      width: 1,
+                    ),
+                  ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 1,
+                      children: lines,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              child: Text(
+                t.misc.buttons.cancel,
+                style: TextStyle(color: Colors.red),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+            ),
+            TextButton(
+              child: Text(
+                t.misc.buttons.ok,
+                style: TextStyle(color: Colors.green),
+              ),
+              onPressed: () async {
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    );
+    if (userConfirmed == true) {
+      _doUploadLocalFiles(itemsToUpload);
+    }
+  }
+
+  Future<void> _doUploadLocalFiles(List<CommanderItem>? itemsToUpload) async {
+    if (_dropboxItems == null ||
+        itemsToUpload == null ||
+        _localPath == null ||
+        itemsToUpload.isEmpty) {
+      return;
+    }
+
     setState(() {
       _isDropboxSelectionMode = false;
     });

@@ -131,7 +131,11 @@
       "failed_deleting_items": "Error al eliminar algunos elementos :",
       "failed_uploading_items": "Error al cargar algunos elementos :",
       "skipped_folders": "Se han ignorado las carpetas.",
-      "upload_done": "Carga completada."
+      "upload_done": "Carga completada.",
+      "confirm_upload_files": {
+        "title": "¿Subir archivos?",
+        "message": "¿Desea subir los siguientes archivos? (Tenga en cuenta que los archivos estrictamente idénticos serán ignorados por Dropbox)"
+      }
     }
   }
 }

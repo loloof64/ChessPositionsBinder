@@ -131,7 +131,11 @@
       "failed_deleting_items": "Failed to delete items :",
       "failed_uploading_items": "Failed to upload items :",
       "skipped_folders": "Folders have been ignored.",
-      "upload_done": "Done upload."
+      "upload_done": "Done upload.",
+      "confirm_upload_files": {
+        "title": "Upload files ?",
+        "message": "Do you want to upload the following files ? (Also notice that strictly identical files will be ignored by Dropbox)"
+      }
     }
   }
 }

@@ -131,7 +131,11 @@
       "failed_deleting_items": "Échec de la suppression des éléments :",
       "failed_uploading_items": "Échec d'upload des éléments :",
       "skipped_folders": "Les dossiers ont été ignorés.",
-      "upload_done": "Upload effectué."
+      "upload_done": "Upload effectué.",
+      "confirm_upload_files": {
+        "title": "Uploader les fichiers ?",
+        "message": "Souhaitez-vous uploader les fichiers suivants ? (Veuillez aussi remarquer les fichiers strictements identiques seront ignorés par Dropbox)"
+      }
     }
   }
 }

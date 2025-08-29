@@ -205,6 +205,7 @@ class TranslationsPagesDropboxEn {
 	String get failed_uploading_items => 'Failed to upload items :';
 	String get skipped_folders => 'Folders have been ignored.';
 	String get upload_done => 'Done upload.';
+	late final TranslationsPagesDropboxConfirmUploadFilesEn confirm_upload_files = TranslationsPagesDropboxConfirmUploadFilesEn._(_root);
 }
 
 // Path: widgets.commander.new_folder
@@ -408,6 +409,17 @@ class TranslationsPagesDropboxRequestErrorsEn {
 	String get unknown => 'Unknown error.';
 }
 
+// Path: pages.dropbox.confirm_upload_files
+class TranslationsPagesDropboxConfirmUploadFilesEn {
+	TranslationsPagesDropboxConfirmUploadFilesEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'Upload files ?';
+	String get message => 'Do you want to upload the following files ? (Also notice that strictly identical files will be ignored by Dropbox)';
+}
+
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 extension on Translations {
@@ -490,6 +502,8 @@ extension on Translations {
 			case 'pages.dropbox.failed_uploading_items': return 'Failed to upload items :';
 			case 'pages.dropbox.skipped_folders': return 'Folders have been ignored.';
 			case 'pages.dropbox.upload_done': return 'Done upload.';
+			case 'pages.dropbox.confirm_upload_files.title': return 'Upload files ?';
+			case 'pages.dropbox.confirm_upload_files.message': return 'Do you want to upload the following files ? (Also notice that strictly identical files will be ignored by Dropbox)';
 			default: return null;
 		}
 	}
