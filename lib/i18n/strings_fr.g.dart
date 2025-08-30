@@ -127,6 +127,7 @@ class _TranslationsWidgetsCommanderFr implements TranslationsWidgetsCommanderEn 
 	@override String get no_item_selected => 'Aucun élément sélectionné.';
 	@override late final _TranslationsWidgetsCommanderNewFolderFr new_folder = _TranslationsWidgetsCommanderNewFolderFr._(_root);
 	@override late final _TranslationsWidgetsCommanderDeleteItemsFr delete_items = _TranslationsWidgetsCommanderDeleteItemsFr._(_root);
+	@override late final _TranslationsWidgetsCommanderCompressItemsFr compress_items = _TranslationsWidgetsCommanderCompressItemsFr._(_root);
 }
 
 // Path: pages.home
@@ -207,6 +208,8 @@ class _TranslationsPagesDropboxFr implements TranslationsPagesDropboxEn {
 	@override late final _TranslationsPagesDropboxConfirmUploadFilesFr confirm_upload_files = _TranslationsPagesDropboxConfirmUploadFilesFr._(_root);
 	@override late final _TranslationsPagesDropboxConfirmDownloadFilesFr confirm_download_files = _TranslationsPagesDropboxConfirmDownloadFilesFr._(_root);
 	@override String get items_too_big => 'Certains éléments n\'ont pas été téléchargés car ils font plus de 150MB.';
+	@override String get success_compressing_items => 'Les éléments ont été compressés.';
+	@override String get failed_compressing_items => 'Échec de compression des éléments.';
 }
 
 // Path: widgets.commander.new_folder
@@ -229,6 +232,18 @@ class _TranslationsWidgetsCommanderDeleteItemsFr implements TranslationsWidgetsC
 	// Translations
 	@override String get title => 'Supprimer les éléments ?';
 	@override String get message => 'Souhaitez-vous supprimer les éléments ci-dessous ?';
+}
+
+// Path: widgets.commander.compress_items
+class _TranslationsWidgetsCommanderCompressItemsFr implements TranslationsWidgetsCommanderCompressItemsEn {
+	_TranslationsWidgetsCommanderCompressItemsFr._(this._root);
+
+	final TranslationsFr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Compresser les éléments';
+	@override String get message => 'Souhaitez-vous compresser les éléments suivants ?';
+	@override String get prompt => 'Veuillez définir le nom de l\'archive (sans l\'extension .zip) :';
 }
 
 // Path: pages.home.create_folder_dialog
@@ -455,6 +470,9 @@ extension on TranslationsFr {
 			case 'widgets.commander.new_folder.name_placeholder': return 'Nom du dossier';
 			case 'widgets.commander.delete_items.title': return 'Supprimer les éléments ?';
 			case 'widgets.commander.delete_items.message': return 'Souhaitez-vous supprimer les éléments ci-dessous ?';
+			case 'widgets.commander.compress_items.title': return 'Compresser les éléments';
+			case 'widgets.commander.compress_items.message': return 'Souhaitez-vous compresser les éléments suivants ?';
+			case 'widgets.commander.compress_items.prompt': return 'Veuillez définir le nom de l\'archive (sans l\'extension .zip) :';
 			case 'pages.home.title': return 'Accueil';
 			case 'pages.home.create_folder_dialog.title': return 'Créer un dossier';
 			case 'pages.home.create_folder_dialog.folder_name_placeholder': return 'Nom du dossier';
@@ -521,6 +539,8 @@ extension on TranslationsFr {
 			case 'pages.dropbox.confirm_download_files.title': return 'Télécharger les fichiers ?';
 			case 'pages.dropbox.confirm_download_files.message': return 'Souhaitez-vous télécharger les fichiers suivants ? Les dossiers seront ignorés et les \'doublons\' seront légèrement renommés.';
 			case 'pages.dropbox.items_too_big': return 'Certains éléments n\'ont pas été téléchargés car ils font plus de 150MB.';
+			case 'pages.dropbox.success_compressing_items': return 'Les éléments ont été compressés.';
+			case 'pages.dropbox.failed_compressing_items': return 'Échec de compression des éléments.';
 			default: return null;
 		}
 	}

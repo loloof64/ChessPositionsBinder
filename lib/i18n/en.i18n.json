@@ -30,6 +30,11 @@
       "delete_items": {
         "title": "Delete items ?",
         "message": "Do you want to delete the following items ?"
+      },
+      "compress_items": {
+        "title": "Compress items",
+        "message": "Do you want to compress the following items ?",
+        "prompt": "Select the name of the archive (without .zip extension):"
       }
     }
   },
@@ -142,7 +147,9 @@
         "title": "Download files ?",
         "message": "Do you want to download the following files ? 'Duplicate files' will be slightly renamed, and folders will be ignored."
       },
-      "items_too_big": "Some items have not been uploaded because they are above 150MB."
+      "items_too_big": "Some items have not been uploaded because they are above 150MB.",
+      "success_compressing_items": "Compressed items.",
+      "failed_compressing_items": "Failed to compress items."
     }
   }
 }

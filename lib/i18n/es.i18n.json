@@ -30,6 +30,11 @@
       "delete_items": {
         "title": "¿Eliminar elementos?",
         "message": "¿Desea eliminar los siguientes elementos?"
+      },
+      "compress_items": {
+        "title": "Comprimir elementos",
+        "message": "¿Desea comprimir los siguientes elementos?",
+        "prompt": "Seleccione el nombre del archivo (sin la extensión .zip):"
       }
     }
   },
@@ -142,7 +147,9 @@
         "title": "¿Descargar archivos?",
         "message": "¿Desea descargar los siguientes archivos? Los archivos duplicados serán renombrados ligeramente y las carpetas serán ignoradas."
       },
-      "items_too_big": "Algunos elementos no se han subido porque superan los 150 MB."
+      "items_too_big": "Algunos elementos no se han subido porque superan los 150 MB.",
+      "success_compressing_items": "Elementos comprimidos.",
+      "failed_compressing_items": "Error al comprimir los elementos."
     }
   }
 }

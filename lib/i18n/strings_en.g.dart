@@ -130,6 +130,7 @@ class TranslationsWidgetsCommanderEn {
 	String get no_item_selected => 'No item selected.';
 	late final TranslationsWidgetsCommanderNewFolderEn new_folder = TranslationsWidgetsCommanderNewFolderEn._(_root);
 	late final TranslationsWidgetsCommanderDeleteItemsEn delete_items = TranslationsWidgetsCommanderDeleteItemsEn._(_root);
+	late final TranslationsWidgetsCommanderCompressItemsEn compress_items = TranslationsWidgetsCommanderCompressItemsEn._(_root);
 }
 
 // Path: pages.home
@@ -210,6 +211,8 @@ class TranslationsPagesDropboxEn {
 	late final TranslationsPagesDropboxConfirmUploadFilesEn confirm_upload_files = TranslationsPagesDropboxConfirmUploadFilesEn._(_root);
 	late final TranslationsPagesDropboxConfirmDownloadFilesEn confirm_download_files = TranslationsPagesDropboxConfirmDownloadFilesEn._(_root);
 	String get items_too_big => 'Some items have not been uploaded because they are above 150MB.';
+	String get success_compressing_items => 'Compressed items.';
+	String get failed_compressing_items => 'Failed to compress items.';
 }
 
 // Path: widgets.commander.new_folder
@@ -232,6 +235,18 @@ class TranslationsWidgetsCommanderDeleteItemsEn {
 	// Translations
 	String get title => 'Delete items ?';
 	String get message => 'Do you want to delete the following items ?';
+}
+
+// Path: widgets.commander.compress_items
+class TranslationsWidgetsCommanderCompressItemsEn {
+	TranslationsWidgetsCommanderCompressItemsEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'Compress items';
+	String get message => 'Do you want to compress the following items ?';
+	String get prompt => 'Select the name of the archive (without .zip extension):';
 }
 
 // Path: pages.home.create_folder_dialog
@@ -458,6 +473,9 @@ extension on Translations {
 			case 'widgets.commander.new_folder.name_placeholder': return 'Folder name';
 			case 'widgets.commander.delete_items.title': return 'Delete items ?';
 			case 'widgets.commander.delete_items.message': return 'Do you want to delete the following items ?';
+			case 'widgets.commander.compress_items.title': return 'Compress items';
+			case 'widgets.commander.compress_items.message': return 'Do you want to compress the following items ?';
+			case 'widgets.commander.compress_items.prompt': return 'Select the name of the archive (without .zip extension):';
 			case 'pages.home.title': return 'Home';
 			case 'pages.home.create_folder_dialog.title': return 'Create folder';
 			case 'pages.home.create_folder_dialog.folder_name_placeholder': return 'Folder name';
@@ -524,6 +542,8 @@ extension on Translations {
 			case 'pages.dropbox.confirm_download_files.title': return 'Download files ?';
 			case 'pages.dropbox.confirm_download_files.message': return 'Do you want to download the following files ? \'Duplicate files\' will be slightly renamed, and folders will be ignored.';
 			case 'pages.dropbox.items_too_big': return 'Some items have not been uploaded because they are above 150MB.';
+			case 'pages.dropbox.success_compressing_items': return 'Compressed items.';
+			case 'pages.dropbox.failed_compressing_items': return 'Failed to compress items.';
 			default: return null;
 		}
 	}

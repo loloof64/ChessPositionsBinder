@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:chess_position_binder/core/text_utils.dart';
 import 'package:chess_position_binder/services/dropbox/dropbox_errors.dart';
 import 'package:chess_position_binder/widgets/dropbox_commander_files.dart';
 import 'package:multiple_result/multiple_result.dart';
@@ -660,20 +661,4 @@ class DropboxManager {
       );
     }
   }
-}
-
-bool isTextContent(String content) {
-  for (final rune in content.runes) {
-    if (
-    // Keep  Tab, LF, CR
-    (rune < 32 && rune != 9 && rune != 10 && rune != 13) ||
-        rune == 127 || // DEL
-        (rune >= 128 && rune <= 159) || // extended control caracters
-        rune >
-            255 // above Latin-1
-            ) {
-      return false;
-    }
-  }
-  return true;
 }

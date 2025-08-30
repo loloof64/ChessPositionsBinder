@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:chess_position_binder/core/read_positions.dart';
+import 'package:chess_position_binder/core/zip_utils.dart';
 import 'package:chess_position_binder/i18n/strings.g.dart';
 import 'package:chess_position_binder/pages/dropbox_widgets.dart';
 import 'package:chess_position_binder/services/dropbox/dropbox_errors.dart';
@@ -11,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:archive/archive_io.dart';
+import 'package:path/path.dart' as p;
 
 enum GroupedOperation { deletion, upload, download }
 
@@ -944,6 +947,82 @@ class _DropboxPageState extends State<DropboxPage> {
     return result;
   }
 
+  Future<void> _handleLocalCompressItems(
+    List<CommanderItem> selectedItems,
+    String archiveName,
+  ) async {
+    if (_localPath == null || _documentsPath == null) return;
+
+    setState(() {
+      _isLocalSelectionMode = false;
+    });
+
+    final outputName = archiveName.endsWith(".zip")
+        ? archiveName
+        : "$archiveName.zip";
+    final outputPath = "$_localPath${Platform.pathSeparator}$outputName";
+
+    try {
+      final zipEncoder = ZipFileEncoder();
+      zipEncoder.create(outputPath);
+
+      for (final currentItem in selectedItems) {
+        final itemPath =
+            "$_localPath${Platform.pathSeparator}${currentItem.simpleName}";
+        if (currentItem.isFolder) {
+          await _addDirectoryRecursiveToArchive(
+            zipEncoder,
+            Directory(itemPath),
+            _localPath!,
+          );
+        } else {
+          final itemFile = File(itemPath);
+          await zipEncoder.addFile(itemFile);
+        }
+      }
+
+      await zipEncoder.close();
+
+      setState(() {
+        _localSelectedItems.clear();
+      });
+
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(t.pages.dropbox.success_compressing_items)),
+      );
+
+      await _refreshLocalExplorerContent();
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(t.pages.dropbox.failed_compressing_items)),
+      );
+      return;
+    }
+  }
+
+  Future<void> _addDirectoryRecursiveToArchive(
+    ZipFileEncoder encoder,
+    Directory directory,
+    String basePath,
+  ) async {
+    final entities = directory.list(recursive: false, followLinks: false);
+    await for (final entity in entities) {
+      if (entity is Link) {
+        continue;
+      }
+      if (entity is Directory) {
+        await _addDirectoryRecursiveToArchive(encoder, entity, basePath);
+      } else if (entity is File) {
+        if (isAllowedFileForArchive(entity)) {
+          final relativePath = p.relative(entity.path, from: basePath);
+          await encoder.addFile(entity, relativePath);
+        }
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final filteredLocalItems = _filteredLocalItems();
@@ -1061,6 +1140,7 @@ class _DropboxPageState extends State<DropboxPage> {
                 handleLocalToggleItemSelection: _onLocalToggleItemSelection,
                 handleLocalAllItemsSelectionSetting:
                     _onLocalAllItemsSelectionToggling,
+                handleLocalCompressItems: _handleLocalCompressItems,
               ),
       ),
     );

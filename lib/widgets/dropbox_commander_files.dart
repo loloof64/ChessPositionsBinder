@@ -36,6 +36,8 @@ class CommanderFilesWidget extends StatefulWidget {
   handleFilesTransferRequest;
   final void Function(bool isSelectionMode) handleSelectionModeToggling;
   final void Function(List<CommanderItem> selectedItems) handleDeleteItems;
+  final void Function(List<CommanderItem> selectedItems, String archiveName)
+  handleCompressItems;
   final void Function(bool newState) handleAllItemsSelectionSetting;
   final void Function(CommanderItem item) handleToggleItemSelection;
 
@@ -54,6 +56,7 @@ class CommanderFilesWidget extends StatefulWidget {
     required this.handleFilesTransferRequest,
     required this.handleSelectionModeToggling,
     required this.handleDeleteItems,
+    required this.handleCompressItems,
     required this.handleAllItemsSelectionSetting,
     required this.handleToggleItemSelection,
   });
@@ -205,6 +208,131 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
     widget.handleAllItemsSelectionSetting(false);
   }
 
+  Future<void> _purposeCompressSelection() async {
+    if (widget.selectedItems == null) return;
+    final selectedItems = widget.selectedItems!;
+    if (selectedItems.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(t.widgets.commander.no_item_selected)),
+      );
+      return;
+    }
+
+    final hasConfirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(t.widgets.commander.compress_items.title),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            spacing: 4,
+            children: [
+              Text(t.widgets.commander.compress_items.message),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.blue.shade300, width: 1),
+                ),
+                constraints: BoxConstraints(maxHeight: 200),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ...selectedItems.map((currentItem) {
+                        return Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text("*"),
+                            Text(currentItem.simpleName),
+                            Text(
+                              "(${currentItem.isFolder ? t.misc.folder : t.misc.file})",
+                            ),
+                          ],
+                        );
+                      }),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              child: Text(
+                t.misc.buttons.cancel,
+                style: TextStyle(color: Colors.red),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+            ),
+            TextButton(
+              child: Text(
+                t.misc.buttons.ok,
+                style: TextStyle(color: Colors.green),
+              ),
+              onPressed: () async {
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    );
+
+    if (hasConfirmed != true) return;
+
+    if (!mounted) return;
+    final archiveName = await showDialog<String>(
+      context: context,
+      builder: (context) {
+        String name = "";
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 8,
+            children: [
+              Text(t.widgets.commander.compress_items.prompt),
+              TextField(controller: null, onChanged: (value) => name = value),
+            ],
+          ),
+          actions: [
+            TextButton(
+              child: Text(
+                t.misc.buttons.cancel,
+                style: TextStyle(color: Colors.red),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text(
+                t.misc.buttons.ok,
+                style: TextStyle(color: Colors.green),
+              ),
+              onPressed: () async {
+                Navigator.of(context).pop(name);
+              },
+            ),
+          ],
+        );
+      },
+    );
+
+    if (archiveName?.isNotEmpty != true) return;
+
+    final itemsToCompress = widget.selectedItems ?? [];
+    widget.handleCompressItems(itemsToCompress, archiveName!);
+  }
+
   @override
   Widget build(BuildContext context) {
     final items = widget.items ?? [];
@@ -275,6 +403,11 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
                               IconButton(
                                 onPressed: () => _handleUnselectAllItems(),
                                 icon: Icon(Icons.clear_all),
+                              ),
+                            if (widget.isSelectionMode && widget.areLocalFiles)
+                              IconButton(
+                                onPressed: _purposeCompressSelection,
+                                icon: Icon(Icons.archive),
                               ),
                             IconButton(
                               onPressed: () {
