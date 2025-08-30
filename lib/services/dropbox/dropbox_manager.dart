@@ -11,6 +11,8 @@ import 'package:oauth2/oauth2.dart' as oauth2;
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+final uploadLimitSizePerFile = 1024 * 1024 * 150; // 150Mb
+
 final authorizationEndpoint = Uri.parse(
   'https://www.dropbox.com/oauth2/authorize',
 );
@@ -409,9 +411,12 @@ class DropboxManager {
 
   /*
   Upload files, ignore folders.
-  If result is Ok, then a list that contains the items for which it failed, if any.
+  If result is Ok, then returns a tuple : 
+  1) a list that contains the items for which it failed, if any,
+  2) a list of file items which are too big, if any
   */
-  Future<Result<List<CommanderItem>, RequestError>> uploadFiles({
+  Future<Result<(List<CommanderItem>, List<CommanderItem>), RequestError>>
+  uploadFiles({
     required String currentLocalPath,
     required String currentDropboxPath,
     required List<CommanderItem> itemsToUpload,
@@ -423,6 +428,7 @@ class DropboxManager {
     client = _client!;
 
     List<CommanderItem> failedItems = [];
+    List<CommanderItem> filesTooBig = [];
 
     final pathSeparator = Platform.pathSeparator;
     final baseLocalPath = currentLocalPath == pathSeparator
@@ -437,6 +443,12 @@ class DropboxManager {
         final localFile = File(
           "$baseLocalPath$pathSeparator${currentItem.simpleName}",
         );
+        final fileSize = await localFile.length();
+        final tooBig = fileSize > uploadLimitSizePerFile;
+        if (tooBig) {
+          filesTooBig.add(currentItem);
+          continue;
+        }
         final fileBytes = await localFile.readAsBytes();
         final response = await client.post(
           Uri.parse("https://content.dropboxapi.com/2/files/upload"),
@@ -460,7 +472,7 @@ class DropboxManager {
           failedItems.add(currentItem);
         }
       }
-      return Success(failedItems);
+      return Success((failedItems, filesTooBig));
     } catch (e) {
       final message = e.toString();
       debugPrint(message);

@@ -673,12 +673,16 @@ class _DropboxPageState extends State<DropboxPage> {
       );
       switch (result) {
         case Success():
-          final failedItems = result.success;
+          final failedItems = result.success.$1;
           if (failedItems.isNotEmpty) {
             await _showFailedDialog(
               operation: GroupedOperation.upload,
               failureItems: failedItems,
             );
+          }
+          final itemsTooBig = result.success.$2;
+          if (itemsTooBig.isNotEmpty) {
+            await _showItemsTooBigDialog(itemsTooBig);
           }
           setState(() {
             _isLocalSelectionMode = false;
@@ -768,6 +772,43 @@ class _DropboxPageState extends State<DropboxPage> {
       builder: (context) {
         return AlertDialog(
           title: Text(title),
+          content: Container(
+            decoration: BoxDecoration(
+              border: BoxBorder.all(color: Colors.blue.shade300, width: 1),
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 1,
+                children: lines,
+              ),
+            ),
+          ),
+          actions: [
+            TextButton(
+              child: Text(
+                t.misc.buttons.ok,
+                style: TextStyle(color: Colors.green),
+              ),
+              onPressed: () async {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _showItemsTooBigDialog(List<CommanderItem> items) async {
+    final lines = items.map((elt) => Text("* ${elt.simpleName}")).toList();
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(t.pages.dropbox.items_too_big),
           content: Container(
             decoration: BoxDecoration(
               border: BoxBorder.all(color: Colors.blue.shade300, width: 1),

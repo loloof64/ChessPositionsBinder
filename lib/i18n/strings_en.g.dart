@@ -209,6 +209,7 @@ class TranslationsPagesDropboxEn {
 	String get download_done => 'Done download.';
 	late final TranslationsPagesDropboxConfirmUploadFilesEn confirm_upload_files = TranslationsPagesDropboxConfirmUploadFilesEn._(_root);
 	late final TranslationsPagesDropboxConfirmDownloadFilesEn confirm_download_files = TranslationsPagesDropboxConfirmDownloadFilesEn._(_root);
+	String get items_too_big => 'Some items have not been uploaded because they are above 150MB.';
 }
 
 // Path: widgets.commander.new_folder
@@ -522,6 +523,7 @@ extension on Translations {
 			case 'pages.dropbox.confirm_upload_files.message': return 'Do you want to upload the following files ? Folders, and strictly identical files will be ignored.';
 			case 'pages.dropbox.confirm_download_files.title': return 'Download files ?';
 			case 'pages.dropbox.confirm_download_files.message': return 'Do you want to download the following files ? \'Duplicate files\' will be slightly renamed, and folders will be ignored.';
+			case 'pages.dropbox.items_too_big': return 'Some items have not been uploaded because they are above 150MB.';
 			default: return null;
 		}
 	}

@@ -141,7 +141,8 @@
       "confirm_download_files": {
         "title": "Download files ?",
         "message": "Do you want to download the following files ? 'Duplicate files' will be slightly renamed, and folders will be ignored."
-      }
+      },
+      "items_too_big": "Some items have not been uploaded because they are above 150MB."
     }
   }
 }

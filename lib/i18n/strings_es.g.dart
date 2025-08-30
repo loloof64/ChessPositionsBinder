@@ -206,6 +206,7 @@ class _TranslationsPagesDropboxEs implements TranslationsPagesDropboxEn {
 	@override String get download_done => 'Descarga completada.';
 	@override late final _TranslationsPagesDropboxConfirmUploadFilesEs confirm_upload_files = _TranslationsPagesDropboxConfirmUploadFilesEs._(_root);
 	@override late final _TranslationsPagesDropboxConfirmDownloadFilesEs confirm_download_files = _TranslationsPagesDropboxConfirmDownloadFilesEs._(_root);
+	@override String get items_too_big => 'Algunos elementos no se han subido porque superan los 150 MB.';
 }
 
 // Path: widgets.commander.new_folder
@@ -519,6 +520,7 @@ extension on TranslationsEs {
 			case 'pages.dropbox.confirm_upload_files.message': return '¿Desea subir los siguientes archivos? Las carpetas, y los archivos estrictamente idénticos serán ignorados.';
 			case 'pages.dropbox.confirm_download_files.title': return '¿Descargar archivos?';
 			case 'pages.dropbox.confirm_download_files.message': return '¿Desea descargar los siguientes archivos? Los archivos duplicados serán renombrados ligeramente y las carpetas serán ignoradas.';
+			case 'pages.dropbox.items_too_big': return 'Algunos elementos no se han subido porque superan los 150 MB.';
 			default: return null;
 		}
 	}

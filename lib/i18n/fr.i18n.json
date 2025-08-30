@@ -141,7 +141,8 @@
       "confirm_download_files": {
         "title": "Télécharger les fichiers ?",
         "message": "Souhaitez-vous télécharger les fichiers suivants ? Les dossiers seront ignorés et les 'doublons' seront légèrement renommés."
-      }
+      },
+      "items_too_big": "Certains éléments n'ont pas été téléchargés car ils font plus de 150MB."
     }
   }
 }
