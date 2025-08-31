@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:chess_position_binder/core/file_utils.dart';
 import 'package:chess_position_binder/core/text_utils.dart';
 import 'package:chess_position_binder/services/dropbox/dropbox_errors.dart';
 import 'package:chess_position_binder/widgets/dropbox_commander_files.dart';
@@ -520,7 +521,7 @@ class DropboxManager {
             "$baseLocalPath$pathSeparator${currentItem.simpleName}";
         File localFile = File(localPath);
         while (await localFile.exists()) {
-          localPath = await _getNextNameFor(localPath);
+          localPath = await getNextPathCopyFor(localPath);
           localFile = File(localPath);
         }
 
@@ -563,51 +564,6 @@ class DropboxManager {
     }
   }
 
-  Future<String> _getNextNameFor(String startPath) async {
-    final pathSeparator = Platform.pathSeparator;
-    final parts = startPath.split(pathSeparator);
-    final startName = parts.last;
-    parts.removeLast();
-    final basePath = parts.join(pathSeparator);
-
-    final nextName = _getNextCopyName(startName);
-    return "$basePath${Platform.pathSeparator}$nextName";
-  }
-
-  String _getNextCopyName(String simpleName) {
-    // Regex to find patterns like (number)
-    final fileNameRegex = RegExp(r"\((?<id>\d+)\)");
-
-    // Find all matches and get the last one
-    final lastMatch = fileNameRegex.allMatches(simpleName).lastOrNull;
-
-    if (lastMatch == null) {
-      // No (number) pattern found in the name
-      final parts = simpleName.split(".");
-      if (parts.length <= 1) {
-        // No extension or single part name
-        return "$simpleName(1)";
-      }
-      // Has an extension
-      final fileExt = parts.last;
-      parts.removeLast(); // Remove the extension
-      final baseName = parts.join("."); // Reconstruct base name
-      return "$baseName(1).$fileExt";
-    } else {
-      // An (number) pattern was found, increment it
-      final currentId = int.parse(lastMatch.namedGroup("id").toString());
-      final nextId = currentId + 1;
-
-      // Replace the last matched (number) with (nextId)
-      // Get the part before the match
-      final prefix = simpleName.substring(0, lastMatch.start);
-      // Get the part after the match
-      final suffix = simpleName.substring(lastMatch.end);
-
-      return "$prefix($nextId)$suffix";
-    }
-  }
-
   String _convertToUnit(int bytesStorage) {
     if (bytesStorage < 1024) {
       return "$bytesStorage o";
@@ -625,9 +581,12 @@ class DropboxManager {
   Future<void> restartAuthProcess(
     void Function() onFailedLaunchingAuthPage,
   ) async {
-    // delete stored credentials
-    await _credentialsFile?.delete();
-
+    try {
+      // delete stored credentials
+      await _credentialsFile?.delete();
+    } catch (e) {
+      debugPrint("Could not delete credentials file.");
+    }
     // restart auth process
     await startDropboxAuthProcess(onFailedLaunchingAuthPage);
   }

@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:chess_position_binder/core/read_positions.dart';
-import 'package:chess_position_binder/core/zip_utils.dart';
+import 'package:chess_position_binder/core/file_utils.dart';
 import 'package:chess_position_binder/i18n/strings.g.dart';
 import 'package:chess_position_binder/pages/dropbox_widgets.dart';
 import 'package:chess_position_binder/services/dropbox/dropbox_errors.dart';
@@ -961,10 +961,15 @@ class _DropboxPageState extends State<DropboxPage> {
         ? archiveName
         : "$archiveName.zip";
     final outputPath = "$_localPath${Platform.pathSeparator}$outputName";
+    final alreadyExists = await File(outputPath).exists();
+
+    final usedOutputPath = alreadyExists
+        ? await getNextPathCopyFor(outputPath)
+        : outputPath;
 
     try {
       final zipEncoder = ZipFileEncoder();
-      zipEncoder.create(outputPath);
+      zipEncoder.create(usedOutputPath);
 
       for (final currentItem in selectedItems) {
         final itemPath =
