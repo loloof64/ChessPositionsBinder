@@ -464,6 +464,8 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
                     final currentItem = items[index];
                     final itemName = currentItem.simpleName;
                     final isFolder = currentItem.isFolder;
+                    final isPgn = itemName.endsWith('.pgn');
+                    final isZip = itemName.endsWith('.zip');
                     final isParentFolder = isFolder && itemName == parentFolder;
                     if (widget.isSelectionMode) {
                       return isParentFolder
@@ -518,7 +520,11 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
                                       size: 25,
                                       color: isFolder
                                           ? Colors.amberAccent
-                                          : Colors.blueAccent,
+                                          : isPgn
+                                          ? Colors.blueAccent
+                                          : isZip
+                                          ? Colors.brown
+                                          : Colors.black12,
                                     ),
                                     Text(itemName),
                                   ],
@@ -578,9 +584,17 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
                           spacing: 4,
                           children: [
                             Icon(
-                              Ionicons.document_text,
+                              isPgn
+                                  ? Ionicons.document_text
+                                  : isZip
+                                  ? Ionicons.archive_sharp
+                                  : Ionicons.help,
                               size: 25,
-                              color: Colors.blueAccent,
+                              color: isPgn
+                                  ? Colors.blueAccent
+                                  : isZip
+                                  ? Colors.brown
+                                  : Colors.black12,
                             ),
                             Text(itemName),
                           ],

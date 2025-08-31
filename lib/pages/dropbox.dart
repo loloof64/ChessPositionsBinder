@@ -210,7 +210,7 @@ class _DropboxPageState extends State<DropboxPage> {
       items.add(CommanderItem(simpleName: parentFolder, isFolder: true));
     }
 
-    final standardItems = _filterPgnFiles(items);
+    final standardItems = _filterAcceptedFiles(items);
     final sortedStandardItems = _sortedItems(standardItems);
 
     setState(() {
@@ -218,7 +218,7 @@ class _DropboxPageState extends State<DropboxPage> {
     });
   }
 
-  List<CommanderItem> _filterPgnFiles(List<CommanderItem> items) {
+  List<CommanderItem> _filterAcceptedFiles(List<CommanderItem> items) {
     List<CommanderItem> resultItems = [];
 
     for (final currentItem in items) {
@@ -228,7 +228,7 @@ class _DropboxPageState extends State<DropboxPage> {
         );
       } else {
         final name = currentItem.simpleName;
-        if (name.endsWith('.pgn')) {
+        if (name.endsWith('.pgn') || name.endsWith('zip')) {
           resultItems.add(
             CommanderItem(simpleName: currentItem.simpleName, isFolder: false),
           );
@@ -328,6 +328,11 @@ class _DropboxPageState extends State<DropboxPage> {
       final simpleName = path.split("/").last;
       return CommanderItem(simpleName: simpleName, isFolder: isFolder);
     }).toList();
+    /////////////////////////////////
+    print("--------------------");
+    print("local elements");
+    print(localElements);
+    /////////////////////////////////
     final isRootFolder = _localPath == _documentsPath;
     final allItems = isRootFolder
         ? localElements
@@ -338,6 +343,12 @@ class _DropboxPageState extends State<DropboxPage> {
     setState(() {
       _localItems = allItems;
     });
+
+    /////////////////////////////////
+    print("*******************************");
+    print("all items");
+    print(allItems);
+    //////////////////////////////////
   }
 
   Future<void> _handleLocalFolderSelection(String folderName) async {

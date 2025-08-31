@@ -25,15 +25,16 @@ class RawFolderElement extends Equatable {
 
 Future<List<RawFolderElement>> readElements(Directory directory) async {
   final filesAndFolders = await directory.list().toList();
-  final pgnFiles = filesAndFolders.where((elt) {
+  final acceptedFiles = filesAndFolders.where((elt) {
     final isFile = elt is File;
     final isPgn = elt.path.endsWith('.pgn');
-    return isFile && isPgn || !isFile;
+    final isZip = elt.path.endsWith('.zip');
+    return (isFile && (isPgn || isZip)) || !isFile;
   });
 
   List<RawFolderElement> results = [];
 
-  for (var file in pgnFiles) {
+  for (var file in acceptedFiles) {
     try {
       final isFolder = await FileSystemEntity.isDirectory(file.path);
       if (isFolder) {
@@ -41,7 +42,8 @@ Future<List<RawFolderElement>> readElements(Directory directory) async {
           RawFolderElement(name: file.path, content: '', isFolder: true),
         );
       } else {
-        final content = await (file as File).readAsString();
+        final isPgn = file.path.endsWith('.pgn');
+        final content = isPgn ? await (file as File).readAsString() : '';
         results.add(
           RawFolderElement(name: file.path, content: content, isFolder: false),
         );
