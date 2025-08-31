@@ -34,6 +34,7 @@ class ConnectedWidget extends StatelessWidget {
   final void Function(CommanderItem item) handleLocalToggleItemSelection;
   final void Function(List<CommanderItem> selectedItems, String archiveName)
   handleLocalCompressItems;
+  final void Function(List<CommanderItem> selectedItem) handleLocalExtractItems;
 
   const ConnectedWidget({
     super.key,
@@ -63,6 +64,7 @@ class ConnectedWidget extends StatelessWidget {
     required this.handleLocalAllItemsSelectionSetting,
     required this.handleLocalToggleItemSelection,
     required this.handleLocalCompressItems,
+    required this.handleLocalExtractItems,
   });
 
   @override
@@ -86,6 +88,7 @@ class ConnectedWidget extends StatelessWidget {
       handleAllItemsSelectionSetting: handleDropboxAllItemsSelectionSetting,
       handleToggleItemSelection: handleDropboxToggleItemSelection,
       handleCompressItems: (selectedItems, archiveName) {},
+      handleExtractItems: (selectedItem) {},
     );
 
     final localCommander = CommanderFilesWidget(
@@ -105,6 +108,7 @@ class ConnectedWidget extends StatelessWidget {
       handleAllItemsSelectionSetting: handleLocalAllItemsSelectionSetting,
       handleToggleItemSelection: handleLocalToggleItemSelection,
       handleCompressItems: handleLocalCompressItems,
+      handleExtractItems: handleLocalExtractItems,
     );
 
     return SafeArea(

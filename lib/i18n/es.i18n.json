@@ -35,6 +35,10 @@
         "title": "Comprimir elementos",
         "message": "¿Desea comprimir los siguientes elementos?",
         "prompt": "Seleccione el nombre del archivo (sin la extensión .zip):"
+      },
+      "extract_items": {
+        "title": "Extraer archivos",
+        "message": "¿Desea extraer los siguientes archivos? Tenga en cuenta que solo se extraerán carpetas, archivos *.pgn y *.zip. Además, si algunas carpetas de destino ya existen, las extracciones relacionadas serán omitidas."
       }
     }
   },
@@ -149,7 +153,10 @@
       },
       "items_too_big": "Algunos elementos no se han subido porque superan los 150 MB.",
       "success_compressing_items": "Elementos comprimidos.",
-      "failed_compressing_items": "Error al comprimir los elementos."
+      "failed_compressing_items": "Error al comprimir los elementos.",
+      "success_extracting_items": "Elementos extraídos.",
+      "failed_extracting_items": "Error al extraer los elementos.",
+      "skipped_extracting_items": "Algunos elementos fueron ignorados porque el destino ya existe:"
     }
   }
 }

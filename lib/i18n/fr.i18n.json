@@ -35,6 +35,10 @@
         "title": "Compresser les éléments",
         "message": "Souhaitez-vous compresser les éléments suivants ?",
         "prompt": "Veuillez définir le nom de l'archive (sans l'extension .zip) :"
+      },
+      "extract_items": {
+        "title": "Extraction d'archives",
+        "message": "Souhaitez-vous extraire les archives suivantes ? Veuillez noter que ne seront seulement extraits les éléments dossiers/*.pgn/*.zip. Aussi des dossiers cibles existent déjà, ils seront ignorés."
       }
     }
   },
@@ -149,7 +153,10 @@
       },
       "items_too_big": "Certains éléments n'ont pas été téléchargés car ils font plus de 150MB.",
       "success_compressing_items": "Les éléments ont été compressés.",
-      "failed_compressing_items": "Échec de compression des éléments."
+      "failed_compressing_items": "Échec de compression des éléments.",
+      "success_extracting_items": "Éléments extraits.",
+      "failed_extracting_items": "Échec d'extraction des éléments.",
+      "skipped_extracting_items": "Certains éléments ont été ignorés, les cibles existant déjà:"
     }
   }
 }

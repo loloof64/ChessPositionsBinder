@@ -1007,6 +1007,135 @@ class _DropboxPageState extends State<DropboxPage> {
     }
   }
 
+  Future<void> _handleExtractLocalZipArchives(
+    List<CommanderItem> archiveItems,
+  ) async {
+    if (_localPath == null || _documentsPath == null) return;
+    final filteredItems = archiveItems.where(
+      (elt) => !elt.isFolder && elt.simpleName.endsWith('.zip'),
+    );
+
+    List<String> failedItems = [];
+
+    try {
+      for (final item in filteredItems) {
+        final zipPath =
+            "${_localPath!}${Platform.pathSeparator}${item.simpleName}";
+        final success = await _extractLocalZipFileRecursive(
+          zipPath,
+          _localPath!,
+        );
+        if (!success) failedItems.add(item.simpleName);
+      }
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(t.pages.dropbox.success_extracting_items)),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(t.pages.dropbox.failed_extracting_items)),
+      );
+    } finally {
+      setState(() {
+        _isLocalSelectionMode = false;
+        _localSelectedItems.clear();
+      });
+      await _refreshLocalExplorerContent();
+    }
+    if (!mounted) return;
+    if (failedItems.isNotEmpty) {
+      final lines = failedItems.map((elt) => Text("* $elt")).toList();
+      await showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(t.pages.dropbox.skipped_extracting_items),
+                Container(
+                  decoration: BoxDecoration(
+                    border: BoxBorder.all(
+                      color: Colors.blue.shade300,
+                      width: 1,
+                    ),
+                  ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 1,
+                      children: lines,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                child: Text(
+                  t.misc.buttons.ok,
+                  style: TextStyle(color: Colors.green),
+                ),
+                onPressed: () async {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+  /// Extracts a zip into a folder with the same name as the zip (without extension).
+  /// Only extracts folders, .pgn files, and .zip files inside that folder.
+  /// Nested zips are not extracted recursively.
+  /// If the target folder already exists, extraction is skipped.
+  /// Only returns true if did not canceled because target directory already exists.
+  Future<bool> _extractLocalZipFileRecursive(
+    String zipPath,
+    String destDir,
+  ) async {
+    final zipName = p.basenameWithoutExtension(zipPath);
+    final targetDir = p.join(destDir, zipName);
+
+    // Skip extraction if folder already exists
+    if (await Directory(targetDir).exists()) {
+      return false;
+    }
+
+    // Create the folder for this zip
+    await Directory(targetDir).create(recursive: true);
+
+    // Read zip file
+    final bytes = await File(zipPath).readAsBytes();
+    final archive = ZipDecoder().decodeBytes(bytes);
+
+    for (final entry in archive) {
+      if (entry.isSymbolicLink) continue;
+
+      final ext = p.extension(entry.name).toLowerCase();
+
+      // Only keep folders, .pgn, and .zip files
+      if (!entry.isFile && !entry.isDirectory) continue;
+      if (entry.isFile && ext != '.pgn' && ext != '.zip') continue;
+
+      // Build the output path inside targetDir
+      final entryPath = p.join(targetDir, entry.name);
+
+      if (entry.isDirectory) {
+        await Directory(entryPath).create(recursive: true);
+      } else if (entry.isFile) {
+        await File(entryPath).parent.create(recursive: true);
+        await File(entryPath).writeAsBytes(entry.content as List<int>);
+      }
+    }
+    return true;
+  }
+
   Future<void> _addDirectoryRecursiveToArchive(
     ZipFileEncoder encoder,
     Directory directory,
@@ -1146,6 +1275,7 @@ class _DropboxPageState extends State<DropboxPage> {
                 handleLocalAllItemsSelectionSetting:
                     _onLocalAllItemsSelectionToggling,
                 handleLocalCompressItems: _handleLocalCompressItems,
+                handleLocalExtractItems: _handleExtractLocalZipArchives,
               ),
       ),
     );

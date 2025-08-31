@@ -35,6 +35,10 @@
         "title": "Compress items",
         "message": "Do you want to compress the following items ?",
         "prompt": "Select the name of the archive (without .zip extension):"
+      },
+      "extract_items": {
+        "title": "Extract archives",
+        "message": "Do you want to extract the following archives ? Please notice that it will only extract folders/*.pgn/*.zip elements. Also notice that if some target folders already exists, related extractions will be skipped."
       }
     }
   },
@@ -149,7 +153,10 @@
       },
       "items_too_big": "Some items have not been uploaded because they are above 150MB.",
       "success_compressing_items": "Compressed items.",
-      "failed_compressing_items": "Failed to compress items."
+      "failed_compressing_items": "Failed to compress items.",
+      "success_extracting_items": "Extracted items.",
+      "failed_extracting_items": "Failed to extract items.",
+      "skipped_extracting_items": "Some items were ignored as target already exists:"
     }
   }
 }

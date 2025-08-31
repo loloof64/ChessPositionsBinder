@@ -1,6 +1,6 @@
 import 'package:chess_position_binder/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
-import 'package:ionicons/ionicons.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:equatable/equatable.dart';
 
 const parentFolder = '@ParentFolder@';
@@ -38,6 +38,7 @@ class CommanderFilesWidget extends StatefulWidget {
   final void Function(List<CommanderItem> selectedItems) handleDeleteItems;
   final void Function(List<CommanderItem> selectedItems, String archiveName)
   handleCompressItems;
+  final void Function(List<CommanderItem> selectedItem) handleExtractItems;
   final void Function(bool newState) handleAllItemsSelectionSetting;
   final void Function(CommanderItem item) handleToggleItemSelection;
 
@@ -57,6 +58,7 @@ class CommanderFilesWidget extends StatefulWidget {
     required this.handleSelectionModeToggling,
     required this.handleDeleteItems,
     required this.handleCompressItems,
+    required this.handleExtractItems,
     required this.handleAllItemsSelectionSetting,
     required this.handleToggleItemSelection,
   });
@@ -333,6 +335,85 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
     widget.handleCompressItems(itemsToCompress, archiveName!);
   }
 
+  Future<void> _purposeExtractSelection() async {
+    if (widget.selectedItems == null) return;
+    final selectedItems = widget.selectedItems!;
+    if (selectedItems.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(t.widgets.commander.no_item_selected)),
+      );
+      return;
+    }
+
+    final retainedItems = selectedItems.where((elt) {
+      return !elt.isFolder && elt.simpleName.endsWith('.zip');
+    }).toList();
+
+    final hasConfirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(t.widgets.commander.extract_items.title),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            spacing: 4,
+            children: [
+              Text(t.widgets.commander.extract_items.message),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.blue.shade300, width: 1),
+                ),
+                constraints: BoxConstraints(maxHeight: 200),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ...retainedItems.map((currentItem) {
+                        return Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [Text("*"), Text(currentItem.simpleName)],
+                        );
+                      }),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              child: Text(
+                t.misc.buttons.cancel,
+                style: TextStyle(color: Colors.red),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+            ),
+            TextButton(
+              child: Text(
+                t.misc.buttons.ok,
+                style: TextStyle(color: Colors.green),
+              ),
+              onPressed: () async {
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    );
+
+    if (hasConfirmed != true) return;
+    widget.handleExtractItems(retainedItems);
+  }
+
   @override
   Widget build(BuildContext context) {
     final items = widget.items ?? [];
@@ -408,6 +489,11 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
                               IconButton(
                                 onPressed: _purposeCompressSelection,
                                 icon: Icon(Icons.archive),
+                              ),
+                            if (widget.isSelectionMode && widget.areLocalFiles)
+                              IconButton(
+                                onPressed: _purposeExtractSelection,
+                                icon: FaIcon(FontAwesomeIcons.scissors),
                               ),
                             IconButton(
                               onPressed: () {
@@ -513,10 +599,10 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
                                           },
                                         ),
                                       ),
-                                    Icon(
+                                    FaIcon(
                                       isFolder
-                                          ? Icons.folder
-                                          : Ionicons.document_text,
+                                          ? FontAwesomeIcons.folder
+                                          : FontAwesomeIcons.fileLines,
                                       size: 25,
                                       color: isFolder
                                           ? Colors.amberAccent
@@ -583,12 +669,12 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           spacing: 4,
                           children: [
-                            Icon(
+                            FaIcon(
                               isPgn
-                                  ? Ionicons.document_text
+                                  ? FontAwesomeIcons.fileLines
                                   : isZip
-                                  ? Ionicons.archive_sharp
-                                  : Ionicons.help,
+                                  ? FontAwesomeIcons.boxArchive
+                                  : FontAwesomeIcons.question,
                               size: 25,
                               color: isPgn
                                   ? Colors.blueAccent
