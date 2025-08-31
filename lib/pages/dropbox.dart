@@ -328,11 +328,6 @@ class _DropboxPageState extends State<DropboxPage> {
       final simpleName = path.split("/").last;
       return CommanderItem(simpleName: simpleName, isFolder: isFolder);
     }).toList();
-    /////////////////////////////////
-    print("--------------------");
-    print("local elements");
-    print(localElements);
-    /////////////////////////////////
     final isRootFolder = _localPath == _documentsPath;
     final allItems = isRootFolder
         ? localElements
@@ -343,12 +338,6 @@ class _DropboxPageState extends State<DropboxPage> {
     setState(() {
       _localItems = allItems;
     });
-
-    /////////////////////////////////
-    print("*******************************");
-    print("all items");
-    print(allItems);
-    //////////////////////////////////
   }
 
   Future<void> _handleLocalFolderSelection(String folderName) async {

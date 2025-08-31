@@ -536,15 +536,16 @@ class DropboxManager {
         );
 
         if (response.statusCode == 200) {
-          final fileContent = response.body;
-          final isTextFile = isTextContent(fileContent);
-          final isArchiveFile = jsonDecode(
-            response.headers['Dropbox-API-Result']!,
-          )['name'].endsWith('.zip');
+          final fileTextContent = response.body;
+          final fileBinaryContent = response.bodyBytes;
+          final isTextFile = isTextContent(fileTextContent);
+          final isArchiveFile = currentItem.simpleName.endsWith('.zip');
           if (isTextFile) {
             await localFile.create();
-            await localFile.writeAsString(fileContent);
+            await localFile.writeAsString(fileTextContent);
           } else if (isArchiveFile) {
+            await localFile.create();
+            await localFile.writeAsBytes(fileBinaryContent);
           } else {
             debugPrint("Not a text|zip file : ${currentItem.simpleName}");
             failedItems.add(currentItem);
