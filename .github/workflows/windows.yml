@@ -28,11 +28,18 @@ jobs:
         with:
           msbuild-architecture: x64
 
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2.21.0
-        with:
-          channel: "stable"
-          flutter-version: 3.35.0
+      - name: Set up Flutter manually
+        run: |
+          # Download Flutter SDK
+          Invoke-WebRequest -Uri "https://storage.googleapis.com/flutter_infra_release/releases/stable/windows/flutter_windows_3.35.0-stable.zip" -OutFile "flutter.zip"
+
+          # Extract archive
+          Expand-Archive -Path "flutter.zip" -DestinationPath "C:\src\flutter"
+
+          # Add program to PATH
+          echo "C:\src\flutter\flutter\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+        shell: pwsh
+
       - name: Install dependencies
         run: flutter pub get
 
