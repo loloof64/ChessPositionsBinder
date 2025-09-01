@@ -17,10 +17,11 @@ jobs:
           # Create file 'secrets.dart' and insert secrets
           echo "final identifier = '${{ secrets.DROPBOX_CLIENT_ID }}';" > lib/services/dropbox/secrets.dart
           echo "final secret = '${{ secrets.DROPBOX_SECRET }}';" >> lib/services/dropbox/secrets.dart
-      - uses: subosito/flutter-action@v2.21.0
+      - name: Setup Flutter SDK
+        uses: flutter-actions/setup-flutter@v4
         with:
           channel: stable
-          flutter-version: 3.35.0
+          version: 3.35.0
       - run: flutter upgrade
       - run: flutter config --enable-linux-desktop
       - name: "Install dependencies"
