@@ -51,6 +51,7 @@ dependencies:
   path: ^1.9.1
   font_awesome_flutter: ^10.10.0
   flutter_native_splash: ^2.4.6
+  icons_launcher: ^3.0.2
 
 dev_dependencies:
   flutter_test:
@@ -108,3 +109,18 @@ flutter_native_splash:
   android_12:
     color: "#C19A6B"
     image: "images/logo_android12.png"
+icons_launcher:
+  image_path: "images/logo.png"
+  platforms:
+    android:
+      enable: true
+    ios:
+      enable: true
+    web:
+      enable: true
+    macos:
+      enable: true
+    windows:
+      enable: true
+    linux:
+      enable: true

@@ -18,8 +18,6 @@ void main() async {
       center: true,
     );
 
-    await windowManager.setIcon("images/logo.png");
-
     windowManager.waitUntilReadyToShow(windowOptions, () async {
       await windowManager.show();
       await windowManager.focus();
