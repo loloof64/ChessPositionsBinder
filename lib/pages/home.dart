@@ -98,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
             return !elt.isFolder;
           })
           .toList()
-          .map((elt) => elt.name.split("/").last)
+          .map((elt) => elt.name.split(Platform.pathSeparator).last)
           .toList();
     } else {
       return [];
@@ -599,7 +599,7 @@ class _MyHomePageState extends State<MyHomePage> {
               .where(
                 (elt) =>
                     !elt.isFolder ||
-                    elt.name.split("/").last != "flutter_assets",
+                    elt.name.split(Platform.pathSeparator).last != "flutter_assets",
               )
               .toList()
         : elements;
@@ -642,7 +642,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     itemBuilder: (context, index) {
                       final currentItem = allItems[index];
                       final itemPath = currentItem.name;
-                      final itemName = itemPath.split('/').last;
+                      final itemName = itemPath.split(Platform.pathSeparator).last;
                       final itemPgn = currentItem.content;
                       final isFolder = currentItem.isFolder;
                       final isParentFolder =
