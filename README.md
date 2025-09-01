@@ -2,6 +2,8 @@
 
 Store and classify your favorite chess positions.
 
+You can also save/download them into/from your Dropbox account.
+
 ## For developers
 
 ### Locales

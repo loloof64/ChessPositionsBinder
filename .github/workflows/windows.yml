@@ -1,0 +1,47 @@
+name: Build Windows Installer
+
+on:
+  workflow_call:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install yq
+        run: choco install yq
+
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v2
+        with:
+          msbuild-architecture: x64
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          flutter-version-file: pubspec.yaml
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build Windows application
+        run: flutter build windows --release
+
+      - name: Copy VC++ DLL files
+        run: |
+          cp windows/dlls/* build/windows/x64/runner/Release
+
+      - name: Build executable build file (with Powershell)
+        run: |
+          $source = "${{ github.workspace }}\build\windows\x64\runner\Release"
+          $destination = "${{ github.workspace }}\ChessPositionsBinder.zip"
+          Compress-Archive -Path $source -DestinationPath $destination
+        shell: pwsh
+
+      - name: Upload installer artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ChessPositionsBinder-${{ github.ref_name }}-x86_64.zip
+          path: "${{ github.workspace }}\\ChessPositionsBinder.zip"

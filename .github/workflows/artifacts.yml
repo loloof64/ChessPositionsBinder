@@ -1,0 +1,44 @@
+name: Publish artifacts
+
+on:
+  workflow_call:
+
+env:
+  GH_TOKEN: ${{ github.token }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      repository-projects: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Download linux artifact
+        uses: actions/download-artifact@v4
+        with:
+          path: ./artifacts
+          name: ChessPositionsBinder-${{ github.ref_name }}-x86_64.AppImage
+
+      - name: Download windows artifact
+        uses: actions/download-artifact@v4
+        with:
+          path: ./artifacts
+          name: ChessPositionsBinder-${{ github.ref_name }}-x86_64.zip
+
+      - name: Rename windows artifact
+        run: mv ./artifacts/ChessPositionsBinder.zip ./artifacts/ChessPositionsBinder-${{ github.ref_name }}-x86_64.zip
+
+      - name: Install GitHub CLI
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+
+      - name: Create Release
+        run: |
+          gh release create ${{ github.ref_name }} \
+          ./artifacts/* \
+          --title "Release ${{ github.ref_name }}" \
+          --notes-file ReleaseMessage.md

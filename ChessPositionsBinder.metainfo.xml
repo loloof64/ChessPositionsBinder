@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.loloof64.chess_position_binder</id>
+  
+  <name>Chess Positions Binder</name>
+  <summary>Store and classify your favorite chess positions.</summary>
+  
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  
+  <description>
+    <p>
+      Store and classify your favorite chess positions.
+    </p>
+    <p>
+      You can also save/download them into/from your Dropbox account.
+    </p>
+  </description>
+  
+  <launchable type="desktop-id">ChessPositionsBinder.desktop</launchable>
+  <screenshots>
+  </screenshots>
+</component>
