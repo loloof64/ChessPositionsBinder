@@ -10,6 +10,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Add Dropbox secrets
+        run: |
+          # Create folder 'lib/services/dropbox' if needed
+          New-Item -ItemType Directory -Force -Path ".\lib\services\dropbox"
+
+          # Create file 'secrets.dart' and insert secrets
+          "final identifier = '${{ secrets.DROPBOX_CLIENT_ID }}';" | Out-File -FilePath ".\lib\services\dropbox\secrets.dart"
+          "final secret = '${{ secrets.DROPBOX_SECRET }}';" | Out-File -FilePath ".\lib\services\dropbox\secrets.dart" -Append
+        shell: pwsh
+
       - name: Install yq
         run: choco install yq
 
