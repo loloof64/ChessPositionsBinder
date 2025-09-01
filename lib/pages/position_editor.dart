@@ -84,13 +84,19 @@ class _PositionEditorPageState extends State<PositionEditorPage> {
           ),
           actions: [
             TextButton(
-              child: Text(t.misc.buttons.cancel),
+              child: Text(
+                t.misc.buttons.cancel,
+                style: TextStyle(color: Colors.red),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text(t.misc.buttons.save),
+              child: Text(
+                t.misc.buttons.save,
+                style: TextStyle(color: Colors.green),
+              ),
               onPressed: () {
                 Navigator.of(context).pop(inputValue?.trim());
               },
