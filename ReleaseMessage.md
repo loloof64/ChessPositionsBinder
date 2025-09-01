@@ -1,1 +1,1 @@
-* Initial desktop release
+- Attempt to fix Dropbox client Id error
