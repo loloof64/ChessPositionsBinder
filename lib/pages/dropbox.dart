@@ -325,7 +325,7 @@ class _DropboxPageState extends State<DropboxPage> {
     final localElements = elements.map((currentElement) {
       final path = currentElement.name;
       final isFolder = currentElement.isFolder;
-      final simpleName = path.split("/").last;
+      final simpleName = path.split(Platform.pathSeparator).last;
       return CommanderItem(simpleName: simpleName, isFolder: isFolder);
     }).toList();
     final isRootFolder = _localPath == _documentsPath;
