@@ -12,10 +12,10 @@ script:
 AppDir:
   path: ./AppDir
   app_info:
-    id: com.loloof64.chess_position_binder
+    id: com.loloof64.ChessPositionsBinder
     name: Chess Positions Binder
-    icon: icon
-    version: 1.0.6
+    icon: logo
+    version: 1.0.8
     exec: chess_position_binder
     exec_args: $@
   apt:
