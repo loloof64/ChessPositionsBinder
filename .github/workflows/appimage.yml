@@ -3,6 +3,10 @@ name: AppImage Release
 on:
   workflow_call:
 
+permissions:
+  contents: read
+  actions: read
+
 jobs:
   build:
     name: Build
@@ -10,16 +14,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Add Dropbox secrets
-        env:
-          DBX_ID: ${{ secrets.DROPBOX_CLIENT_ID }}
-          DBX_SECRET: ${{ secrets.DROPBOX_SECRET }}
         run: |
           # Create folder 'lib/services/dropbox' if needed
           mkdir -p lib/services/dropbox
 
           # Create file 'secrets.dart' and insert secrets
-          echo "final identifier = '$DBX_ID';" > lib/services/dropbox/secrets.dart
-          echo "final secret = '$DBX_SECRET';" >> lib/services/dropbox/secrets.dart
+          echo "final identifier = '${{ secrets.DROPBOX_CLIENT_ID }}';" > lib/services/dropbox/secrets.dart
+          echo "final secret = '${{ secrets.DROPBOX_SECRET }}';" >> lib/services/dropbox/secrets.dart
       - name: Setup Flutter SDK
         uses: flutter-actions/setup-flutter@v4
         with:

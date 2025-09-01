@@ -3,6 +3,10 @@ name: Build Windows Installer
 on:
   workflow_call:
 
+permissions:
+  contents: read
+  actions: read
+
 jobs:
   build:
     runs-on: windows-latest
@@ -11,16 +15,13 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Add Dropbox secrets
-        env:
-          DBX_ID: ${{ secrets.DROPBOX_CLIENT_ID }}
-          DBX_SECRET: ${{ secrets.DROPBOX_SECRET }}
         run: |
           # Create folder 'lib/services/dropbox' if needed
           New-Item -ItemType Directory -Force -Path ".\lib\services\dropbox"
 
           # Create file 'secrets.dart' and insert secrets
-          "final identifier = '$env:DBX_ID';" | Out-File -FilePath ".\lib\services\dropbox\secrets.dart"
-          "final secret = '$env:DBX_SECRET';" | Out-File -FilePath ".\lib\services\dropbox\secrets.dart" -Append
+          "final identifier = '${{ secrets.DROPBOX_CLIENT_ID }}';" | Out-File -FilePath ".\lib\services\dropbox\secrets.dart"
+          "final secret = '${{ secrets.DROPBOX_SECRET }}';" | Out-File -FilePath ".\lib\services\dropbox\secrets.dart" -Append
         shell: pwsh
 
       - name: Install yq
