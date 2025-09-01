@@ -4,7 +4,7 @@ script:
   - rm -rf AppDir || true
   - cp -r build/linux/x64/release/bundle AppDir
   - mkdir -p AppDir/usr/share/icons/hicolor/256x256/apps/
-  - cp icon.png AppDir/usr/share/icons/hicolor/256x256/apps/
+  - cp logo.png AppDir/usr/share/icons/hicolor/256x256/apps/
   - mkdir -p AppDir/usr/share/applications/
   - cp ChessPositionsBinder.desktop AppDir/usr/share/applications/
   - mkdir -p AppDir/usr/share/metainfo
