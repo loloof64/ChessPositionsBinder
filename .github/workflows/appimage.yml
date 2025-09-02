@@ -2,6 +2,11 @@ name: AppImage Release
 
 on:
   workflow_call:
+    secrets:
+      DROPBOX_CLIENT_ID:
+        required: true
+      DROPBOX_SECRET:
+        required: true
 
 jobs:
   build:
@@ -9,9 +14,6 @@ jobs:
     runs-on: Ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
-      - name: Verify secret length
-        run: |
-          echo -n "${{secrets.DROPBOX_CLIENT_ID}}" | wc -m
       - name: Add Dropbox secrets
         run: |
           # Create folder 'lib/services/dropbox' if needed

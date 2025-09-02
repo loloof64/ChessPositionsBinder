@@ -1,13 +1,14 @@
 name: Main Workflow
 
-on:  
+on:
   push:
     tags:
-      - '*'
+      - "*"
 
 jobs:
   run-linux:
     uses: ./.github/workflows/appimage.yml
+    secrets: inherit
 
   run-windows:
     needs: run-linux

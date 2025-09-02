@@ -2,6 +2,11 @@ name: Build Windows Installer
 
 on:
   workflow_call:
+    secrets:
+      DROPBOX_CLIENT_ID:
+        required: true
+      DROPBOX_SECRET:
+        required: true
 
 jobs:
   build:

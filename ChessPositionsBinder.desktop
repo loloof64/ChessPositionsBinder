@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Application
-Version=1.0.32
+Version=1.0.34
 Name=Chess Positions Binder
 Comment=Store and classify your favorite chess positions.
 Exec=chess_position_binder
