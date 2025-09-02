@@ -112,21 +112,22 @@ class ConnectedWidget extends StatelessWidget {
     );
 
     return SafeArea(
-      child: orientation == Orientation.landscape
-          ? Row(
-              children: [
-                Expanded(child: dropboxCommander),
-                VerticalDivider(width: 1),
-                Expanded(child: localCommander),
-              ],
-            )
-          : Column(
-              children: [
-                Expanded(child: dropboxCommander),
-                Divider(height: 1),
-                Expanded(child: localCommander),
-              ],
-            ),
+      child:
+          orientation == Orientation.landscape
+              ? Row(
+                children: [
+                  Expanded(child: dropboxCommander),
+                  VerticalDivider(width: 1),
+                  Expanded(child: localCommander),
+                ],
+              )
+              : Column(
+                children: [
+                  Expanded(child: dropboxCommander),
+                  Divider(height: 1),
+                  Expanded(child: localCommander),
+                ],
+              ),
     );
   }
 }
@@ -155,7 +156,7 @@ class _UnconnectedWidgetState extends State<UnconnectedWidget> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(t.pages.dropbox.enter_auth_code),
-        TextField(controller: widget.codeController),
+        TextField(controller: widget.codeController, autofocus: true),
         ElevatedButton(
           onPressed: widget.pasteFromClipboard,
           child: Text(t.misc.buttons.paste),

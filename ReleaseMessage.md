@@ -1,1 +1,3 @@
-- Attempt to fix Dropbox client Id error
+- Add autofocus to text field in commander on new folder creation
+- Add autofocus to text field in commander on new zip creation
+- Add autofocus to text filed in home page when Dropbox credentials are requested

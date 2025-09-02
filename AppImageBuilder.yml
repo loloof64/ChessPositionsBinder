@@ -15,7 +15,7 @@ AppDir:
     id: com.loloof64.ChessPositionsBinder
     name: Chess Positions Binder
     icon: logo
-    version: 1.0.34
+    version: 1.0.36
     exec: chess_position_binder
     exec_args: $@
   apt:

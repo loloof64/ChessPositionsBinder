@@ -89,6 +89,7 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
         return AlertDialog(
           title: Text(t.widgets.commander.new_folder.title),
           content: TextField(
+            autofocus: true,
             controller: _newFolderNameController,
             decoration: InputDecoration(
               hintText: t.widgets.commander.new_folder.name_placeholder,
@@ -302,7 +303,11 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
             spacing: 8,
             children: [
               Text(t.widgets.commander.compress_items.prompt),
-              TextField(controller: null, onChanged: (value) => name = value),
+              TextField(
+                controller: null,
+                onChanged: (value) => name = value,
+                autofocus: true,
+              ),
             ],
           ),
           actions: [
@@ -345,9 +350,10 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
       return;
     }
 
-    final retainedItems = selectedItems.where((elt) {
-      return !elt.isFolder && elt.simpleName.endsWith('.zip');
-    }).toList();
+    final retainedItems =
+        selectedItems.where((elt) {
+          return !elt.isFolder && elt.simpleName.endsWith('.zip');
+        }).toList();
 
     final hasConfirmed = await showDialog<bool>(
       context: context,
@@ -460,8 +466,8 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
                               ),
                             if (widget.isSelectionMode)
                               IconButton(
-                                onPressed: () =>
-                                    widget.handleFilesTransferRequest(
+                                onPressed:
+                                    () => widget.handleFilesTransferRequest(
                                       widget.selectedItems,
                                     ),
                                 icon: Icon(
@@ -529,9 +535,9 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
                         widget.basePath == null
                             ? widget.pathText!
                             : widget.pathText!.replaceAll(
-                                widget.basePath!,
-                                t.pages.home.misc.base_directory,
-                              ),
+                              widget.basePath!,
+                              t.pages.home.misc.base_directory,
+                            ),
                         softWrap: false,
                         overflow: TextOverflow.visible,
                         style: const TextStyle(fontSize: 20),
@@ -556,67 +562,68 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
                     if (widget.isSelectionMode) {
                       return isParentFolder
                           ? Container(
-                              color: Colors.transparent,
+                            color: Colors.transparent,
+                            width: double.infinity,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.arrow_back,
+                                  size: 25,
+                                  color: Colors.blueAccent,
+                                ),
+                              ],
+                            ),
+                          )
+                          : GestureDetector(
+                            onTap: () {
+                              widget.handleToggleItemSelection(currentItem);
+                            },
+                            child: Container(
                               width: double.infinity,
+                              color: Colors.transparent,
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
+                                spacing: 2,
                                 children: [
-                                  Icon(
-                                    Icons.arrow_back,
+                                  if (widget.selectedItems != null)
+                                    SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child: Checkbox(
+                                        value: widget.selectedItems!.contains(
+                                          currentItem,
+                                        ),
+                                        onChanged: (newValue) {
+                                          widget.handleToggleItemSelection(
+                                            currentItem,
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  FaIcon(
+                                    isFolder
+                                        ? FontAwesomeIcons.folder
+                                        : FontAwesomeIcons.fileLines,
                                     size: 25,
-                                    color: Colors.blueAccent,
+                                    color:
+                                        isFolder
+                                            ? Colors.amberAccent
+                                            : isPgn
+                                            ? Colors.blueAccent
+                                            : isZip
+                                            ? Colors.brown
+                                            : Colors.black12,
                                   ),
+                                  Text(itemName),
                                 ],
                               ),
-                            )
-                          : GestureDetector(
-                              onTap: () {
-                                widget.handleToggleItemSelection(currentItem);
-                              },
-                              child: Container(
-                                width: double.infinity,
-                                color: Colors.transparent,
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  spacing: 2,
-                                  children: [
-                                    if (widget.selectedItems != null)
-                                      SizedBox(
-                                        width: 20,
-                                        height: 20,
-                                        child: Checkbox(
-                                          value: widget.selectedItems!.contains(
-                                            currentItem,
-                                          ),
-                                          onChanged: (newValue) {
-                                            widget.handleToggleItemSelection(
-                                              currentItem,
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                    FaIcon(
-                                      isFolder
-                                          ? FontAwesomeIcons.folder
-                                          : FontAwesomeIcons.fileLines,
-                                      size: 25,
-                                      color: isFolder
-                                          ? Colors.amberAccent
-                                          : isPgn
-                                          ? Colors.blueAccent
-                                          : isZip
-                                          ? Colors.brown
-                                          : Colors.black12,
-                                    ),
-                                    Text(itemName),
-                                  ],
-                                ),
-                              ),
-                            );
+                            ),
+                          );
                     } else if (isParentFolder) {
                       return GestureDetector(
                         onTap: () => widget.handleFolderSelection(parentFolder),
@@ -676,11 +683,12 @@ class _CommanderFilesWidgetState extends State<CommanderFilesWidget> {
                                   ? FontAwesomeIcons.boxArchive
                                   : FontAwesomeIcons.question,
                               size: 25,
-                              color: isPgn
-                                  ? Colors.blueAccent
-                                  : isZip
-                                  ? Colors.brown
-                                  : Colors.black12,
+                              color:
+                                  isPgn
+                                      ? Colors.blueAccent
+                                      : isZip
+                                      ? Colors.brown
+                                      : Colors.black12,
                             ),
                             Text(itemName),
                           ],
