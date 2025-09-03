@@ -1,3 +1,1 @@
-- Add autofocus to text field in commander on new folder creation
-- Add autofocus to text field in commander on new zip creation
-- Add autofocus to text filed in home page when Dropbox credentials are requested
+- Tiny fix for Dropbox integration
