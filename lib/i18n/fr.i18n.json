@@ -43,6 +43,9 @@
     }
   },
   "pages": {
+    "photo_ocr": {
+      "title": "Scanette photo de position"
+    },
     "home": {
       "title": "Accueil",
       "create_folder_dialog": {

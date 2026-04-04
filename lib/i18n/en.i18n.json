@@ -43,6 +43,9 @@
     }
   },
   "pages": {
+    "photo_ocr": {
+      "title": "Position photo scanner"
+    },
     "home": {
       "title": "Home",
       "create_folder_dialog": {

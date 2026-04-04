@@ -72,6 +72,7 @@ class _TranslationsPagesEs implements TranslationsPagesEn {
 	final TranslationsEs _root; // ignore: unused_field
 
 	// Translations
+	@override late final _TranslationsPagesPhotoOcrEs photo_ocr = _TranslationsPagesPhotoOcrEs._(_root);
 	@override late final _TranslationsPagesHomeEs home = _TranslationsPagesHomeEs._(_root);
 	@override late final _TranslationsPagesPositionDetailsEs position_details = _TranslationsPagesPositionDetailsEs._(_root);
 	@override late final _TranslationsPagesPositionEditorEs position_editor = _TranslationsPagesPositionEditorEs._(_root);
@@ -129,6 +130,16 @@ class _TranslationsWidgetsCommanderEs implements TranslationsWidgetsCommanderEn 
 	@override late final _TranslationsWidgetsCommanderDeleteItemsEs delete_items = _TranslationsWidgetsCommanderDeleteItemsEs._(_root);
 	@override late final _TranslationsWidgetsCommanderCompressItemsEs compress_items = _TranslationsWidgetsCommanderCompressItemsEs._(_root);
 	@override late final _TranslationsWidgetsCommanderExtractItemsEs extract_items = _TranslationsWidgetsCommanderExtractItemsEs._(_root);
+}
+
+// Path: pages.photo_ocr
+class _TranslationsPagesPhotoOcrEs implements TranslationsPagesPhotoOcrEn {
+	_TranslationsPagesPhotoOcrEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Escáner de fotos de posición';
 }
 
 // Path: pages.home
@@ -518,6 +529,7 @@ extension on TranslationsEs {
 			case 'widgets.commander.compress_items.prompt': return 'Seleccione el nombre del archivo (sin la extensión .zip):';
 			case 'widgets.commander.extract_items.title': return 'Extraer archivos';
 			case 'widgets.commander.extract_items.message': return '¿Desea extraer los siguientes archivos? Tenga en cuenta que solo se extraerán carpetas, archivos *.pgn y *.zip. Además, si algunas carpetas de destino ya existen, las extracciones relacionadas serán omitidas.';
+			case 'pages.photo_ocr.title': return 'Escáner de fotos de posición';
 			case 'pages.home.title': return 'Inicio';
 			case 'pages.home.create_folder_dialog.title': return 'Crear carpeta';
 			case 'pages.home.create_folder_dialog.folder_name_placeholder': return 'Nombre de la carpeta';

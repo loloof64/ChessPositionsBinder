@@ -79,6 +79,7 @@ class TranslationsPagesEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+	late final TranslationsPagesPhotoOcrEn photo_ocr = TranslationsPagesPhotoOcrEn._(_root);
 	late final TranslationsPagesHomeEn home = TranslationsPagesHomeEn._(_root);
 	late final TranslationsPagesPositionDetailsEn position_details = TranslationsPagesPositionDetailsEn._(_root);
 	late final TranslationsPagesPositionEditorEn position_editor = TranslationsPagesPositionEditorEn._(_root);
@@ -161,6 +162,18 @@ class TranslationsWidgetsCommanderEn {
 	late final TranslationsWidgetsCommanderDeleteItemsEn delete_items = TranslationsWidgetsCommanderDeleteItemsEn._(_root);
 	late final TranslationsWidgetsCommanderCompressItemsEn compress_items = TranslationsWidgetsCommanderCompressItemsEn._(_root);
 	late final TranslationsWidgetsCommanderExtractItemsEn extract_items = TranslationsWidgetsCommanderExtractItemsEn._(_root);
+}
+
+// Path: pages.photo_ocr
+class TranslationsPagesPhotoOcrEn {
+	TranslationsPagesPhotoOcrEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Position photo scanner'
+	String get title => 'Position photo scanner';
 }
 
 // Path: pages.home
@@ -750,6 +763,7 @@ extension on Translations {
 			case 'widgets.commander.compress_items.prompt': return 'Select the name of the archive (without .zip extension):';
 			case 'widgets.commander.extract_items.title': return 'Extract archives';
 			case 'widgets.commander.extract_items.message': return 'Do you want to extract the following archives ? Please notice that it will only extract folders/*.pgn/*.zip elements. Also notice that if some target folders already exists, related extractions will be skipped.';
+			case 'pages.photo_ocr.title': return 'Position photo scanner';
 			case 'pages.home.title': return 'Home';
 			case 'pages.home.create_folder_dialog.title': return 'Create folder';
 			case 'pages.home.create_folder_dialog.folder_name_placeholder': return 'Folder name';

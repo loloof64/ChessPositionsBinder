@@ -1,9 +1,14 @@
+import 'dart:io';
+
+import 'package:chess_position_binder/core/chess_recognizer.dart';
 import 'package:chess_position_binder/i18n/strings.g.dart';
+import 'package:chess_position_binder/pages/photo_ocr_process.dart';
 import 'package:chess_position_binder/widgets/board_editor.dart';
 import 'package:chess_position_binder/widgets/position_informations_form.dart';
 import 'package:chess_position_binder/widgets/position_metadata_controller.dart';
 import 'package:dartchess/dartchess.dart' as chess;
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class PositionEditorPage extends StatefulWidget {
   final String fileName;
@@ -15,6 +20,7 @@ class PositionEditorPage extends StatefulWidget {
   final String exercice;
   final bool editingExistingFile;
   final List<String> alreadyExistingNames;
+  final ChessRecognizer chessRecognizer;
 
   const PositionEditorPage({
     super.key,
@@ -27,6 +33,7 @@ class PositionEditorPage extends StatefulWidget {
     required this.alreadyExistingNames,
     required this.fileName,
     required this.editingExistingFile,
+    required this.chessRecognizer,
   });
 
   @override
@@ -101,6 +108,20 @@ class _PositionEditorPageState extends State<PositionEditorPage> {
         );
       },
     );
+  }
+
+  Future<void> _purposeScanningPhoto() async {
+    final newPositionFen = await Navigator.of(context).push<String?>(
+      MaterialPageRoute(
+        builder: (routeCtx) {
+          return PhotoOcrProcessPage(chessRecognizer: widget.chessRecognizer);
+        },
+      ),
+    );
+    if (newPositionFen == null) return;
+    setState(() {
+      _positionMetadataController.fen = newPositionFen;
+    });
   }
 
   Future<void> _purposeReturnPgn() async {
@@ -219,6 +240,13 @@ class _PositionEditorPageState extends State<PositionEditorPage> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        floatingActionButton:
+            (Platform.isAndroid || Platform.isIOS)
+                ? FloatingActionButton(
+                  onPressed: _purposeScanningPhoto,
+                  child: FaIcon(FontAwesomeIcons.barcode),
+                )
+                : null,
         appBar: AppBar(
           title: Text(title),
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,

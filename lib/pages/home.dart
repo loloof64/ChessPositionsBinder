@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:chess_position_binder/core/chess_recognizer.dart';
 import 'package:chess_position_binder/i18n/strings.g.dart';
 import 'package:chess_position_binder/core/read_positions.dart';
 import 'package:chess_position_binder/pages/dropbox.dart';
@@ -27,16 +28,24 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<List<RawFolderElement>> _contentFuture = Future.value([]);
   final ScrollController _scrollController = ScrollController();
   List<RawFolderElement>? _lastContentsState;
+  final ChessRecognizer _chessRecognizer = ChessRecognizer();
+  late Future<void> _loadRecognizerFuture;
 
   @override
   void initState() {
     super.initState();
+    _loadRecognizerFuture = _loadChessRecognizer();
     _setupCurrentDirectory().then((_) => _reloadContent());
+  }
+
+  Future<void> _loadChessRecognizer() async {
+    await _chessRecognizer.load();
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
+    _chessRecognizer.dispose();
     super.dispose();
   }
 
@@ -72,6 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
             initialFen: chess.Chess.initial.fen,
             editingExistingFile: false,
             alreadyExistingNames: contentsNames,
+            chessRecognizer: _chessRecognizer,
           );
         },
       ),
@@ -202,6 +212,7 @@ class _MyHomePageState extends State<MyHomePage> {
               date: date,
               exercice: exercice,
               alreadyExistingNames: [], // has no importance here
+              chessRecognizer: _chessRecognizer,
             );
           },
         ),
@@ -622,11 +633,11 @@ class _MyHomePageState extends State<MyHomePage> {
         MediaQuery.orientationOf(context) == Orientation.portrait;
     final width = MediaQuery.sizeOf(context).width;
     final boardSize = isPortrait ? width * 0.4 : width * 0.28;
-    final content = FutureBuilder<List<RawFolderElement>>(
-      future: _contentFuture,
+    final content = FutureBuilder<dynamic>(
+      future: Future.wait([_contentFuture, _loadRecognizerFuture]),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          var allItems = snapshot.data!;
+          var allItems = snapshot.data![0] as List<RawFolderElement>;
           if (_currentDirectory?.path != _baseDirectory?.path) {
             allItems = [
               RawFolderElement(name: parentFolder, content: "", isFolder: true),
@@ -818,7 +829,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               );
         } else if (snapshot.hasError) {
-          return Icon(Icons.error, color: Colors.red);
+          return Center(
+            child: Icon(Icons.error, color: Colors.red, size: 120.0),
+          );
         } else {
           return const CircularProgressIndicator();
         }

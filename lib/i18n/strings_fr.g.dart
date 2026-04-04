@@ -72,6 +72,7 @@ class _TranslationsPagesFr implements TranslationsPagesEn {
 	final TranslationsFr _root; // ignore: unused_field
 
 	// Translations
+	@override late final _TranslationsPagesPhotoOcrFr photo_ocr = _TranslationsPagesPhotoOcrFr._(_root);
 	@override late final _TranslationsPagesHomeFr home = _TranslationsPagesHomeFr._(_root);
 	@override late final _TranslationsPagesPositionDetailsFr position_details = _TranslationsPagesPositionDetailsFr._(_root);
 	@override late final _TranslationsPagesPositionEditorFr position_editor = _TranslationsPagesPositionEditorFr._(_root);
@@ -129,6 +130,16 @@ class _TranslationsWidgetsCommanderFr implements TranslationsWidgetsCommanderEn 
 	@override late final _TranslationsWidgetsCommanderDeleteItemsFr delete_items = _TranslationsWidgetsCommanderDeleteItemsFr._(_root);
 	@override late final _TranslationsWidgetsCommanderCompressItemsFr compress_items = _TranslationsWidgetsCommanderCompressItemsFr._(_root);
 	@override late final _TranslationsWidgetsCommanderExtractItemsFr extract_items = _TranslationsWidgetsCommanderExtractItemsFr._(_root);
+}
+
+// Path: pages.photo_ocr
+class _TranslationsPagesPhotoOcrFr implements TranslationsPagesPhotoOcrEn {
+	_TranslationsPagesPhotoOcrFr._(this._root);
+
+	final TranslationsFr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Scanette photo de position';
 }
 
 // Path: pages.home
@@ -518,6 +529,7 @@ extension on TranslationsFr {
 			case 'widgets.commander.compress_items.prompt': return 'Veuillez définir le nom de l\'archive (sans l\'extension .zip) :';
 			case 'widgets.commander.extract_items.title': return 'Extraction d\'archives';
 			case 'widgets.commander.extract_items.message': return 'Souhaitez-vous extraire les archives suivantes ? Veuillez noter que ne seront seulement extraits les éléments dossiers/*.pgn/*.zip. Aussi des dossiers cibles existent déjà, ils seront ignorés.';
+			case 'pages.photo_ocr.title': return 'Scanette photo de position';
 			case 'pages.home.title': return 'Accueil';
 			case 'pages.home.create_folder_dialog.title': return 'Créer un dossier';
 			case 'pages.home.create_folder_dialog.folder_name_placeholder': return 'Nom du dossier';
