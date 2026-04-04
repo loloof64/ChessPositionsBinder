@@ -52,7 +52,11 @@ class TranslationsMiscEn {
 
 	// Translations
 	late final TranslationsMiscButtonsEn buttons = TranslationsMiscButtonsEn._(_root);
+
+	/// en: 'folder'
 	String get folder => 'folder';
+
+	/// en: 'file'
 	String get file => 'file';
 }
 
@@ -89,10 +93,20 @@ class TranslationsMiscButtonsEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// en: 'Ok'
 	String get ok => 'Ok';
+
+	/// en: 'Cancel'
 	String get cancel => 'Cancel';
+
+	/// en: 'Save'
 	String get save => 'Save';
+
+	/// en: 'Validate'
 	String get validate => 'Validate';
+
+	/// en: 'Paste'
 	String get paste => 'Paste';
 }
 
@@ -103,6 +117,8 @@ class TranslationsWidgetsBoardEditorEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// en: 'Black turn:'
 	String get black_turn => 'Black turn:';
 }
 
@@ -113,10 +129,20 @@ class TranslationsWidgetsPositionInformationFormEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// en: 'White player'
 	String get white_player => 'White player';
+
+	/// en: 'Black player'
 	String get black_player => 'Black player';
+
+	/// en: 'Event'
 	String get event => 'Event';
+
+	/// en: 'Date'
 	String get date => 'Date';
+
+	/// en: 'Exercise'
 	String get exercise => 'Exercise';
 }
 
@@ -127,7 +153,10 @@ class TranslationsWidgetsCommanderEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// en: 'No item selected.'
 	String get no_item_selected => 'No item selected.';
+
 	late final TranslationsWidgetsCommanderNewFolderEn new_folder = TranslationsWidgetsCommanderNewFolderEn._(_root);
 	late final TranslationsWidgetsCommanderDeleteItemsEn delete_items = TranslationsWidgetsCommanderDeleteItemsEn._(_root);
 	late final TranslationsWidgetsCommanderCompressItemsEn compress_items = TranslationsWidgetsCommanderCompressItemsEn._(_root);
@@ -141,7 +170,10 @@ class TranslationsPagesHomeEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// en: 'Home'
 	String get title => 'Home';
+
 	late final TranslationsPagesHomeCreateFolderDialogEn create_folder_dialog = TranslationsPagesHomeCreateFolderDialogEn._(_root);
 	late final TranslationsPagesHomeCreateFolderErrorsEn create_folder_errors = TranslationsPagesHomeCreateFolderErrorsEn._(_root);
 	late final TranslationsPagesHomeMiscErrorsEn misc_errors = TranslationsPagesHomeMiscErrorsEn._(_root);
@@ -161,6 +193,8 @@ class TranslationsPagesPositionDetailsEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// en: 'Position ($fileName)'
 	String title({required Object fileName}) => 'Position (${fileName})';
 }
 
@@ -171,10 +205,16 @@ class TranslationsPagesPositionEditorEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// en: 'Position editor ($fileName)'
 	String title({required Object fileName}) => 'Position editor (${fileName})';
+
+	/// en: 'Position editor'
 	String get simple_title => 'Position editor';
+
 	late final TranslationsPagesPositionEditorSavedFileNameDialogEn saved_file_name_dialog = TranslationsPagesPositionEditorSavedFileNameDialogEn._(_root);
 	late final TranslationsPagesPositionEditorOverwriteFileConfirmationDialogEn overwrite_file_confirmation_dialog = TranslationsPagesPositionEditorOverwriteFileConfirmationDialogEn._(_root);
+	late final TranslationsPagesPositionEditorEditorLabelsEn editor_labels = TranslationsPagesPositionEditorEditorLabelsEn._(_root);
 }
 
 // Path: pages.position_shortcuts
@@ -195,27 +235,67 @@ class TranslationsPagesDropboxEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// en: 'Failed to get to the authentification page.'
 	String get failed_getting_auth_page => 'Failed to get to the authentification page.';
+
+	/// en: 'Enter the authentification code'
 	String get enter_auth_code => 'Enter the authentification code';
+
+	/// en: 'Invalid code'
 	String get invalid_auth_code => 'Invalid code';
+
 	late final TranslationsPagesDropboxRequestErrorsEn request_errors = TranslationsPagesDropboxRequestErrorsEn._(_root);
+
+	/// en: 'Dropbox'
 	String get dropbox_explorer => 'Dropbox';
+
+	/// en: 'Local'
 	String get local_explorer => 'Local';
+
+	/// en: 'You are logged out.'
 	String get disconnected => 'You are logged out.';
+
+	/// en: 'Failed to read local content.'
 	String get failed_reading_local_content => 'Failed to read local content.';
+
+	/// en: 'Failed to delete items.'
 	String get failed_deleting_items => 'Failed to delete items.';
+
+	/// en: 'Failed to upload some items.'
 	String get failed_uploading_items => 'Failed to upload some items.';
+
+	/// en: 'Failed to download some items.'
 	String get failed_downloading_items => 'Failed to download some items.';
+
+	/// en: 'Folders have been ignored.'
 	String get skipped_folders => 'Folders have been ignored.';
+
+	/// en: 'Done upload.'
 	String get upload_done => 'Done upload.';
+
+	/// en: 'Done download.'
 	String get download_done => 'Done download.';
+
 	late final TranslationsPagesDropboxConfirmUploadFilesEn confirm_upload_files = TranslationsPagesDropboxConfirmUploadFilesEn._(_root);
 	late final TranslationsPagesDropboxConfirmDownloadFilesEn confirm_download_files = TranslationsPagesDropboxConfirmDownloadFilesEn._(_root);
+
+	/// en: 'Some items have not been uploaded because they are above 150MB.'
 	String get items_too_big => 'Some items have not been uploaded because they are above 150MB.';
+
+	/// en: 'Compressed items.'
 	String get success_compressing_items => 'Compressed items.';
+
+	/// en: 'Failed to compress items.'
 	String get failed_compressing_items => 'Failed to compress items.';
+
+	/// en: 'Extracted items.'
 	String get success_extracting_items => 'Extracted items.';
+
+	/// en: 'Failed to extract items.'
 	String get failed_extracting_items => 'Failed to extract items.';
+
+	/// en: 'Some items were ignored as target already exists:'
 	String get skipped_extracting_items => 'Some items were ignored as target already exists:';
 }
 
@@ -226,7 +306,11 @@ class TranslationsWidgetsCommanderNewFolderEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// en: 'Create folder'
 	String get title => 'Create folder';
+
+	/// en: 'Folder name'
 	String get name_placeholder => 'Folder name';
 }
 
@@ -237,7 +321,11 @@ class TranslationsWidgetsCommanderDeleteItemsEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// en: 'Delete items ?'
 	String get title => 'Delete items ?';
+
+	/// en: 'Do you want to delete the following items ?'
 	String get message => 'Do you want to delete the following items ?';
 }
 
@@ -248,8 +336,14 @@ class TranslationsWidgetsCommanderCompressItemsEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// en: 'Compress items'
 	String get title => 'Compress items';
+
+	/// en: 'Do you want to compress the following items ?'
 	String get message => 'Do you want to compress the following items ?';
+
+	/// en: 'Select the name of the archive (without .zip extension):'
 	String get prompt => 'Select the name of the archive (without .zip extension):';
 }
 
@@ -260,7 +354,11 @@ class TranslationsWidgetsCommanderExtractItemsEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// en: 'Extract archives'
 	String get title => 'Extract archives';
+
+	/// en: 'Do you want to extract the following archives ? Please notice that it will only extract folders/*.pgn/*.zip elements. Also notice that if some target folders already exists, related extractions will be skipped.'
 	String get message => 'Do you want to extract the following archives ? Please notice that it will only extract folders/*.pgn/*.zip elements. Also notice that if some target folders already exists, related extractions will be skipped.';
 }
 
@@ -271,7 +369,11 @@ class TranslationsPagesHomeCreateFolderDialogEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// en: 'Create folder'
 	String get title => 'Create folder';
+
+	/// en: 'Folder name'
 	String get folder_name_placeholder => 'Folder name';
 }
 
@@ -282,7 +384,11 @@ class TranslationsPagesHomeCreateFolderErrorsEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// en: 'Folder already exists'
 	String get already_exists => 'Folder already exists';
+
+	/// en: 'Failed to create folder'
 	String get creation_error => 'Failed to create folder';
 }
 
@@ -293,12 +399,26 @@ class TranslationsPagesHomeMiscErrorsEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// en: 'Failed to edit position'
 	String get failed_editing_position => 'Failed to edit position';
+
+	/// en: 'Failed to view position details'
 	String get failed_viewing_position_details => 'Failed to view position details';
+
+	/// en: 'Failed to delete position'
 	String get failed_deleting_position => 'Failed to delete position';
+
+	/// en: 'Failed to delete folder'
 	String get failed_deleting_folder => 'Failed to delete folder';
+
+	/// en: 'Failed to open folder'
 	String get failed_opening_folder => 'Failed to open folder';
+
+	/// en: 'Failed to open position'
 	String get failed_opening_position => 'Failed to open position';
+
+	/// en: 'Failed to read position from $fileName'
 	String failed_reading_position_value({required Object fileName}) => 'Failed to read position from ${fileName}';
 }
 
@@ -309,7 +429,11 @@ class TranslationsPagesHomeDeletePositionDialogEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// en: 'Delete position ?'
 	String get title => 'Delete position ?';
+
+	/// en: 'Are you sure you want to delete position $name ?'
 	String message({required Object name}) => 'Are you sure you want to delete position ${name} ?';
 }
 
@@ -320,7 +444,11 @@ class TranslationsPagesHomeDeleteFolderDialogEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// en: 'Delete folder ?'
 	String get title => 'Delete folder ?';
+
+	/// en: 'Are you sure you want to delete folder $name ?'
 	String message({required Object name}) => 'Are you sure you want to delete folder ${name} ?';
 }
 
@@ -331,7 +459,11 @@ class TranslationsPagesHomeRenamePositionDialogEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// en: 'Rename position ($currentName)'
 	String title({required Object currentName}) => 'Rename position (${currentName})';
+
+	/// en: 'New name'
 	String get name_placeholder => 'New name';
 }
 
@@ -342,7 +474,11 @@ class TranslationsPagesHomeRenamePositionErrorsEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// en: 'File already exists'
 	String get already_exists => 'File already exists';
+
+	/// en: 'Failed to rename position'
 	String get modification_error => 'Failed to rename position';
 }
 
@@ -353,7 +489,11 @@ class TranslationsPagesHomeRenameFolderErrorsEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// en: 'Folder already exists'
 	String get already_exists => 'Folder already exists';
+
+	/// en: 'Failed to rename folder'
 	String get modification_error => 'Failed to rename folder';
 }
 
@@ -364,7 +504,11 @@ class TranslationsPagesHomeRenameFolderDialogEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// en: 'Rename folder ($newFolderName)'
 	String title({required Object newFolderName}) => 'Rename folder (${newFolderName})';
+
+	/// en: 'New name'
 	String get name_placeholder => 'New name';
 }
 
@@ -375,7 +519,11 @@ class TranslationsPagesHomeMiscEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// en: '[BASE_DIR]'
 	String get base_directory => '[BASE_DIR]';
+
+	/// en: 'No item'
 	String get no_item => 'No item';
 }
 
@@ -386,7 +534,11 @@ class TranslationsPagesPositionEditorSavedFileNameDialogEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// en: 'Select saved file name'
 	String get title => 'Select saved file name';
+
+	/// en: 'File name'
 	String get name_placeholder => 'File name';
 }
 
@@ -397,8 +549,75 @@ class TranslationsPagesPositionEditorOverwriteFileConfirmationDialogEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// en: 'Overwrite file ?'
 	String get title => 'Overwrite file ?';
+
+	/// en: 'Overwrite file $fileName ?'
 	String message({required Object fileName}) => 'Overwrite file ${fileName} ?';
+}
+
+// Path: pages.position_editor.editor_labels
+class TranslationsPagesPositionEditorEditorLabelsEn {
+	TranslationsPagesPositionEditorEditorLabelsEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Player turn'
+	String get player_turn => 'Player turn';
+
+	/// en: 'White'
+	String get white_player => 'White';
+
+	/// en: 'Black'
+	String get black_player => 'Black';
+
+	/// en: 'Roques'
+	String get available_castles => 'Roques';
+
+	/// en: 'White O-O'
+	String get white_OO => 'White O-O';
+
+	/// en: 'White O-O-O'
+	String get white_OOO => 'White O-O-O';
+
+	/// en: 'Black O-O'
+	String get black_OO => 'Black O-O';
+
+	/// en: 'Black O-O-O'
+	String get black_OOO => 'Black O-O-O';
+
+	/// en: 'En passant'
+	String get en_passant => 'En passant';
+
+	/// en: '50 moves rule'
+	String get draw_moves_half_count => '50 moves rule';
+
+	/// en: 'Move number'
+	String get move_number => 'Move number';
+
+	/// en: 'Submit'
+	String get submit_field => 'Submit';
+
+	/// en: 'Current position'
+	String get current_position => 'Current position';
+
+	/// en: 'Copy FEN'
+	String get copy_fen => 'Copy FEN';
+
+	/// en: 'Paste FEN'
+	String get paste_fen => 'Paste FEN';
+
+	/// en: 'Reset position'
+	String get reset_position => 'Reset position';
+
+	/// en: 'Standard position'
+	String get standard_position => 'Standard position';
+
+	/// en: 'Erase position'
+	String get erase_position => 'Erase position';
 }
 
 // Path: pages.position_shortcuts.errors
@@ -408,6 +627,8 @@ class TranslationsPagesPositionShortcutsErrorsEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// en: 'Failed to paste FEN'
 	String get failed_pasting_fen => 'Failed to paste FEN';
 }
 
@@ -418,10 +639,20 @@ class TranslationsPagesPositionShortcutsButtonsEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// en: 'Paste FEN'
 	String get paste_fen => 'Paste FEN';
+
+	/// en: 'Copy FEN'
 	String get copy_fen => 'Copy FEN';
+
+	/// en: 'Clear'
 	String get clear => 'Clear';
+
+	/// en: 'Reset'
 	String get reset => 'Reset';
+
+	/// en: 'Start position'
 	String get set_start_position => 'Start position';
 }
 
@@ -432,14 +663,32 @@ class TranslationsPagesDropboxRequestErrorsEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// en: 'No Dropbox client available.'
 	String get no_client_available => 'No Dropbox client available.';
+
+	/// en: 'Bad request input.'
 	String get bad_request_input => 'Bad request input.';
+
+	/// en: 'Authentification error.'
 	String get authentification => 'Authentification error.';
+
+	/// en: 'No permission error.'
 	String get no_permission => 'No permission error.';
+
+	/// en: 'Endpoint error.'
 	String get endpoint => 'Endpoint error.';
+
+	/// en: 'Rate limit error.'
 	String get rate_limit => 'Rate limit error.';
+
+	/// en: 'Credentials have expired.'
 	String get expired_credentials => 'Credentials have expired.';
+
+	/// en: 'Misc server error.'
 	String get misc => 'Misc server error.';
+
+	/// en: 'Unknown error.'
 	String get unknown => 'Unknown error.';
 }
 
@@ -450,7 +699,11 @@ class TranslationsPagesDropboxConfirmUploadFilesEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// en: 'Upload files ?'
 	String get title => 'Upload files ?';
+
+	/// en: 'Do you want to upload the following files ? Folders, and strictly identical files will be ignored.'
 	String get message => 'Do you want to upload the following files ? Folders, and strictly identical files will be ignored.';
 }
 
@@ -461,7 +714,11 @@ class TranslationsPagesDropboxConfirmDownloadFilesEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// en: 'Download files ?'
 	String get title => 'Download files ?';
+
+	/// en: 'Do you want to download the following files ? 'Duplicate files' will be slightly renamed, and folders will be ignored.'
 	String get message => 'Do you want to download the following files ? \'Duplicate files\' will be slightly renamed, and folders will be ignored.';
 }
 
@@ -526,6 +783,24 @@ extension on Translations {
 			case 'pages.position_editor.saved_file_name_dialog.name_placeholder': return 'File name';
 			case 'pages.position_editor.overwrite_file_confirmation_dialog.title': return 'Overwrite file ?';
 			case 'pages.position_editor.overwrite_file_confirmation_dialog.message': return ({required Object fileName}) => 'Overwrite file ${fileName} ?';
+			case 'pages.position_editor.editor_labels.player_turn': return 'Player turn';
+			case 'pages.position_editor.editor_labels.white_player': return 'White';
+			case 'pages.position_editor.editor_labels.black_player': return 'Black';
+			case 'pages.position_editor.editor_labels.available_castles': return 'Roques';
+			case 'pages.position_editor.editor_labels.white_OO': return 'White O-O';
+			case 'pages.position_editor.editor_labels.white_OOO': return 'White O-O-O';
+			case 'pages.position_editor.editor_labels.black_OO': return 'Black O-O';
+			case 'pages.position_editor.editor_labels.black_OOO': return 'Black O-O-O';
+			case 'pages.position_editor.editor_labels.en_passant': return 'En passant';
+			case 'pages.position_editor.editor_labels.draw_moves_half_count': return '50 moves rule';
+			case 'pages.position_editor.editor_labels.move_number': return 'Move number';
+			case 'pages.position_editor.editor_labels.submit_field': return 'Submit';
+			case 'pages.position_editor.editor_labels.current_position': return 'Current position';
+			case 'pages.position_editor.editor_labels.copy_fen': return 'Copy FEN';
+			case 'pages.position_editor.editor_labels.paste_fen': return 'Paste FEN';
+			case 'pages.position_editor.editor_labels.reset_position': return 'Reset position';
+			case 'pages.position_editor.editor_labels.standard_position': return 'Standard position';
+			case 'pages.position_editor.editor_labels.erase_position': return 'Erase position';
 			case 'pages.position_shortcuts.errors.failed_pasting_fen': return 'Failed to paste FEN';
 			case 'pages.position_shortcuts.buttons.paste_fen': return 'Paste FEN';
 			case 'pages.position_shortcuts.buttons.copy_fen': return 'Copy FEN';

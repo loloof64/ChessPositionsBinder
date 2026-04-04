@@ -594,15 +594,17 @@ class _MyHomePageState extends State<MyHomePage> {
         (_currentDirectory?.path == _baseDirectory?.path) &&
         (_currentDirectory != null);
 
-    final usedContent = (isAndroid && isBaseFolder)
-        ? elements
-              .where(
-                (elt) =>
-                    !elt.isFolder ||
-                    elt.name.split(Platform.pathSeparator).last != "flutter_assets",
-              )
-              .toList()
-        : elements;
+    final usedContent =
+        (isAndroid && isBaseFolder)
+            ? elements
+                .where(
+                  (elt) =>
+                      !elt.isFolder ||
+                      elt.name.split(Platform.pathSeparator).last !=
+                          "flutter_assets",
+                )
+                .toList()
+            : elements;
 
     return usedContent;
   }
@@ -635,161 +637,121 @@ class _MyHomePageState extends State<MyHomePage> {
           return allItems.isEmpty && _currentDirectory == _baseDirectory
               ? Text(t.pages.home.misc.no_item)
               : Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ListView.separated(
-                    separatorBuilder: (context, index) => const Divider(),
-                    itemCount: allItems.length,
-                    itemBuilder: (context, index) {
-                      final currentItem = allItems[index];
-                      final itemPath = currentItem.name;
-                      final itemName = itemPath.split(Platform.pathSeparator).last;
-                      final itemPgn = currentItem.content;
-                      final isFolder = currentItem.isFolder;
-                      final isParentFolder =
-                          isFolder && itemPath == parentFolder;
-                      if (isParentFolder) {
-                        return GestureDetector(
-                          onTap: () => _handleFolderSelection(parentFolder),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.arrow_back,
-                                size: 50,
-                                color: Colors.blueAccent,
-                              ),
-                            ],
-                          ),
-                        );
-                      } else if (isFolder) {
-                        return GestureDetector(
-                          onTap: () => _handleFolderSelection(itemName),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            spacing: 2,
-                            children: [
-                              Icon(
-                                Icons.folder,
-                                size: 50,
-                                color: Colors.amberAccent,
-                              ),
-                              Text(itemName),
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                spacing: 8,
-                                children: [
-                                  IconButton(
-                                    onPressed: () =>
-                                        _purposeRenameFolder(itemPath),
-                                    icon: Icon(Icons.abc),
-                                  ),
-                                  IconButton(
-                                    onPressed: () =>
-                                        _purposeDeleteFolder(itemPath),
-                                    icon: Icon(Icons.delete),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        );
-                      } else {
-                        try {
-                          final pgnGame = chess.PgnGame.parsePgn(itemPgn);
-                          final position = chess.PgnGame.startingPosition(
-                            pgnGame.headers,
-                          );
-                          final itemOrientation =
-                              position.turn == chess.Side.white
-                              ? chess.Side.white
-                              : chess.Side.black;
-                          final turnColor = position.turn == chess.Side.white
-                              ? Colors.white
-                              : Colors.black;
-                          final turnSize = 30.0;
-                          return GestureDetector(
-                            onTap: () => _handlePositionSelection(itemPath),
-                            child: Column(
+                padding: const EdgeInsets.all(8.0),
+                child: ListView.separated(
+                  separatorBuilder: (context, index) => const Divider(),
+                  itemCount: allItems.length,
+                  itemBuilder: (context, index) {
+                    final currentItem = allItems[index];
+                    final itemPath = currentItem.name;
+                    final itemName =
+                        itemPath.split(Platform.pathSeparator).last;
+                    final itemPgn = currentItem.content;
+                    final isFolder = currentItem.isFolder;
+                    final isParentFolder = isFolder && itemPath == parentFolder;
+                    if (isParentFolder) {
+                      return GestureDetector(
+                        onTap: () => _handleFolderSelection(parentFolder),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.arrow_back,
+                              size: 50,
+                              color: Colors.blueAccent,
+                            ),
+                          ],
+                        ),
+                      );
+                    } else if (isFolder) {
+                      return GestureDetector(
+                        onTap: () => _handleFolderSelection(itemName),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: 2,
+                          children: [
+                            Icon(
+                              Icons.folder,
+                              size: 50,
+                              color: Colors.amberAccent,
+                            ),
+                            Text(itemName),
+                            Row(
                               mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              spacing: 4,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              spacing: 8,
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: StaticChessboard(
-                                    pieceAssets: PieceSet.meridaAssets,
-                                    size: boardSize,
-                                    fen: position.fen,
-                                    orientation: itemOrientation,
-                                  ),
+                                IconButton(
+                                  onPressed:
+                                      () => _purposeRenameFolder(itemPath),
+                                  icon: Icon(Icons.abc),
                                 ),
-                                Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  spacing: 5,
-                                  children: [
-                                    Text(itemName),
-                                    Container(
-                                      width: turnSize,
-                                      height: turnSize,
-                                      decoration: BoxDecoration(
-                                        color: turnColor,
-                                        border: BoxBorder.all(
-                                          color: Colors.black,
-                                          width: 2,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    IconButton(
-                                      icon: Icon(Icons.abc),
-                                      onPressed: () =>
-                                          _purposeRenamePosition(itemPath),
-                                    ),
-                                    IconButton(
-                                      icon: Icon(Icons.edit),
-                                      onPressed: () =>
-                                          _purposeEditPosition(itemPath),
-                                    ),
-                                    IconButton(
-                                      icon: Icon(Icons.delete),
-                                      onPressed: () =>
-                                          _purposeDeletePosition(itemPath),
-                                    ),
-                                  ],
+                                IconButton(
+                                  onPressed:
+                                      () => _purposeDeleteFolder(itemPath),
+                                  icon: Icon(Icons.delete),
                                 ),
                               ],
                             ),
-                          );
-                        } catch (e) {
-                          debugPrint(e.toString());
-                          return Column(
+                          ],
+                        ),
+                      );
+                    } else {
+                      try {
+                        final pgnGame = chess.PgnGame.parsePgn(itemPgn);
+                        final position = chess.PgnGame.startingPosition(
+                          pgnGame.headers,
+                        );
+                        final itemOrientation =
+                            position.turn == chess.Side.white
+                                ? chess.Side.white
+                                : chess.Side.black;
+                        final turnColor =
+                            position.turn == chess.Side.white
+                                ? Colors.white
+                                : Colors.black;
+                        final turnSize = 30.0;
+                        return GestureDetector(
+                          onTap: () => _handlePositionSelection(itemPath),
+                          child: Column(
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             spacing: 4,
                             children: [
-                              Text(
-                                t.pages.home.misc_errors
-                                    .failed_reading_position_value(
-                                      fileName: itemName,
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child: StaticChessboard(
+                                  pieceAssets: PieceSet.meridaAssets,
+                                  size: boardSize,
+                                  fen: position.fen,
+                                  orientation: itemOrientation,
+                                ),
+                              ),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                spacing: 5,
+                                children: [
+                                  Text(itemName),
+                                  Container(
+                                    width: turnSize,
+                                    height: turnSize,
+                                    decoration: BoxDecoration(
+                                      color: turnColor,
+                                      border: BoxBorder.all(
+                                        color: Colors.black,
+                                        width: 2,
+                                      ),
                                     ),
+                                  ),
+                                ],
                               ),
                               Row(
                                 mainAxisSize: MainAxisSize.min,
@@ -798,24 +760,63 @@ class _MyHomePageState extends State<MyHomePage> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   IconButton(
+                                    icon: Icon(Icons.abc),
+                                    onPressed:
+                                        () => _purposeRenamePosition(itemPath),
+                                  ),
+                                  IconButton(
                                     icon: Icon(Icons.edit),
-                                    onPressed: () =>
-                                        _purposeEditPosition(itemPath),
+                                    onPressed:
+                                        () => _purposeEditPosition(itemPath),
                                   ),
                                   IconButton(
                                     icon: Icon(Icons.delete),
-                                    onPressed: () =>
-                                        _purposeDeletePosition(itemPath),
+                                    onPressed:
+                                        () => _purposeDeletePosition(itemPath),
                                   ),
                                 ],
                               ),
                             ],
-                          );
-                        }
+                          ),
+                        );
+                      } catch (e) {
+                        debugPrint(e.toString());
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: 4,
+                          children: [
+                            Text(
+                              t.pages.home.misc_errors
+                                  .failed_reading_position_value(
+                                    fileName: itemName,
+                                  ),
+                            ),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                IconButton(
+                                  icon: Icon(Icons.edit),
+                                  onPressed:
+                                      () => _purposeEditPosition(itemPath),
+                                ),
+                                IconButton(
+                                  icon: Icon(Icons.delete),
+                                  onPressed:
+                                      () => _purposeDeletePosition(itemPath),
+                                ),
+                              ],
+                            ),
+                          ],
+                        );
                       }
-                    },
-                  ),
-                );
+                    }
+                  },
+                ),
+              );
         } else if (snapshot.hasError) {
           return Icon(Icons.error, color: Colors.red);
         } else {

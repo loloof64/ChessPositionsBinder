@@ -172,6 +172,7 @@ class _TranslationsPagesPositionEditorEs implements TranslationsPagesPositionEdi
 	@override String get simple_title => 'Editor de posición';
 	@override late final _TranslationsPagesPositionEditorSavedFileNameDialogEs saved_file_name_dialog = _TranslationsPagesPositionEditorSavedFileNameDialogEs._(_root);
 	@override late final _TranslationsPagesPositionEditorOverwriteFileConfirmationDialogEs overwrite_file_confirmation_dialog = _TranslationsPagesPositionEditorOverwriteFileConfirmationDialogEs._(_root);
+	@override late final _TranslationsPagesPositionEditorEditorLabelsEs editor_labels = _TranslationsPagesPositionEditorEditorLabelsEs._(_root);
 }
 
 // Path: pages.position_shortcuts
@@ -398,6 +399,33 @@ class _TranslationsPagesPositionEditorOverwriteFileConfirmationDialogEs implemen
 	@override String message({required Object fileName}) => '¿Sobrescribir archivo ${fileName}?';
 }
 
+// Path: pages.position_editor.editor_labels
+class _TranslationsPagesPositionEditorEditorLabelsEs implements TranslationsPagesPositionEditorEditorLabelsEn {
+	_TranslationsPagesPositionEditorEditorLabelsEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get player_turn => 'Turno del jugador';
+	@override String get white_player => 'Blancas';
+	@override String get black_player => 'Negras';
+	@override String get available_castles => 'Enroques';
+	@override String get white_OO => 'O-O Blancas';
+	@override String get white_OOO => 'O-O-O Blancas';
+	@override String get black_OO => 'O-O Negras';
+	@override String get black_OOO => 'O-O-O Negras';
+	@override String get en_passant => 'Al paso';
+	@override String get draw_moves_half_count => 'Regla de 50 movimientos';
+	@override String get move_number => 'Número de jugada';
+	@override String get submit_field => 'Enviar';
+	@override String get current_position => 'Posición actual';
+	@override String get copy_fen => 'Copiar FEN';
+	@override String get paste_fen => 'Pegar FEN';
+	@override String get reset_position => 'Restablecer posición';
+	@override String get standard_position => 'Posición estándar';
+	@override String get erase_position => 'Borrar posición';
+}
+
 // Path: pages.position_shortcuts.errors
 class _TranslationsPagesPositionShortcutsErrorsEs implements TranslationsPagesPositionShortcutsErrorsEn {
 	_TranslationsPagesPositionShortcutsErrorsEs._(this._root);
@@ -523,6 +551,24 @@ extension on TranslationsEs {
 			case 'pages.position_editor.saved_file_name_dialog.name_placeholder': return 'Nombre de archivo';
 			case 'pages.position_editor.overwrite_file_confirmation_dialog.title': return '¿Sobrescribir archivo?';
 			case 'pages.position_editor.overwrite_file_confirmation_dialog.message': return ({required Object fileName}) => '¿Sobrescribir archivo ${fileName}?';
+			case 'pages.position_editor.editor_labels.player_turn': return 'Turno del jugador';
+			case 'pages.position_editor.editor_labels.white_player': return 'Blancas';
+			case 'pages.position_editor.editor_labels.black_player': return 'Negras';
+			case 'pages.position_editor.editor_labels.available_castles': return 'Enroques';
+			case 'pages.position_editor.editor_labels.white_OO': return 'O-O Blancas';
+			case 'pages.position_editor.editor_labels.white_OOO': return 'O-O-O Blancas';
+			case 'pages.position_editor.editor_labels.black_OO': return 'O-O Negras';
+			case 'pages.position_editor.editor_labels.black_OOO': return 'O-O-O Negras';
+			case 'pages.position_editor.editor_labels.en_passant': return 'Al paso';
+			case 'pages.position_editor.editor_labels.draw_moves_half_count': return 'Regla de 50 movimientos';
+			case 'pages.position_editor.editor_labels.move_number': return 'Número de jugada';
+			case 'pages.position_editor.editor_labels.submit_field': return 'Enviar';
+			case 'pages.position_editor.editor_labels.current_position': return 'Posición actual';
+			case 'pages.position_editor.editor_labels.copy_fen': return 'Copiar FEN';
+			case 'pages.position_editor.editor_labels.paste_fen': return 'Pegar FEN';
+			case 'pages.position_editor.editor_labels.reset_position': return 'Restablecer posición';
+			case 'pages.position_editor.editor_labels.standard_position': return 'Posición estándar';
+			case 'pages.position_editor.editor_labels.erase_position': return 'Borrar posición';
 			case 'pages.position_shortcuts.errors.failed_pasting_fen': return 'Error al pegar FEN';
 			case 'pages.position_shortcuts.buttons.paste_fen': return 'Pegar FEN';
 			case 'pages.position_shortcuts.buttons.copy_fen': return 'Copiar FEN';

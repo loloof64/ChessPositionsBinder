@@ -104,6 +104,26 @@
       "overwrite_file_confirmation_dialog": {
         "title": "Écraser le fichier ?",
         "message": "Écraser le fichier $fileName ?"
+      },
+      "editor_labels": {
+        "player_turn": "Trait du joueur",
+        "white_player": "Blancs",
+        "black_player": "Noirs",
+        "available_castles": "Roques",
+        "white_OO": "O-O Blancs",
+        "white_OOO": "O-O-O Blancs",
+        "black_OO": "O-O Noirs",
+        "black_OOO": "O-O-O Noirs",
+        "en_passant": "Prise en passant",
+        "draw_moves_half_count": "Règle des 50 coups",
+        "move_number": "Numéro du coup",
+        "submit_field": "Valider",
+        "current_position": "Position actuelle",
+        "copy_fen": "Copier FEN",
+        "paste_fen": "Coller FEN",
+        "reset_position": "Réinitialiser la position",
+        "standard_position": "Position standard",
+        "erase_position": "Effacer la position"
       }
     },
     "position_shortcuts": {

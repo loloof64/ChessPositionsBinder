@@ -6,6 +6,7 @@ class PositionMetadataControlller with ChangeNotifier {
   String _event;
   String _date;
   String _exercice;
+  String fen;
 
   PositionMetadataControlller({
     required String whitePlayer,
@@ -13,6 +14,7 @@ class PositionMetadataControlller with ChangeNotifier {
     required String event,
     required String date,
     required String exercice,
+    required this.fen,
   }) : _whitePlayer = whitePlayer,
        _blackPlayer = blackPlayer,
        _event = event,
@@ -41,6 +43,11 @@ class PositionMetadataControlller with ChangeNotifier {
 
   void updateExercice(String newExercice) {
     _exercice = newExercice;
+    notifyListeners();
+  }
+
+  void updateFen(String newFen) {
+    fen = newFen;
     notifyListeners();
   }
 

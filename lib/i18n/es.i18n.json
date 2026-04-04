@@ -104,6 +104,26 @@
       "overwrite_file_confirmation_dialog": {
         "title": "¿Sobrescribir archivo?",
         "message": "¿Sobrescribir archivo $fileName?"
+      },
+      "editor_labels": {
+        "player_turn": "Turno del jugador",
+        "white_player": "Blancas",
+        "black_player": "Negras",
+        "available_castles": "Enroques",
+        "white_OO": "O-O Blancas",
+        "white_OOO": "O-O-O Blancas",
+        "black_OO": "O-O Negras",
+        "black_OOO": "O-O-O Negras",
+        "en_passant": "Al paso",
+        "draw_moves_half_count": "Regla de 50 movimientos",
+        "move_number": "Número de jugada",
+        "submit_field": "Enviar",
+        "current_position": "Posición actual",
+        "copy_fen": "Copiar FEN",
+        "paste_fen": "Pegar FEN",
+        "reset_position": "Restablecer posición",
+        "standard_position": "Posición estándar",
+        "erase_position": "Borrar posición"
       }
     },
     "position_shortcuts": {

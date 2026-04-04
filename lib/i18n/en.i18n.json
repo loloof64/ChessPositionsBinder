@@ -104,6 +104,26 @@
       "overwrite_file_confirmation_dialog": {
         "title": "Overwrite file ?",
         "message": "Overwrite file $fileName ?"
+      },
+      "editor_labels": {
+        "player_turn": "Player turn",
+        "white_player": "White",
+        "black_player": "Black",
+        "available_castles": "Roques",
+        "white_OO": "White O-O",
+        "white_OOO": "White O-O-O",
+        "black_OO": "Black O-O",
+        "black_OOO": "Black O-O-O",
+        "en_passant": "En passant",
+        "draw_moves_half_count": "50 moves rule",
+        "move_number": "Move number",
+        "submit_field": "Submit",
+        "current_position": "Current position",
+        "copy_fen": "Copy FEN",
+        "paste_fen": "Paste FEN",
+        "reset_position": "Reset position",
+        "standard_position": "Standard position",
+        "erase_position": "Erase position"
       }
     },
     "position_shortcuts": {
