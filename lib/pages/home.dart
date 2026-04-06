@@ -5,15 +5,13 @@ import 'package:chess_position_binder/i18n/strings.g.dart';
 import 'package:chess_position_binder/core/read_positions.dart';
 import 'package:chess_position_binder/pages/position_details.dart';
 import 'package:chess_position_binder/pages/position_editor.dart';
+import 'package:chess_position_binder/utils/constants.dart';
 import 'package:chess_position_binder/widgets/common_drawer.dart';
 import 'package:chessground/chessground.dart';
 import 'package:dartchess/dartchess.dart' as chess;
 import 'package:path/path.dart' as p;
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
-
-const parentFolder = '@ParentFolder@';
-const positionssRootFolderName = 'positions';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -69,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<void> _setupCurrentDirectory() async {
     final appSupportDir = await getApplicationSupportDirectory();
     final Directory positionsDir = Directory(
-      p.join(appSupportDir.path, positionssRootFolderName),
+      p.join(appSupportDir.path, positionsRootFolderName),
     );
     await positionsDir.create();
     _currentDirectory = positionsDir;

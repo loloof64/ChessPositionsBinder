@@ -58,6 +58,9 @@ class TranslationsOptionsEn {
 
 	/// en: 'Dark mode'
 	String get dark_mode_label => 'Dark mode';
+
+	late final TranslationsOptionsSnackMessagesEn snack_messages = TranslationsOptionsSnackMessagesEn._(_root);
+	late final TranslationsOptionsDropboxEn dropbox = TranslationsOptionsDropboxEn._(_root);
 }
 
 // Path: misc
@@ -101,6 +104,34 @@ class TranslationsPagesEn {
 	late final TranslationsPagesPositionEditorEn position_editor = TranslationsPagesPositionEditorEn._(_root);
 	late final TranslationsPagesPositionShortcutsEn position_shortcuts = TranslationsPagesPositionShortcutsEn._(_root);
 	late final TranslationsPagesDropboxEn dropbox = TranslationsPagesDropboxEn._(_root);
+}
+
+// Path: options.snack_messages
+class TranslationsOptionsSnackMessagesEn {
+	TranslationsOptionsSnackMessagesEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final TranslationsOptionsSnackMessagesDropboxEn dropbox = TranslationsOptionsSnackMessagesDropboxEn._(_root);
+}
+
+// Path: options.dropbox
+class TranslationsOptionsDropboxEn {
+	TranslationsOptionsDropboxEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Login Dropbox'
+	String get login_button => 'Login Dropbox';
+
+	/// en: 'Logout Dropbox'
+	String get logout_button => 'Logout Dropbox';
+
+	/// en: 'Sync files'
+	String get sync_button => 'Sync files';
 }
 
 // Path: misc.buttons
@@ -338,6 +369,33 @@ class TranslationsPagesDropboxEn {
 
 	/// en: 'Some items were ignored as target already exists:'
 	String get skipped_extracting_items => 'Some items were ignored as target already exists:';
+}
+
+// Path: options.snack_messages.dropbox
+class TranslationsOptionsSnackMessagesDropboxEn {
+	TranslationsOptionsSnackMessagesDropboxEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Logged in your Dropbox account.'
+	String get connection_success => 'Logged in your Dropbox account.';
+
+	/// en: 'Failed to log in your Dropbox account : please retry.'
+	String get connection_error => 'Failed to log in your Dropbox account : please retry.';
+
+	/// en: 'Logged out your Dropbox account.'
+	String get disconnection_success => 'Logged out your Dropbox account.';
+
+	/// en: 'Failed to log out your Dropbox account.'
+	String get disconnection_error => 'Failed to log out your Dropbox account.';
+
+	/// en: 'Files synchronized successfully.'
+	String get sync_success => 'Files synchronized successfully.';
+
+	/// en: 'File synchronization failed.'
+	String get sync_error => 'File synchronization failed.';
 }
 
 // Path: widgets.commander.new_folder
@@ -812,6 +870,15 @@ extension on Translations {
 		switch (path) {
 			case 'options.title': return 'Options';
 			case 'options.dark_mode_label': return 'Dark mode';
+			case 'options.snack_messages.dropbox.connection_success': return 'Logged in your Dropbox account.';
+			case 'options.snack_messages.dropbox.connection_error': return 'Failed to log in your Dropbox account : please retry.';
+			case 'options.snack_messages.dropbox.disconnection_success': return 'Logged out your Dropbox account.';
+			case 'options.snack_messages.dropbox.disconnection_error': return 'Failed to log out your Dropbox account.';
+			case 'options.snack_messages.dropbox.sync_success': return 'Files synchronized successfully.';
+			case 'options.snack_messages.dropbox.sync_error': return 'File synchronization failed.';
+			case 'options.dropbox.login_button': return 'Login Dropbox';
+			case 'options.dropbox.logout_button': return 'Logout Dropbox';
+			case 'options.dropbox.sync_button': return 'Sync files';
 			case 'misc.buttons.ok': return 'Ok';
 			case 'misc.buttons.cancel': return 'Cancel';
 			case 'misc.buttons.save': return 'Save';

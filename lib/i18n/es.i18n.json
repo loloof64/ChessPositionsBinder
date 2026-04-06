@@ -1,7 +1,22 @@
 {
   "options": {
     "title": "Opciones",
-    "dark_mode_label": "Modo oscuro"
+    "dark_mode_label": "Modo oscuro",
+    "snack_messages": {
+      "dropbox": {
+        "connection_success": "Conectado a tu cuenta de Dropbox.",
+        "connection_error": "No se pudo conectar a tu cuenta de Dropbox: por favor, inténtalo de nuevo.",
+        "disconnection_success": "Desconectado de tu cuenta de Dropbox.",
+        "disconnection_error": "No se pudo desconectar de tu cuenta de Dropbox.",
+        "sync_success": "Archivos sincronizados correctamente.",
+        "sync_error": "La sincronización de archivos falló."
+      }
+    },
+    "dropbox": {
+      "login_button": "Iniciar sesión en Dropbox",
+      "logout_button": "Cerrar sesión en Dropbox",
+      "sync_button": "Sincronizar archivos"
+    }
   },
   "misc": {
     "buttons": {

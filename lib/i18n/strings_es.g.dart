@@ -51,6 +51,8 @@ class _TranslationsOptionsEs implements TranslationsOptionsEn {
 	// Translations
 	@override String get title => 'Opciones';
 	@override String get dark_mode_label => 'Modo oscuro';
+	@override late final _TranslationsOptionsSnackMessagesEs snack_messages = _TranslationsOptionsSnackMessagesEs._(_root);
+	@override late final _TranslationsOptionsDropboxEs dropbox = _TranslationsOptionsDropboxEs._(_root);
 }
 
 // Path: misc
@@ -90,6 +92,28 @@ class _TranslationsPagesEs implements TranslationsPagesEn {
 	@override late final _TranslationsPagesPositionEditorEs position_editor = _TranslationsPagesPositionEditorEs._(_root);
 	@override late final _TranslationsPagesPositionShortcutsEs position_shortcuts = _TranslationsPagesPositionShortcutsEs._(_root);
 	@override late final _TranslationsPagesDropboxEs dropbox = _TranslationsPagesDropboxEs._(_root);
+}
+
+// Path: options.snack_messages
+class _TranslationsOptionsSnackMessagesEs implements TranslationsOptionsSnackMessagesEn {
+	_TranslationsOptionsSnackMessagesEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override late final _TranslationsOptionsSnackMessagesDropboxEs dropbox = _TranslationsOptionsSnackMessagesDropboxEs._(_root);
+}
+
+// Path: options.dropbox
+class _TranslationsOptionsDropboxEs implements TranslationsOptionsDropboxEn {
+	_TranslationsOptionsDropboxEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get login_button => 'Iniciar sesión en Dropbox';
+	@override String get logout_button => 'Cerrar sesión en Dropbox';
+	@override String get sync_button => 'Sincronizar archivos';
 }
 
 // Path: misc.buttons
@@ -243,6 +267,21 @@ class _TranslationsPagesDropboxEs implements TranslationsPagesDropboxEn {
 	@override String get success_extracting_items => 'Elementos extraídos.';
 	@override String get failed_extracting_items => 'Error al extraer los elementos.';
 	@override String get skipped_extracting_items => 'Algunos elementos fueron ignorados porque el destino ya existe:';
+}
+
+// Path: options.snack_messages.dropbox
+class _TranslationsOptionsSnackMessagesDropboxEs implements TranslationsOptionsSnackMessagesDropboxEn {
+	_TranslationsOptionsSnackMessagesDropboxEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get connection_success => 'Conectado a tu cuenta de Dropbox.';
+	@override String get connection_error => 'No se pudo conectar a tu cuenta de Dropbox: por favor, inténtalo de nuevo.';
+	@override String get disconnection_success => 'Desconectado de tu cuenta de Dropbox.';
+	@override String get disconnection_error => 'No se pudo desconectar de tu cuenta de Dropbox.';
+	@override String get sync_success => 'Archivos sincronizados correctamente.';
+	@override String get sync_error => 'La sincronización de archivos falló.';
 }
 
 // Path: widgets.commander.new_folder
@@ -551,6 +590,15 @@ extension on TranslationsEs {
 		switch (path) {
 			case 'options.title': return 'Opciones';
 			case 'options.dark_mode_label': return 'Modo oscuro';
+			case 'options.snack_messages.dropbox.connection_success': return 'Conectado a tu cuenta de Dropbox.';
+			case 'options.snack_messages.dropbox.connection_error': return 'No se pudo conectar a tu cuenta de Dropbox: por favor, inténtalo de nuevo.';
+			case 'options.snack_messages.dropbox.disconnection_success': return 'Desconectado de tu cuenta de Dropbox.';
+			case 'options.snack_messages.dropbox.disconnection_error': return 'No se pudo desconectar de tu cuenta de Dropbox.';
+			case 'options.snack_messages.dropbox.sync_success': return 'Archivos sincronizados correctamente.';
+			case 'options.snack_messages.dropbox.sync_error': return 'La sincronización de archivos falló.';
+			case 'options.dropbox.login_button': return 'Iniciar sesión en Dropbox';
+			case 'options.dropbox.logout_button': return 'Cerrar sesión en Dropbox';
+			case 'options.dropbox.sync_button': return 'Sincronizar archivos';
 			case 'misc.buttons.ok': return 'De Acuerdo';
 			case 'misc.buttons.cancel': return 'Anular';
 			case 'misc.buttons.save': return 'Guardar';

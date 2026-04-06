@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chess Positions Binder - Oauth2 redirect</title>
+    <script>
+      if (typeof window === "undefined") return;
+      const hash = window.location.hash || "";
+      const search = window.location.search || "";
+      const params = hash || search;
+      const scheme = "chess-positions-binder://oauth2redirect";
+      const redirectUrl = scheme + params;
+
+      // If opened as popup, send params back to opener; otherwise open app via deep link
+      if (window.opener) {
+        const code = new URLSearchParams(window.location.search).get("code");
+        if (code) {
+          window.opener.postMessage(
+            { type: "oauth2_code", code },
+            window.location.origin,
+          );
+        } else {
+          window.opener.postMessage(
+            { type: "oauth2_params", params },
+            window.location.origin,
+          );
+        }
+        window.close();
+      } else {
+        window.location.replace(redirectUrl);
+      }
+    </script>
+  </head>
+  <body>
+    <div>
+      <h1>Chess positions binder : Dropbox authentication</h1>
+      <p>Returning to the app…</p>
+      <p>You can close this page if nothing happens.</p>
+    </div>
+  </body>
+</html>

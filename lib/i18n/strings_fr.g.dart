@@ -51,6 +51,8 @@ class _TranslationsOptionsFr implements TranslationsOptionsEn {
 	// Translations
 	@override String get title => 'Options';
 	@override String get dark_mode_label => 'Dark mode';
+	@override late final _TranslationsOptionsSnackMessagesFr snack_messages = _TranslationsOptionsSnackMessagesFr._(_root);
+	@override late final _TranslationsOptionsDropboxFr dropbox = _TranslationsOptionsDropboxFr._(_root);
 }
 
 // Path: misc
@@ -90,6 +92,28 @@ class _TranslationsPagesFr implements TranslationsPagesEn {
 	@override late final _TranslationsPagesPositionEditorFr position_editor = _TranslationsPagesPositionEditorFr._(_root);
 	@override late final _TranslationsPagesPositionShortcutsFr position_shortcuts = _TranslationsPagesPositionShortcutsFr._(_root);
 	@override late final _TranslationsPagesDropboxFr dropbox = _TranslationsPagesDropboxFr._(_root);
+}
+
+// Path: options.snack_messages
+class _TranslationsOptionsSnackMessagesFr implements TranslationsOptionsSnackMessagesEn {
+	_TranslationsOptionsSnackMessagesFr._(this._root);
+
+	final TranslationsFr _root; // ignore: unused_field
+
+	// Translations
+	@override late final _TranslationsOptionsSnackMessagesDropboxFr dropbox = _TranslationsOptionsSnackMessagesDropboxFr._(_root);
+}
+
+// Path: options.dropbox
+class _TranslationsOptionsDropboxFr implements TranslationsOptionsDropboxEn {
+	_TranslationsOptionsDropboxFr._(this._root);
+
+	final TranslationsFr _root; // ignore: unused_field
+
+	// Translations
+	@override String get login_button => 'Connexion Dropbox';
+	@override String get logout_button => 'Déconnexion Dropbox';
+	@override String get sync_button => 'Synchroniser les fichiers';
 }
 
 // Path: misc.buttons
@@ -243,6 +267,21 @@ class _TranslationsPagesDropboxFr implements TranslationsPagesDropboxEn {
 	@override String get success_extracting_items => 'Éléments extraits.';
 	@override String get failed_extracting_items => 'Échec d\'extraction des éléments.';
 	@override String get skipped_extracting_items => 'Certains éléments ont été ignorés, les cibles existant déjà:';
+}
+
+// Path: options.snack_messages.dropbox
+class _TranslationsOptionsSnackMessagesDropboxFr implements TranslationsOptionsSnackMessagesDropboxEn {
+	_TranslationsOptionsSnackMessagesDropboxFr._(this._root);
+
+	final TranslationsFr _root; // ignore: unused_field
+
+	// Translations
+	@override String get connection_success => 'Connecté à votre compte Dropbox.';
+	@override String get connection_error => 'Échec de connexion à votre compte Dropbox : veuillez réessayer.';
+	@override String get disconnection_success => 'Déconnecté de votre compte Dropbox.';
+	@override String get disconnection_error => 'Échec de déconnexion de votre compte Dropbox.';
+	@override String get sync_success => 'Fichiers synchronisés avec succès.';
+	@override String get sync_error => 'La synchronisation des fichiers a échoué.';
 }
 
 // Path: widgets.commander.new_folder
@@ -551,6 +590,15 @@ extension on TranslationsFr {
 		switch (path) {
 			case 'options.title': return 'Options';
 			case 'options.dark_mode_label': return 'Dark mode';
+			case 'options.snack_messages.dropbox.connection_success': return 'Connecté à votre compte Dropbox.';
+			case 'options.snack_messages.dropbox.connection_error': return 'Échec de connexion à votre compte Dropbox : veuillez réessayer.';
+			case 'options.snack_messages.dropbox.disconnection_success': return 'Déconnecté de votre compte Dropbox.';
+			case 'options.snack_messages.dropbox.disconnection_error': return 'Échec de déconnexion de votre compte Dropbox.';
+			case 'options.snack_messages.dropbox.sync_success': return 'Fichiers synchronisés avec succès.';
+			case 'options.snack_messages.dropbox.sync_error': return 'La synchronisation des fichiers a échoué.';
+			case 'options.dropbox.login_button': return 'Connexion Dropbox';
+			case 'options.dropbox.logout_button': return 'Déconnexion Dropbox';
+			case 'options.dropbox.sync_button': return 'Synchroniser les fichiers';
 			case 'misc.buttons.ok': return 'Ok';
 			case 'misc.buttons.cancel': return 'Annuler';
 			case 'misc.buttons.save': return 'Sauvegarder';
