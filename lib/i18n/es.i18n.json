@@ -5,7 +5,8 @@
       "cancel": "Anular",
       "save": "Guardar",
       "validate": "Validar",
-      "paste": "Pegar"
+      "paste": "Pegar",
+      "retry": "Reintentar"
     },
     "folder": "carpeta",
     "file": "archivo"
@@ -44,7 +45,21 @@
   },
   "pages": {
     "photo_ocr": {
-      "title": "Escáner de fotos de posición"
+      "title": "Escáner de fotos de posición",
+      "instruction": "Pulse \"Tomar foto\" para capturar la imagen del tablero",
+      "processing_picture": "Procesando imagen ...",
+      "buttons": {
+        "take_photo": "Tomar foto",
+        "pick_image": "Seleccionar imagen"
+      },
+      "errors": {
+        "failed_picking_image": "Error al seleccionar imagen",
+        "failed_extracting_chessboard": "Error al extraer el tablero de la imagen",
+        "failed_decoding_chessboard_image": "Error al decodificar la imagen del tablero aislado",
+        "failed_processing_image": "Error al procesar la imagen",
+        "failed_taking_photo": "Error al tomar la foto",
+        "no_result": "Sin resultado"
+      }
     },
     "home": {
       "title": "Inicio",

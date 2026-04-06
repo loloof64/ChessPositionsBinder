@@ -64,7 +64,9 @@ class _PhotoOcrProcessPageState extends State<PhotoOcrProcessPage> {
       await _processImage(imageBytes);
     } catch (e) {
       developer.log('Error picking image: $e', name: 'ChessboardOCR');
-      _showErrorSnackBar('Failed to pick image: $e');
+      _showErrorSnackBar(
+        '${t.pages.photo_ocr.errors.failed_picking_image}: $e',
+      );
     }
   }
 
@@ -83,13 +85,15 @@ class _PhotoOcrProcessPageState extends State<PhotoOcrProcessPage> {
       final isolatedBoard = await extractChessboard(imageData);
 
       if (isolatedBoard == null || isolatedBoard.isEmpty) {
-        throw Exception('Failed to extract chessboard from image');
+        throw Exception(t.pages.photo_ocr.errors.failed_extracting_chessboard);
       }
 
       // Generate FEN
       final img.Image? isolatedBoardImage = img.decodeImage(isolatedBoard);
       if (isolatedBoardImage == null) {
-        throw Exception('Failed to decode isolated chessboard image');
+        throw Exception(
+          t.pages.photo_ocr.errors.failed_decoding_chessboard_image,
+        );
       }
       final fen = await widget.chessRecognizer.predictFen(isolatedBoardImage);
 
@@ -107,7 +111,9 @@ class _PhotoOcrProcessPageState extends State<PhotoOcrProcessPage> {
           _isProcessing = false;
           _isSuccess = false;
         });
-        _showErrorSnackBar('Failed to process image: $e');
+        _showErrorSnackBar(
+          '${t.pages.photo_ocr.errors.failed_processing_image}: $e',
+        );
       }
     }
   }
@@ -135,7 +141,9 @@ class _PhotoOcrProcessPageState extends State<PhotoOcrProcessPage> {
           _isSuccess = false;
           _isProcessing = false;
         });
-        _showErrorSnackBar('Failed to take photo: $e');
+        _showErrorSnackBar(
+          '${t.pages.photo_ocr.errors.failed_taking_photo}: $e',
+        );
       }
     }
   }
@@ -174,9 +182,9 @@ class _PhotoOcrProcessPageState extends State<PhotoOcrProcessPage> {
         Expanded(
           child: Container(
             color: Colors.black87,
-            child: const Center(
+            child: Center(
               child: Text(
-                'Tap "Take Photo" to capture board image',
+                t.pages.photo_ocr.instruction,
                 style: TextStyle(color: Colors.white),
                 textAlign: TextAlign.center,
               ),
@@ -190,7 +198,7 @@ class _PhotoOcrProcessPageState extends State<PhotoOcrProcessPage> {
               Expanded(
                 child: ElevatedButton.icon(
                   icon: const Icon(Icons.camera),
-                  label: const Text('Take Photo'),
+                  label: Text(t.pages.photo_ocr.buttons.take_photo),
                   onPressed: _isProcessing ? null : _takePhotoAndConvert,
                 ),
               ),
@@ -198,7 +206,7 @@ class _PhotoOcrProcessPageState extends State<PhotoOcrProcessPage> {
               Expanded(
                 child: ElevatedButton.icon(
                   icon: const Icon(Icons.photo),
-                  label: const Text('Pick Image'),
+                  label: Text(t.pages.photo_ocr.buttons.pick_image),
                   onPressed: _isProcessing ? null : _pickImageFromGallery,
                 ),
               ),
@@ -209,7 +217,7 @@ class _PhotoOcrProcessPageState extends State<PhotoOcrProcessPage> {
           const SizedBox(height: 10),
           const CircularProgressIndicator(),
           const SizedBox(height: 10),
-          const Text('Processing image...'),
+          Text(t.pages.photo_ocr.processing_picture),
           const SizedBox(height: 10),
         ] else
           const SizedBox(height: 20),
@@ -230,7 +238,7 @@ class _PhotoOcrProcessPageState extends State<PhotoOcrProcessPage> {
         }
 
         if (!snapshot.hasData || snapshot.data == null) {
-          return const Center(child: Text('No result'));
+          return Center(child: Text(t.pages.photo_ocr.errors.no_result));
         }
 
         final result = snapshot.data!;
@@ -256,7 +264,7 @@ class _PhotoOcrProcessPageState extends State<PhotoOcrProcessPage> {
             const SizedBox(height: 24),
             ElevatedButton(
               onPressed: _resetView,
-              child: const Text('Try Again'),
+              child: Text(t.misc.buttons.retry),
             ),
           ],
         ),
@@ -309,9 +317,19 @@ class _PhotoOcrProcessPageState extends State<PhotoOcrProcessPage> {
               ),
             ),
             const SizedBox(height: 8),
-            ElevatedButton(
-              onPressed: _validatePosition,
-              child: Text(t.misc.buttons.validate),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: _resetView,
+                  child: Text(t.misc.buttons.retry),
+                ),
+                ElevatedButton(
+                  onPressed: _validatePosition,
+                  child: Text(t.misc.buttons.validate),
+                ),
+              ],
             ),
           ],
         ),

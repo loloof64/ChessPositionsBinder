@@ -5,7 +5,8 @@
       "cancel": "Annuler",
       "save": "Sauvegarder",
       "validate": "Valider",
-      "paste": "Coller"
+      "paste": "Coller",
+      "retry": "Rééssayer"
     },
     "folder": "dossier",
     "file": "fichier"
@@ -44,7 +45,21 @@
   },
   "pages": {
     "photo_ocr": {
-      "title": "Scanette photo de position"
+      "title": "Scanette photo de position",
+      "instruction": "Appuyez sur \"Prendre une photo\" pour capturer l'image du plateau",
+      "processing_picture": "Traitement de l'image ...",
+      "buttons": {
+        "take_photo": "Photo",
+        "pick_image": "Gallerie"
+      },
+      "errors": {
+        "failed_picking_image": "Erreur de sélection de l'image",
+        "failed_extracting_chessboard": "Erreur extraction échiquier depuis l'image",
+        "failed_decoding_chessboard_image": "Échec d'interprétation de l'image de l'échiquier",
+        "failed_processing_image": "Échec de traitement de l'image",
+        "failed_taking_photo": "Échec de prise de photo",
+        "no_result": "Aucun résultat"
+      }
     },
     "home": {
       "title": "Accueil",

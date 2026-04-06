@@ -92,6 +92,7 @@ class _TranslationsMiscButtonsEs implements TranslationsMiscButtonsEn {
 	@override String get save => 'Guardar';
 	@override String get validate => 'Validar';
 	@override String get paste => 'Pegar';
+	@override String get retry => 'Reintentar';
 }
 
 // Path: widgets.board_editor
@@ -140,6 +141,10 @@ class _TranslationsPagesPhotoOcrEs implements TranslationsPagesPhotoOcrEn {
 
 	// Translations
 	@override String get title => 'Escáner de fotos de posición';
+	@override String get instruction => 'Pulse "Tomar foto" para capturar la imagen del tablero';
+	@override String get processing_picture => 'Procesando imagen ...';
+	@override late final _TranslationsPagesPhotoOcrButtonsEs buttons = _TranslationsPagesPhotoOcrButtonsEs._(_root);
+	@override late final _TranslationsPagesPhotoOcrErrorsEs errors = _TranslationsPagesPhotoOcrErrorsEs._(_root);
 }
 
 // Path: pages.home
@@ -271,6 +276,33 @@ class _TranslationsWidgetsCommanderExtractItemsEs implements TranslationsWidgets
 	// Translations
 	@override String get title => 'Extraer archivos';
 	@override String get message => '¿Desea extraer los siguientes archivos? Tenga en cuenta que solo se extraerán carpetas, archivos *.pgn y *.zip. Además, si algunas carpetas de destino ya existen, las extracciones relacionadas serán omitidas.';
+}
+
+// Path: pages.photo_ocr.buttons
+class _TranslationsPagesPhotoOcrButtonsEs implements TranslationsPagesPhotoOcrButtonsEn {
+	_TranslationsPagesPhotoOcrButtonsEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get take_photo => 'Tomar foto';
+	@override String get pick_image => 'Seleccionar imagen';
+	@override String get retry => 'Reintentar';
+}
+
+// Path: pages.photo_ocr.errors
+class _TranslationsPagesPhotoOcrErrorsEs implements TranslationsPagesPhotoOcrErrorsEn {
+	_TranslationsPagesPhotoOcrErrorsEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get failed_picking_image => 'Error al seleccionar imagen';
+	@override String get failed_extracting_chessboard => 'Error al extraer el tablero de la imagen';
+	@override String get failed_decoding_chessboard_image => 'Error al decodificar la imagen del tablero aislado';
+	@override String get failed_processing_image => 'Error al procesar la imagen';
+	@override String get failed_taking_photo => 'Error al tomar la foto';
+	@override String get no_result => 'Sin resultado';
 }
 
 // Path: pages.home.create_folder_dialog
@@ -511,6 +543,7 @@ extension on TranslationsEs {
 			case 'misc.buttons.save': return 'Guardar';
 			case 'misc.buttons.validate': return 'Validar';
 			case 'misc.buttons.paste': return 'Pegar';
+			case 'misc.buttons.retry': return 'Reintentar';
 			case 'misc.folder': return 'carpeta';
 			case 'misc.file': return 'archivo';
 			case 'widgets.board_editor.black_turn': return 'Turno de Negras:';
@@ -530,6 +563,17 @@ extension on TranslationsEs {
 			case 'widgets.commander.extract_items.title': return 'Extraer archivos';
 			case 'widgets.commander.extract_items.message': return '¿Desea extraer los siguientes archivos? Tenga en cuenta que solo se extraerán carpetas, archivos *.pgn y *.zip. Además, si algunas carpetas de destino ya existen, las extracciones relacionadas serán omitidas.';
 			case 'pages.photo_ocr.title': return 'Escáner de fotos de posición';
+			case 'pages.photo_ocr.instruction': return 'Pulse "Tomar foto" para capturar la imagen del tablero';
+			case 'pages.photo_ocr.processing_picture': return 'Procesando imagen ...';
+			case 'pages.photo_ocr.buttons.take_photo': return 'Tomar foto';
+			case 'pages.photo_ocr.buttons.pick_image': return 'Seleccionar imagen';
+			case 'pages.photo_ocr.buttons.retry': return 'Reintentar';
+			case 'pages.photo_ocr.errors.failed_picking_image': return 'Error al seleccionar imagen';
+			case 'pages.photo_ocr.errors.failed_extracting_chessboard': return 'Error al extraer el tablero de la imagen';
+			case 'pages.photo_ocr.errors.failed_decoding_chessboard_image': return 'Error al decodificar la imagen del tablero aislado';
+			case 'pages.photo_ocr.errors.failed_processing_image': return 'Error al procesar la imagen';
+			case 'pages.photo_ocr.errors.failed_taking_photo': return 'Error al tomar la foto';
+			case 'pages.photo_ocr.errors.no_result': return 'Sin resultado';
 			case 'pages.home.title': return 'Inicio';
 			case 'pages.home.create_folder_dialog.title': return 'Crear carpeta';
 			case 'pages.home.create_folder_dialog.folder_name_placeholder': return 'Nombre de la carpeta';

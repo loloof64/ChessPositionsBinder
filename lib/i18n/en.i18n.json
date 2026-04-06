@@ -5,7 +5,8 @@
       "cancel": "Cancel",
       "save": "Save",
       "validate": "Validate",
-      "paste": "Paste"
+      "paste": "Paste",
+      "retry": "Retry"
     },
     "folder": "folder",
     "file": "file"
@@ -44,7 +45,21 @@
   },
   "pages": {
     "photo_ocr": {
-      "title": "Position photo scanner"
+      "title": "Position photo scanner",
+      "instruction": "Tap \"Take Photo\" to capture board image",
+      "processing_picture": "Processing image ...",
+      "buttons": {
+        "take_photo": "Take photo",
+        "pick_image": "Pick image"
+      },
+      "errors": {
+        "failed_picking_image": "Failed to pick image",
+        "failed_extracting_chessboard": "Failed to extract chessboard from image",
+        "failed_decoding_chessboard_image": "Failed to decode isolated chessboard image",
+        "failed_processing_image": "Failed to process image",
+        "failed_taking_photo": "Failed to take photo",
+        "no_result": "No result"
+      }
     },
     "home": {
       "title": "Home",

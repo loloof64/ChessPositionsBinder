@@ -1,1 +1,2 @@
-- Tiny fix for Dropbox integration
+- changed the editor component
+- [Android/Ios] We can scan an photo of a chessboard and import its FEN value

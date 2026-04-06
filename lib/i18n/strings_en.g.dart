@@ -109,6 +109,9 @@ class TranslationsMiscButtonsEn {
 
 	/// en: 'Paste'
 	String get paste => 'Paste';
+
+	/// en: 'Retry'
+	String get retry => 'Retry';
 }
 
 // Path: widgets.board_editor
@@ -174,6 +177,15 @@ class TranslationsPagesPhotoOcrEn {
 
 	/// en: 'Position photo scanner'
 	String get title => 'Position photo scanner';
+
+	/// en: 'Tap "Take Photo" to capture board image'
+	String get instruction => 'Tap "Take Photo" to capture board image';
+
+	/// en: 'Processing image ...'
+	String get processing_picture => 'Processing image ...';
+
+	late final TranslationsPagesPhotoOcrButtonsEn buttons = TranslationsPagesPhotoOcrButtonsEn._(_root);
+	late final TranslationsPagesPhotoOcrErrorsEn errors = TranslationsPagesPhotoOcrErrorsEn._(_root);
 }
 
 // Path: pages.home
@@ -373,6 +385,51 @@ class TranslationsWidgetsCommanderExtractItemsEn {
 
 	/// en: 'Do you want to extract the following archives ? Please notice that it will only extract folders/*.pgn/*.zip elements. Also notice that if some target folders already exists, related extractions will be skipped.'
 	String get message => 'Do you want to extract the following archives ? Please notice that it will only extract folders/*.pgn/*.zip elements. Also notice that if some target folders already exists, related extractions will be skipped.';
+}
+
+// Path: pages.photo_ocr.buttons
+class TranslationsPagesPhotoOcrButtonsEn {
+	TranslationsPagesPhotoOcrButtonsEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Take photo'
+	String get take_photo => 'Take photo';
+
+	/// en: 'Pick image'
+	String get pick_image => 'Pick image';
+
+	/// en: 'Try again'
+	String get retry => 'Try again';
+}
+
+// Path: pages.photo_ocr.errors
+class TranslationsPagesPhotoOcrErrorsEn {
+	TranslationsPagesPhotoOcrErrorsEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Failed to pick image'
+	String get failed_picking_image => 'Failed to pick image';
+
+	/// en: 'Failed to extract chessboard from image'
+	String get failed_extracting_chessboard => 'Failed to extract chessboard from image';
+
+	/// en: 'Failed to decode isolated chessboard image'
+	String get failed_decoding_chessboard_image => 'Failed to decode isolated chessboard image';
+
+	/// en: 'Failed to process image'
+	String get failed_processing_image => 'Failed to process image';
+
+	/// en: 'Failed to take photo'
+	String get failed_taking_photo => 'Failed to take photo';
+
+	/// en: 'No result'
+	String get no_result => 'No result';
 }
 
 // Path: pages.home.create_folder_dialog
@@ -745,6 +802,7 @@ extension on Translations {
 			case 'misc.buttons.save': return 'Save';
 			case 'misc.buttons.validate': return 'Validate';
 			case 'misc.buttons.paste': return 'Paste';
+			case 'misc.buttons.retry': return 'Retry';
 			case 'misc.folder': return 'folder';
 			case 'misc.file': return 'file';
 			case 'widgets.board_editor.black_turn': return 'Black turn:';
@@ -764,6 +822,17 @@ extension on Translations {
 			case 'widgets.commander.extract_items.title': return 'Extract archives';
 			case 'widgets.commander.extract_items.message': return 'Do you want to extract the following archives ? Please notice that it will only extract folders/*.pgn/*.zip elements. Also notice that if some target folders already exists, related extractions will be skipped.';
 			case 'pages.photo_ocr.title': return 'Position photo scanner';
+			case 'pages.photo_ocr.instruction': return 'Tap "Take Photo" to capture board image';
+			case 'pages.photo_ocr.processing_picture': return 'Processing image ...';
+			case 'pages.photo_ocr.buttons.take_photo': return 'Take photo';
+			case 'pages.photo_ocr.buttons.pick_image': return 'Pick image';
+			case 'pages.photo_ocr.buttons.retry': return 'Try again';
+			case 'pages.photo_ocr.errors.failed_picking_image': return 'Failed to pick image';
+			case 'pages.photo_ocr.errors.failed_extracting_chessboard': return 'Failed to extract chessboard from image';
+			case 'pages.photo_ocr.errors.failed_decoding_chessboard_image': return 'Failed to decode isolated chessboard image';
+			case 'pages.photo_ocr.errors.failed_processing_image': return 'Failed to process image';
+			case 'pages.photo_ocr.errors.failed_taking_photo': return 'Failed to take photo';
+			case 'pages.photo_ocr.errors.no_result': return 'No result';
 			case 'pages.home.title': return 'Home';
 			case 'pages.home.create_folder_dialog.title': return 'Create folder';
 			case 'pages.home.create_folder_dialog.folder_name_placeholder': return 'Folder name';

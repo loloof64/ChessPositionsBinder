@@ -92,6 +92,7 @@ class _TranslationsMiscButtonsFr implements TranslationsMiscButtonsEn {
 	@override String get save => 'Sauvegarder';
 	@override String get validate => 'Valider';
 	@override String get paste => 'Coller';
+	@override String get retry => 'Rééssayer';
 }
 
 // Path: widgets.board_editor
@@ -140,6 +141,10 @@ class _TranslationsPagesPhotoOcrFr implements TranslationsPagesPhotoOcrEn {
 
 	// Translations
 	@override String get title => 'Scanette photo de position';
+	@override String get instruction => 'Appuyez sur "Prendre une photo" pour capturer l\'image du plateau';
+	@override String get processing_picture => 'Traitement de l\'image ...';
+	@override late final _TranslationsPagesPhotoOcrButtonsFr buttons = _TranslationsPagesPhotoOcrButtonsFr._(_root);
+	@override late final _TranslationsPagesPhotoOcrErrorsFr errors = _TranslationsPagesPhotoOcrErrorsFr._(_root);
 }
 
 // Path: pages.home
@@ -271,6 +276,33 @@ class _TranslationsWidgetsCommanderExtractItemsFr implements TranslationsWidgets
 	// Translations
 	@override String get title => 'Extraction d\'archives';
 	@override String get message => 'Souhaitez-vous extraire les archives suivantes ? Veuillez noter que ne seront seulement extraits les éléments dossiers/*.pgn/*.zip. Aussi des dossiers cibles existent déjà, ils seront ignorés.';
+}
+
+// Path: pages.photo_ocr.buttons
+class _TranslationsPagesPhotoOcrButtonsFr implements TranslationsPagesPhotoOcrButtonsEn {
+	_TranslationsPagesPhotoOcrButtonsFr._(this._root);
+
+	final TranslationsFr _root; // ignore: unused_field
+
+	// Translations
+	@override String get take_photo => 'Photo';
+	@override String get pick_image => 'Gallerie';
+	@override String get retry => 'Rééssayer';
+}
+
+// Path: pages.photo_ocr.errors
+class _TranslationsPagesPhotoOcrErrorsFr implements TranslationsPagesPhotoOcrErrorsEn {
+	_TranslationsPagesPhotoOcrErrorsFr._(this._root);
+
+	final TranslationsFr _root; // ignore: unused_field
+
+	// Translations
+	@override String get failed_picking_image => 'Erreur de sélection de l\'image';
+	@override String get failed_extracting_chessboard => 'Erreur extraction échiquier depuis l\'image';
+	@override String get failed_decoding_chessboard_image => 'Échec d\'interprétation de l\'image de l\'échiquier';
+	@override String get failed_processing_image => 'Échec de traitement de l\'image';
+	@override String get failed_taking_photo => 'Échec de prise de photo';
+	@override String get no_result => 'Aucun résultat';
 }
 
 // Path: pages.home.create_folder_dialog
@@ -511,6 +543,7 @@ extension on TranslationsFr {
 			case 'misc.buttons.save': return 'Sauvegarder';
 			case 'misc.buttons.validate': return 'Valider';
 			case 'misc.buttons.paste': return 'Coller';
+			case 'misc.buttons.retry': return 'Rééssayer';
 			case 'misc.folder': return 'dossier';
 			case 'misc.file': return 'fichier';
 			case 'widgets.board_editor.black_turn': return 'Trait aux Noirs:';
@@ -530,6 +563,17 @@ extension on TranslationsFr {
 			case 'widgets.commander.extract_items.title': return 'Extraction d\'archives';
 			case 'widgets.commander.extract_items.message': return 'Souhaitez-vous extraire les archives suivantes ? Veuillez noter que ne seront seulement extraits les éléments dossiers/*.pgn/*.zip. Aussi des dossiers cibles existent déjà, ils seront ignorés.';
 			case 'pages.photo_ocr.title': return 'Scanette photo de position';
+			case 'pages.photo_ocr.instruction': return 'Appuyez sur "Prendre une photo" pour capturer l\'image du plateau';
+			case 'pages.photo_ocr.processing_picture': return 'Traitement de l\'image ...';
+			case 'pages.photo_ocr.buttons.take_photo': return 'Photo';
+			case 'pages.photo_ocr.buttons.pick_image': return 'Gallerie';
+			case 'pages.photo_ocr.buttons.retry': return 'Rééssayer';
+			case 'pages.photo_ocr.errors.failed_picking_image': return 'Erreur de sélection de l\'image';
+			case 'pages.photo_ocr.errors.failed_extracting_chessboard': return 'Erreur extraction échiquier depuis l\'image';
+			case 'pages.photo_ocr.errors.failed_decoding_chessboard_image': return 'Échec d\'interprétation de l\'image de l\'échiquier';
+			case 'pages.photo_ocr.errors.failed_processing_image': return 'Échec de traitement de l\'image';
+			case 'pages.photo_ocr.errors.failed_taking_photo': return 'Échec de prise de photo';
+			case 'pages.photo_ocr.errors.no_result': return 'Aucun résultat';
 			case 'pages.home.title': return 'Accueil';
 			case 'pages.home.create_folder_dialog.title': return 'Créer un dossier';
 			case 'pages.home.create_folder_dialog.folder_name_placeholder': return 'Nom du dossier';
