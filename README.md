@@ -1,4 +1,6 @@
-# chess_position_binder
+# Chess position binder
+
+[![Main Workflow](https://github.com/loloof64/ChessPositionsBinder/actions/workflows/main_workflow.yml/badge.svg)](https://github.com/loloof64/ChessPositionsBinder/actions/workflows/main_workflow.yml)
 
 Store and classify your favorite chess positions.
 
