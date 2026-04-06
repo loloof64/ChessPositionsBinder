@@ -15,7 +15,7 @@ class ChessRecognizer {
 
   Future<void> load() async {
     _interpreter = await Interpreter.fromAsset(
-      'assets/models/chess_piece_model.tflite',
+      'assets/models/chess_classifier.tflite',
     );
 
     // Log actual model tensor details so we know the expected shapes
