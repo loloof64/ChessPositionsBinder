@@ -58,11 +58,18 @@ add_subdirectory("runner")
 # them to the application.
 include(flutter/generated_plugins.cmake)
 
-# Override clipboard_plugin to disable /WX (treat warnings as errors).
-# The plugin hardcodes /WX in its own CMakeLists.txt; appending /WX- overrides
-# it because MSVC uses the last occurrence of /WX or /WX-.
+# Workaround for clipboard 3.0.14 bugs:
+# 1. /WX- overrides the plugin's hardcoded /WX (treat warnings as errors).
+# MSVC uses the last occurrence, so /WX- wins.
+# 2. The plugin's CMakeLists.txt sets the wrong include path (PLUGIN_SYMLINKS_DIR
+# instead of PLUGIN_ROOT_DIR), so #include <clipboard/clipboard_plugin.h>
+# fails. We add the correct path (the package root) as a PUBLIC include dir
+# so it propagates to the runner as well.
 if(TARGET clipboard_plugin)
   target_compile_options(clipboard_plugin PRIVATE /WX-)
+  target_include_directories(clipboard_plugin PUBLIC
+    "${CMAKE_CURRENT_SOURCE_DIR}/flutter/ephemeral/.plugin_symlinks/clipboard"
+  )
 endif()
 
 # === Installation ===
