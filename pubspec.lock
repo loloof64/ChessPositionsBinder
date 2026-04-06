@@ -157,10 +157,10 @@ packages:
     dependency: "direct main"
     description:
       name: editable_chess_board
-      sha256: "20abadfaf098cd04d36c38876a57ad75d0873fc535637e5803729572467c1e10"
+      sha256: aeb466e79268a7ad987cbb0e503a439a66bb00b25de1ac511eebc8077c64993e
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.0"
+    version: "0.6.1"
   equatable:
     dependency: "direct main"
     description:

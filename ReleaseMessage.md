@@ -1,2 +1,2 @@
-- changed the editor component
+- Changed the editor component
 - [Android/Ios] We can scan an photo of a chessboard and import its FEN value
