@@ -45,9 +45,6 @@ function(APPLY_STANDARD_SETTINGS TARGET)
   target_compile_options(${TARGET} PRIVATE /EHsc)
   target_compile_definitions(${TARGET} PRIVATE "_HAS_EXCEPTIONS=0")
   target_compile_definitions(${TARGET} PRIVATE "$<$<CONFIG:Debug>:_DEBUG>")
-
-  # Disable warnings as errors globally for all targets (MSVC)
-  add_compile_options(/WX-)
 endfunction()
 
 # Flutter library and tool build rules.
@@ -60,6 +57,18 @@ add_subdirectory("runner")
 # Generated plugin build rules, which manage building the plugins and adding
 # them to the application.
 include(flutter/generated_plugins.cmake)
+
+# Override clipboard_plugin to disable /WX (treat warnings as errors).
+# The plugin hardcodes /WX in its own CMakeLists.txt; /WX- disables it.
+if(TARGET clipboard_plugin)
+  get_target_property(_clipboard_opts clipboard_plugin COMPILE_OPTIONS)
+
+  if(_clipboard_opts)
+    list(REMOVE_ITEM _clipboard_opts "/WX")
+    list(APPEND _clipboard_opts "/WX-")
+    set_target_properties(clipboard_plugin PROPERTIES COMPILE_OPTIONS "${_clipboard_opts}")
+  endif()
+endif()
 
 # === Installation ===
 # Support files are copied into place next to the executable, so that it can
