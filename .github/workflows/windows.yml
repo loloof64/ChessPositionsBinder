@@ -39,12 +39,6 @@ jobs:
           channel: stable
           version: 3.41.6
 
-      - name: Disable warnings as errors (CXXFLAGS)
-        run: |
-          echo "CXXFLAGS=/WX-" >> $env:GITHUB_ENV
-          echo "CXXFLAGS=/WX-" >> $GITHUB_ENV
-        shell: pwsh
-
       - name: Install dependencies
         run: flutter pub get
 
