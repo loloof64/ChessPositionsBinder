@@ -1,4 +1,5 @@
 import 'dart:developer' as developer;
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:image/image.dart' as img;
@@ -14,6 +15,7 @@ class ChessRecognizer {
   Interpreter? _interpreter;
 
   Future<void> load() async {
+    if (!Platform.isAndroid && !Platform.isIOS) return;
     _interpreter = await Interpreter.fromAsset(
       'assets/models/chess_classifier.tflite',
     );
