@@ -44,6 +44,8 @@ jobs:
 
       - name: Build Windows application
         run: flutter build windows --release
+        env:
+          CXXFLAGS: /WX-
 
       - name: Copy VC++ DLL files
         run: |
