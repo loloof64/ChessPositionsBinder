@@ -36,9 +36,21 @@ class TranslationsFr implements Translations {
 	TranslationsFr $copyWith({TranslationMetadata<AppLocale, Translations>? meta}) => TranslationsFr(meta: meta ?? this.$meta);
 
 	// Translations
+	@override late final _TranslationsOptionsFr options = _TranslationsOptionsFr._(_root);
 	@override late final _TranslationsMiscFr misc = _TranslationsMiscFr._(_root);
 	@override late final _TranslationsWidgetsFr widgets = _TranslationsWidgetsFr._(_root);
 	@override late final _TranslationsPagesFr pages = _TranslationsPagesFr._(_root);
+}
+
+// Path: options
+class _TranslationsOptionsFr implements TranslationsOptionsEn {
+	_TranslationsOptionsFr._(this._root);
+
+	final TranslationsFr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Options';
+	@override String get dark_mode_label => 'Dark mode';
 }
 
 // Path: misc
@@ -287,7 +299,6 @@ class _TranslationsPagesPhotoOcrButtonsFr implements TranslationsPagesPhotoOcrBu
 	// Translations
 	@override String get take_photo => 'Photo';
 	@override String get pick_image => 'Gallerie';
-	@override String get retry => 'Rééssayer';
 }
 
 // Path: pages.photo_ocr.errors
@@ -538,6 +549,8 @@ class _TranslationsPagesDropboxConfirmDownloadFilesFr implements TranslationsPag
 extension on TranslationsFr {
 	dynamic _flatMapFunction(String path) {
 		switch (path) {
+			case 'options.title': return 'Options';
+			case 'options.dark_mode_label': return 'Dark mode';
 			case 'misc.buttons.ok': return 'Ok';
 			case 'misc.buttons.cancel': return 'Annuler';
 			case 'misc.buttons.save': return 'Sauvegarder';
@@ -567,7 +580,6 @@ extension on TranslationsFr {
 			case 'pages.photo_ocr.processing_picture': return 'Traitement de l\'image ...';
 			case 'pages.photo_ocr.buttons.take_photo': return 'Photo';
 			case 'pages.photo_ocr.buttons.pick_image': return 'Gallerie';
-			case 'pages.photo_ocr.buttons.retry': return 'Rééssayer';
 			case 'pages.photo_ocr.errors.failed_picking_image': return 'Erreur de sélection de l\'image';
 			case 'pages.photo_ocr.errors.failed_extracting_chessboard': return 'Erreur extraction échiquier depuis l\'image';
 			case 'pages.photo_ocr.errors.failed_decoding_chessboard_image': return 'Échec d\'interprétation de l\'image de l\'échiquier';

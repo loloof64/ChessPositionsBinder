@@ -5,6 +5,7 @@ import 'package:chess_position_binder/i18n/strings.g.dart';
 import 'package:chess_position_binder/core/read_positions.dart';
 import 'package:chess_position_binder/pages/position_details.dart';
 import 'package:chess_position_binder/pages/position_editor.dart';
+import 'package:chess_position_binder/widgets/common_drawer.dart';
 import 'package:chessground/chessground.dart';
 import 'package:dartchess/dartchess.dart' as chess;
 import 'package:flutter/material.dart';
@@ -829,6 +830,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     var screenWidth = MediaQuery.sizeOf(context).width;
     return Scaffold(
+      drawer: CommonDrawer(),
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(t.pages.home.title),

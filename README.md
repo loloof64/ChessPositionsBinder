@@ -23,6 +23,12 @@ final secret = '<YOUR_APP_DROPBOX_SECRET>';
 
 Also you may want to follow [applink configurations](https://github.com/llfbandit/app_links/tree/master/doc) for each platform
 
+### Riverpod files generation
+
+```bash
+dart run build_runner watch -d
+```
+
 ## Credits
 
 ### Tensorlow lite model

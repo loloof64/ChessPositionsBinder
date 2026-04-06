@@ -1,4 +1,8 @@
 {
+  "options": {
+    "title": "Options",
+    "dark_mode_label": "Dark mode"
+  },
   "misc": {
     "buttons": {
       "ok": "Ok",

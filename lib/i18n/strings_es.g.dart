@@ -36,9 +36,21 @@ class TranslationsEs implements Translations {
 	TranslationsEs $copyWith({TranslationMetadata<AppLocale, Translations>? meta}) => TranslationsEs(meta: meta ?? this.$meta);
 
 	// Translations
+	@override late final _TranslationsOptionsEs options = _TranslationsOptionsEs._(_root);
 	@override late final _TranslationsMiscEs misc = _TranslationsMiscEs._(_root);
 	@override late final _TranslationsWidgetsEs widgets = _TranslationsWidgetsEs._(_root);
 	@override late final _TranslationsPagesEs pages = _TranslationsPagesEs._(_root);
+}
+
+// Path: options
+class _TranslationsOptionsEs implements TranslationsOptionsEn {
+	_TranslationsOptionsEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Opciones';
+	@override String get dark_mode_label => 'Modo oscuro';
 }
 
 // Path: misc
@@ -287,7 +299,6 @@ class _TranslationsPagesPhotoOcrButtonsEs implements TranslationsPagesPhotoOcrBu
 	// Translations
 	@override String get take_photo => 'Tomar foto';
 	@override String get pick_image => 'Seleccionar imagen';
-	@override String get retry => 'Reintentar';
 }
 
 // Path: pages.photo_ocr.errors
@@ -538,6 +549,8 @@ class _TranslationsPagesDropboxConfirmDownloadFilesEs implements TranslationsPag
 extension on TranslationsEs {
 	dynamic _flatMapFunction(String path) {
 		switch (path) {
+			case 'options.title': return 'Opciones';
+			case 'options.dark_mode_label': return 'Modo oscuro';
 			case 'misc.buttons.ok': return 'De Acuerdo';
 			case 'misc.buttons.cancel': return 'Anular';
 			case 'misc.buttons.save': return 'Guardar';
@@ -567,7 +580,6 @@ extension on TranslationsEs {
 			case 'pages.photo_ocr.processing_picture': return 'Procesando imagen ...';
 			case 'pages.photo_ocr.buttons.take_photo': return 'Tomar foto';
 			case 'pages.photo_ocr.buttons.pick_image': return 'Seleccionar imagen';
-			case 'pages.photo_ocr.buttons.retry': return 'Reintentar';
 			case 'pages.photo_ocr.errors.failed_picking_image': return 'Error al seleccionar imagen';
 			case 'pages.photo_ocr.errors.failed_extracting_chessboard': return 'Error al extraer el tablero de la imagen';
 			case 'pages.photo_ocr.errors.failed_decoding_chessboard_image': return 'Error al decodificar la imagen del tablero aislado';

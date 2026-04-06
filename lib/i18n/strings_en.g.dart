@@ -39,9 +39,25 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	Translations $copyWith({TranslationMetadata<AppLocale, Translations>? meta}) => Translations(meta: meta ?? this.$meta);
 
 	// Translations
+	late final TranslationsOptionsEn options = TranslationsOptionsEn._(_root);
 	late final TranslationsMiscEn misc = TranslationsMiscEn._(_root);
 	late final TranslationsWidgetsEn widgets = TranslationsWidgetsEn._(_root);
 	late final TranslationsPagesEn pages = TranslationsPagesEn._(_root);
+}
+
+// Path: options
+class TranslationsOptionsEn {
+	TranslationsOptionsEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Options'
+	String get title => 'Options';
+
+	/// en: 'Dark mode'
+	String get dark_mode_label => 'Dark mode';
 }
 
 // Path: misc
@@ -400,9 +416,6 @@ class TranslationsPagesPhotoOcrButtonsEn {
 
 	/// en: 'Pick image'
 	String get pick_image => 'Pick image';
-
-	/// en: 'Try again'
-	String get retry => 'Try again';
 }
 
 // Path: pages.photo_ocr.errors
@@ -797,6 +810,8 @@ class TranslationsPagesDropboxConfirmDownloadFilesEn {
 extension on Translations {
 	dynamic _flatMapFunction(String path) {
 		switch (path) {
+			case 'options.title': return 'Options';
+			case 'options.dark_mode_label': return 'Dark mode';
 			case 'misc.buttons.ok': return 'Ok';
 			case 'misc.buttons.cancel': return 'Cancel';
 			case 'misc.buttons.save': return 'Save';
@@ -826,7 +841,6 @@ extension on Translations {
 			case 'pages.photo_ocr.processing_picture': return 'Processing image ...';
 			case 'pages.photo_ocr.buttons.take_photo': return 'Take photo';
 			case 'pages.photo_ocr.buttons.pick_image': return 'Pick image';
-			case 'pages.photo_ocr.buttons.retry': return 'Try again';
 			case 'pages.photo_ocr.errors.failed_picking_image': return 'Failed to pick image';
 			case 'pages.photo_ocr.errors.failed_extracting_chessboard': return 'Failed to extract chessboard from image';
 			case 'pages.photo_ocr.errors.failed_decoding_chessboard_image': return 'Failed to decode isolated chessboard image';

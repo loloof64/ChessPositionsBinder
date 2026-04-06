@@ -1,4 +1,8 @@
 {
+  "options": {
+    "title": "Opciones",
+    "dark_mode_label": "Modo oscuro"
+  },
   "misc": {
     "buttons": {
       "ok": "De Acuerdo",

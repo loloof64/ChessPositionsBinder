@@ -1,1 +1,1 @@
-- [Desktop] fix error bug on home page
+- add option for dark mode
