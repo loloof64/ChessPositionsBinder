@@ -3,14 +3,12 @@ import 'dart:io';
 import 'package:chess_position_binder/core/chess_recognizer.dart';
 import 'package:chess_position_binder/i18n/strings.g.dart';
 import 'package:chess_position_binder/core/read_positions.dart';
-import 'package:chess_position_binder/pages/dropbox.dart';
 import 'package:chess_position_binder/pages/position_details.dart';
 import 'package:chess_position_binder/pages/position_editor.dart';
 import 'package:chessground/chessground.dart';
 import 'package:dartchess/dartchess.dart' as chess;
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 const parentFolder = '@ParentFolder@';
 
@@ -588,16 +586,6 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Future<void> _accessDropbox() async {
-    await Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) {
-          return DropboxPage();
-        },
-      ),
-    );
-  }
-
   List<RawFolderElement> _filterUnwantedFolders(
     List<RawFolderElement> elements,
   ) {
@@ -853,10 +841,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           IconButton(onPressed: _purposeCreateFolder, icon: Icon(Icons.folder)),
           IconButton(onPressed: _reloadContent, icon: Icon(Icons.refresh)),
-          IconButton(
-            onPressed: _accessDropbox,
-            icon: FaIcon(FontAwesomeIcons.dropbox),
-          ),
         ],
       ),
       body: Column(
