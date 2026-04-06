@@ -59,15 +59,10 @@ add_subdirectory("runner")
 include(flutter/generated_plugins.cmake)
 
 # Override clipboard_plugin to disable /WX (treat warnings as errors).
-# The plugin hardcodes /WX in its own CMakeLists.txt; /WX- disables it.
+# The plugin hardcodes /WX in its own CMakeLists.txt; appending /WX- overrides
+# it because MSVC uses the last occurrence of /WX or /WX-.
 if(TARGET clipboard_plugin)
-  get_target_property(_clipboard_opts clipboard_plugin COMPILE_OPTIONS)
-
-  if(_clipboard_opts)
-    list(REMOVE_ITEM _clipboard_opts "/WX")
-    list(APPEND _clipboard_opts "/WX-")
-    set_target_properties(clipboard_plugin PROPERTIES COMPILE_OPTIONS "${_clipboard_opts}")
-  endif()
+  target_compile_options(clipboard_plugin PRIVATE /WX-)
 endif()
 
 # === Installation ===
