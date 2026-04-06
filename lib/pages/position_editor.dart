@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:chess_position_binder/core/chess_recognizer.dart';
 import 'package:chess_position_binder/i18n/strings.g.dart';
 import 'package:chess_position_binder/pages/photo_ocr_process.dart';
-import 'package:chess_position_binder/widgets/board_editor.dart';
 import 'package:chess_position_binder/widgets/position_informations_form.dart';
 import 'package:chess_position_binder/widgets/position_metadata_controller.dart';
 import 'package:dartchess/dartchess.dart' as chess;
+import 'package:editable_chess_board/editable_chess_board.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -42,6 +42,7 @@ class PositionEditorPage extends StatefulWidget {
 
 class _PositionEditorPageState extends State<PositionEditorPage> {
   late PositionMetadataControlller _positionMetadataController;
+  late PositionController _positionController;
   String? _savedFileName;
 
   @override
@@ -55,10 +56,17 @@ class _PositionEditorPageState extends State<PositionEditorPage> {
       exercice: widget.exercice,
       fen: widget.initialFen,
     );
+    _positionController = PositionController(widget.initialFen);
+    _positionController.addListener(() {
+      setState(() {
+        _positionMetadataController.fen = _positionController.position;
+      });
+    });
   }
 
   @override
   void dispose() {
+    _positionController.dispose();
     _positionMetadataController.dispose();
     super.dispose();
   }
@@ -118,9 +126,10 @@ class _PositionEditorPageState extends State<PositionEditorPage> {
         },
       ),
     );
+
     if (newPositionFen == null) return;
     setState(() {
-      _positionMetadataController.fen = newPositionFen;
+      _positionController.position = newPositionFen;
     });
   }
 
@@ -214,6 +223,7 @@ class _PositionEditorPageState extends State<PositionEditorPage> {
     if (_positionMetadataController.fen.isNotEmpty) {
       headers["FEN"] = _positionMetadataController.fen;
     }
+
     final pgnHolder = chess.PgnGame(
       headers: headers,
       moves: chess.PgnNode(),
@@ -267,8 +277,64 @@ class _PositionEditorPageState extends State<PositionEditorPage> {
                 child: SizedBox(
                   width: isPortrait ? 400 : 600,
                   height: isPortrait ? 600 : 250,
-                  child: BoardEditor(
-                    positionController: _positionMetadataController,
+                  child: EditableChessBoard(
+                    boardSize: isPortrait ? 300 : 200,
+                    labels: Labels(
+                      playerTurnLabel:
+                          t.pages.position_editor.editor_labels.player_turn,
+                      whitePlayerLabel:
+                          t.pages.position_editor.editor_labels.white_player,
+                      blackPlayerLabel:
+                          t.pages.position_editor.editor_labels.black_player,
+                      availableCastlesLabel:
+                          t
+                              .pages
+                              .position_editor
+                              .editor_labels
+                              .available_castles,
+                      whiteOOLabel:
+                          t.pages.position_editor.editor_labels.white_OO,
+                      whiteOOOLabel:
+                          t.pages.position_editor.editor_labels.white_OOO,
+                      blackOOLabel:
+                          t.pages.position_editor.editor_labels.black_OO,
+                      blackOOOLabel:
+                          t.pages.position_editor.editor_labels.black_OOO,
+                      enPassantLabel:
+                          t.pages.position_editor.editor_labels.en_passant,
+                      drawHalfMovesCountLabel:
+                          t
+                              .pages
+                              .position_editor
+                              .editor_labels
+                              .draw_moves_half_count,
+                      moveNumberLabel:
+                          t.pages.position_editor.editor_labels.move_number,
+                      submitFieldLabel:
+                          t.pages.position_editor.editor_labels.submit_field,
+                      currentPositionLabel:
+                          t
+                              .pages
+                              .position_editor
+                              .editor_labels
+                              .current_position,
+                      copyFenLabel:
+                          t.pages.position_editor.editor_labels.copy_fen,
+                      pasteFenLabel:
+                          t.pages.position_editor.editor_labels.paste_fen,
+                      resetPosition:
+                          t.pages.position_editor.editor_labels.reset_position,
+                      standardPosition:
+                          t
+                              .pages
+                              .position_editor
+                              .editor_labels
+                              .standard_position,
+                      erasePosition:
+                          t.pages.position_editor.editor_labels.erase_position,
+                    ),
+                    controller: _positionController,
+                    showAdvancedOptions: true,
                   ),
                 ),
               ),

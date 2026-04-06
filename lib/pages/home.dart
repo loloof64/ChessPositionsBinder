@@ -222,6 +222,7 @@ class _MyHomePageState extends State<MyHomePage> {
       }
 
       final (newPgn, _) = result;
+
       final savedFile = File(path);
       await savedFile.writeAsString(newPgn);
 
