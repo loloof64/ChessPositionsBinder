@@ -20,3 +20,9 @@ final secret = '<YOUR_APP_DROPBOX_SECRET>';
 ```
 
 Also you may want to follow [applink configurations](https://github.com/llfbandit/app_links/tree/master/doc) for each platform
+
+## Credits
+
+### Tensorlow lite model
+
+Using model from project [ChessCV](https://github.com/S1M0N38/chess-cv)
