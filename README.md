@@ -20,7 +20,3 @@ final secret = '<YOUR_APP_DROPBOX_SECRET>';
 ```
 
 Also you may want to follow [applink configurations](https://github.com/llfbandit/app_links/tree/master/doc) for each platform
-
-### Tensorflow Model
-
-You also have to download the [Tensorflow Lite model](https://www.dropbox.com/scl/fi/3fkrrphzlll2yux2xpi3l/chess_classifier.tflite?rlkey=ucy58sv40y6ia3957yfklny4n&st=3d63gbnv&dl=0) and insert it into folder `assets/models`

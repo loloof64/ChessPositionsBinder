@@ -48,5 +48,3 @@ app.*.map.json
 /lib/services/dropbox/secrets.dart
 
 .vscode/
-
-/assets/models/
