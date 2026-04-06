@@ -28,7 +28,7 @@ class DropboxLogin extends _$DropboxLogin {
     final client = DropboxOAuth2Client();
     _helper = OAuth2Helper(
       client,
-      clientId: "oja5n3i5ibq4mdp",
+      clientId: "usfv4o96598z2lj",
       scopes: [
         'files.metadata.read',
         'files.content.read',
