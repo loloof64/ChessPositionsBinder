@@ -241,10 +241,17 @@ class _PositionEditorPageState extends State<PositionEditorPage> {
 
   @override
   Widget build(BuildContext context) {
+    final fileName = widget.fileName;
+    final displayedFilename =
+        fileName.isEmpty
+            ? fileName
+            : fileName.endsWith(".pgn")
+            ? fileName.substring(0, fileName.length - 4)
+            : fileName;
     final title =
-        widget.fileName.isEmpty
+        displayedFilename.isEmpty
             ? t.pages.position_editor.simple_title
-            : t.pages.position_editor.title(fileName: widget.fileName);
+            : t.pages.position_editor.title(fileName: displayedFilename);
     final isPortrait =
         MediaQuery.orientationOf(context) == Orientation.portrait;
     return DefaultTabController(

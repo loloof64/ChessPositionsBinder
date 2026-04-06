@@ -33,9 +33,10 @@ class PositionDetailsPage extends StatelessWidget {
     final isPortrait =
         MediaQuery.orientationOf(context) == Orientation.portrait;
     final positionSize = isPortrait ? screenMinSize * 0.9 : screenMinSize * 0.5;
-    final displayedFilename = fileName.endsWith(".pgn")
-        ? fileName.substring(0, fileName.length - 4)
-        : fileName;
+    final displayedFilename =
+        fileName.endsWith(".pgn")
+            ? fileName.substring(0, fileName.length - 4)
+            : fileName;
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -72,9 +73,8 @@ class PositionDetailsPage extends StatelessWidget {
                 ChessboardEditor(
                   size: positionSize,
                   settings: ChessboardSettings(enableCoordinates: true),
-                  orientation: _isBlackTurn
-                      ? chess.Side.black
-                      : chess.Side.white,
+                  orientation:
+                      _isBlackTurn ? chess.Side.black : chess.Side.white,
                   pieces: _pieces,
                 ),
                 Flexible(

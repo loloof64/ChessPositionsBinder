@@ -247,8 +247,8 @@ class TranslationsPagesPositionEditorEn {
 
 	// Translations
 
-	/// en: 'Position editor ($fileName)'
-	String title({required Object fileName}) => 'Position editor (${fileName})';
+	/// en: 'Editing ($fileName)'
+	String title({required Object fileName}) => 'Editing (${fileName})';
 
 	/// en: 'Position editor'
 	String get simple_title => 'Position editor';
@@ -874,7 +874,7 @@ extension on Translations {
 			case 'pages.home.misc.base_directory': return '[BASE_DIR]';
 			case 'pages.home.misc.no_item': return 'No item';
 			case 'pages.position_details.title': return ({required Object fileName}) => 'Position (${fileName})';
-			case 'pages.position_editor.title': return ({required Object fileName}) => 'Position editor (${fileName})';
+			case 'pages.position_editor.title': return ({required Object fileName}) => 'Editing (${fileName})';
 			case 'pages.position_editor.simple_title': return 'Position editor';
 			case 'pages.position_editor.saved_file_name_dialog.title': return 'Select saved file name';
 			case 'pages.position_editor.saved_file_name_dialog.name_placeholder': return 'File name';

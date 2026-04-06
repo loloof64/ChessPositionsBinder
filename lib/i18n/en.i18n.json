@@ -117,7 +117,7 @@
       "title": "Position ($fileName)"
     },
     "position_editor": {
-      "title": "Position editor ($fileName)",
+      "title": "Editing ($fileName)",
       "simple_title": "Position editor",
       "saved_file_name_dialog": {
         "title": "Select saved file name",

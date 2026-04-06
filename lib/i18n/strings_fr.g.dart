@@ -196,7 +196,7 @@ class _TranslationsPagesPositionEditorFr implements TranslationsPagesPositionEdi
 	final TranslationsFr _root; // ignore: unused_field
 
 	// Translations
-	@override String title({required Object fileName}) => 'Éditeur de position (${fileName})';
+	@override String title({required Object fileName}) => 'Édition (${fileName})';
 	@override String get simple_title => 'Éditeur de position';
 	@override late final _TranslationsPagesPositionEditorSavedFileNameDialogFr saved_file_name_dialog = _TranslationsPagesPositionEditorSavedFileNameDialogFr._(_root);
 	@override late final _TranslationsPagesPositionEditorOverwriteFileConfirmationDialogFr overwrite_file_confirmation_dialog = _TranslationsPagesPositionEditorOverwriteFileConfirmationDialogFr._(_root);
@@ -613,7 +613,7 @@ extension on TranslationsFr {
 			case 'pages.home.misc.base_directory': return '[DOSSIER_DE_BASE]';
 			case 'pages.home.misc.no_item': return 'Aucun élément';
 			case 'pages.position_details.title': return ({required Object fileName}) => 'Position (${fileName})';
-			case 'pages.position_editor.title': return ({required Object fileName}) => 'Éditeur de position (${fileName})';
+			case 'pages.position_editor.title': return ({required Object fileName}) => 'Édition (${fileName})';
 			case 'pages.position_editor.simple_title': return 'Éditeur de position';
 			case 'pages.position_editor.saved_file_name_dialog.title': return 'Choisir le nom du fichier';
 			case 'pages.position_editor.saved_file_name_dialog.name_placeholder': return 'Nom du fichier';

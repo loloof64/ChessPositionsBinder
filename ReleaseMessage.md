@@ -1,1 +1,3 @@
+- changed main theme color
+- improved app bar for position editor page
 - add option for dark mode
