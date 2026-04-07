@@ -1,3 +1,1 @@
-- fix some translation messages
-- fix Dropbox synchronization issues
-- the application Drawer is scrollable
+- better Dropbox synchronization
