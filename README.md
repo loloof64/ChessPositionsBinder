@@ -29,7 +29,7 @@ Also you may want to follow [applink configurations](https://github.com/llfbandi
 dart run build_runner watch -d
 ```
 
-## Credits
+## Credits
 
 ### Tensorlow lite model
 
