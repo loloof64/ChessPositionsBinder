@@ -1,4 +1,4 @@
 - changed main theme color
 - improved app bar for position editor page
 - add option for dark mode
-- changed the Dropbox connection workflow
+- changed the Dropbox connection workflow : you will probably need to move your current positions in your Dropbox Account from the `Applications/ChessPositionsBinder` to the folder `Applications/ChessPositionsBinder/positions` for them to be recognized by the application
