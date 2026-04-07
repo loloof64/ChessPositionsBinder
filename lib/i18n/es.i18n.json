@@ -78,7 +78,16 @@
         "failed_decoding_chessboard_image": "Error al decodificar la imagen del tablero aislado",
         "failed_processing_image": "Error al procesar la imagen",
         "failed_taking_photo": "Error al tomar la foto",
-        "no_result": "Sin resultado"
+        "no_result": "Sin resultado",
+        "process": {
+          "image_decode_failed": "Failed to decode image. Please try again.",
+          "not_enough_corners": "No se pudo detectar el tablero de ajedrez. Por favor, asegúrese de que el tablero sea claramente visible y esté bien iluminado.",
+          "board_too_small": "El tablero es demasiado pequeño. Por favor, acérquese más al tablero de ajedrez.",
+          "board_too_distorted": "El tablero parece demasiado distorsionado. Por favor, capture el tablero de forma más frontal.",
+          "output_size_too_small": "El área detectada del tablero es demasiado pequeña. Por favor, acérquese más al tablero.",
+          "encoding_failed": "No se pudo procesar la imagen. Por favor, inténtelo de nuevo.",
+          "misc_error": "Ocurrió un error inesperado. Por favor, inténtelo de nuevo."
+        }
       }
     },
     "home": {

@@ -354,6 +354,7 @@ class _TranslationsPagesPhotoOcrErrorsFr implements TranslationsPagesPhotoOcrErr
 	@override String get failed_processing_image => 'Échec de traitement de l\'image';
 	@override String get failed_taking_photo => 'Échec de prise de photo';
 	@override String get no_result => 'Aucun résultat';
+	@override late final _TranslationsPagesPhotoOcrErrorsProcessFr process = _TranslationsPagesPhotoOcrErrorsProcessFr._(_root);
 }
 
 // Path: pages.home.create_folder_dialog
@@ -584,6 +585,22 @@ class _TranslationsPagesDropboxConfirmDownloadFilesFr implements TranslationsPag
 	@override String get message => 'Souhaitez-vous télécharger les fichiers suivants ? Les dossiers seront ignorés et les \'doublons\' seront légèrement renommés.';
 }
 
+// Path: pages.photo_ocr.errors.process
+class _TranslationsPagesPhotoOcrErrorsProcessFr implements TranslationsPagesPhotoOcrErrorsProcessEn {
+	_TranslationsPagesPhotoOcrErrorsProcessFr._(this._root);
+
+	final TranslationsFr _root; // ignore: unused_field
+
+	// Translations
+	@override String get image_decode_failed => 'Échec de décodage de l\'image. Veuillez réessayer.';
+	@override String get not_enough_corners => 'Impossible de détecter l\'échiquier. Veuillez vous assurer que le plateau est bien visible et bien éclairé.';
+	@override String get board_too_small => 'Plateau trop petit. Veuillez vous rapprocher de l\'échiquier.';
+	@override String get board_too_distorted => 'Le plateau semble trop déformé. Veuillez capturer le plateau plus frontalement.';
+	@override String get output_size_too_small => 'Zone détectée du plateau trop petite. Veuillez vous rapprocher de l\'échiquier.';
+	@override String get encoding_failed => 'Échec du traitement de l\'image. Veuillez réessayer.';
+	@override String get misc_error => 'Une erreur inattendue est survenue. Veuillez réessayer.';
+}
+
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 extension on TranslationsFr {
@@ -636,6 +653,13 @@ extension on TranslationsFr {
 			case 'pages.photo_ocr.errors.failed_processing_image': return 'Échec de traitement de l\'image';
 			case 'pages.photo_ocr.errors.failed_taking_photo': return 'Échec de prise de photo';
 			case 'pages.photo_ocr.errors.no_result': return 'Aucun résultat';
+			case 'pages.photo_ocr.errors.process.image_decode_failed': return 'Échec de décodage de l\'image. Veuillez réessayer.';
+			case 'pages.photo_ocr.errors.process.not_enough_corners': return 'Impossible de détecter l\'échiquier. Veuillez vous assurer que le plateau est bien visible et bien éclairé.';
+			case 'pages.photo_ocr.errors.process.board_too_small': return 'Plateau trop petit. Veuillez vous rapprocher de l\'échiquier.';
+			case 'pages.photo_ocr.errors.process.board_too_distorted': return 'Le plateau semble trop déformé. Veuillez capturer le plateau plus frontalement.';
+			case 'pages.photo_ocr.errors.process.output_size_too_small': return 'Zone détectée du plateau trop petite. Veuillez vous rapprocher de l\'échiquier.';
+			case 'pages.photo_ocr.errors.process.encoding_failed': return 'Échec du traitement de l\'image. Veuillez réessayer.';
+			case 'pages.photo_ocr.errors.process.misc_error': return 'Une erreur inattendue est survenue. Veuillez réessayer.';
 			case 'pages.home.title': return 'Accueil';
 			case 'pages.home.create_folder_dialog.title': return 'Créer un dossier';
 			case 'pages.home.create_folder_dialog.folder_name_placeholder': return 'Nom du dossier';

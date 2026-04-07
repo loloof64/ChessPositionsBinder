@@ -504,6 +504,8 @@ class TranslationsPagesPhotoOcrErrorsEn {
 
 	/// en: 'No result'
 	String get no_result => 'No result';
+
+	late final TranslationsPagesPhotoOcrErrorsProcessEn process = TranslationsPagesPhotoOcrErrorsProcessEn._(_root);
 }
 
 // Path: pages.home.create_folder_dialog
@@ -866,6 +868,36 @@ class TranslationsPagesDropboxConfirmDownloadFilesEn {
 	String get message => 'Do you want to download the following files ? \'Duplicate files\' will be slightly renamed, and folders will be ignored.';
 }
 
+// Path: pages.photo_ocr.errors.process
+class TranslationsPagesPhotoOcrErrorsProcessEn {
+	TranslationsPagesPhotoOcrErrorsProcessEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Failed to decode image. Please try again.'
+	String get image_decode_failed => 'Failed to decode image. Please try again.';
+
+	/// en: 'Could not detect chessboard. Please ensure the board is clearly visible and well-lit.'
+	String get not_enough_corners => 'Could not detect chessboard. Please ensure the board is clearly visible and well-lit.';
+
+	/// en: 'Board too small. Please get closer to the chessboard.'
+	String get board_too_small => 'Board too small. Please get closer to the chessboard.';
+
+	/// en: 'Board appears too distorted. Please capture the board more straight-on.'
+	String get board_too_distorted => 'Board appears too distorted. Please capture the board more straight-on.';
+
+	/// en: 'Detected board area too small. Please move closer to the board.'
+	String get output_size_too_small => 'Detected board area too small. Please move closer to the board.';
+
+	/// en: 'Failed to process the image. Please try again.'
+	String get encoding_failed => 'Failed to process the image. Please try again.';
+
+	/// en: 'An unexpected error occurred. Please try again.'
+	String get misc_error => 'An unexpected error occurred. Please try again.';
+}
+
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 extension on Translations {
@@ -918,6 +950,13 @@ extension on Translations {
 			case 'pages.photo_ocr.errors.failed_processing_image': return 'Failed to process image';
 			case 'pages.photo_ocr.errors.failed_taking_photo': return 'Failed to take photo';
 			case 'pages.photo_ocr.errors.no_result': return 'No result';
+			case 'pages.photo_ocr.errors.process.image_decode_failed': return 'Failed to decode image. Please try again.';
+			case 'pages.photo_ocr.errors.process.not_enough_corners': return 'Could not detect chessboard. Please ensure the board is clearly visible and well-lit.';
+			case 'pages.photo_ocr.errors.process.board_too_small': return 'Board too small. Please get closer to the chessboard.';
+			case 'pages.photo_ocr.errors.process.board_too_distorted': return 'Board appears too distorted. Please capture the board more straight-on.';
+			case 'pages.photo_ocr.errors.process.output_size_too_small': return 'Detected board area too small. Please move closer to the board.';
+			case 'pages.photo_ocr.errors.process.encoding_failed': return 'Failed to process the image. Please try again.';
+			case 'pages.photo_ocr.errors.process.misc_error': return 'An unexpected error occurred. Please try again.';
 			case 'pages.home.title': return 'Home';
 			case 'pages.home.create_folder_dialog.title': return 'Create folder';
 			case 'pages.home.create_folder_dialog.folder_name_placeholder': return 'Folder name';

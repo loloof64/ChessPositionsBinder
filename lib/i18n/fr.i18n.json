@@ -78,7 +78,16 @@
         "failed_decoding_chessboard_image": "Échec d'interprétation de l'image de l'échiquier",
         "failed_processing_image": "Échec de traitement de l'image",
         "failed_taking_photo": "Échec de prise de photo",
-        "no_result": "Aucun résultat"
+        "no_result": "Aucun résultat",
+        "process": {
+          "image_decode_failed": "Échec de décodage de l'image. Veuillez réessayer.",
+          "not_enough_corners": "Impossible de détecter l'échiquier. Veuillez vous assurer que le plateau est bien visible et bien éclairé.",
+          "board_too_small": "Plateau trop petit. Veuillez vous rapprocher de l'échiquier.",
+          "board_too_distorted": "Le plateau semble trop déformé. Veuillez capturer le plateau plus frontalement.",
+          "output_size_too_small": "Zone détectée du plateau trop petite. Veuillez vous rapprocher de l'échiquier.",
+          "encoding_failed": "Échec du traitement de l'image. Veuillez réessayer.",
+          "misc_error": "Une erreur inattendue est survenue. Veuillez réessayer."
+        }
       }
     },
     "home": {

@@ -78,7 +78,16 @@
         "failed_decoding_chessboard_image": "Failed to decode isolated chessboard image",
         "failed_processing_image": "Failed to process image",
         "failed_taking_photo": "Failed to take photo",
-        "no_result": "No result"
+        "no_result": "No result",
+        "process": {
+          "image_decode_failed": "Failed to decode image. Please try again.",
+          "not_enough_corners": "Could not detect chessboard. Please ensure the board is clearly visible and well-lit.",
+          "board_too_small": "Board too small. Please get closer to the chessboard.",
+          "board_too_distorted": "Board appears too distorted. Please capture the board more straight-on.",
+          "output_size_too_small": "Detected board area too small. Please move closer to the board.",
+          "encoding_failed": "Failed to process the image. Please try again.",
+          "misc_error": "An unexpected error occurred. Please try again."
+        }
       }
     },
     "home": {

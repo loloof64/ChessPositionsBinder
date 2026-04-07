@@ -354,6 +354,7 @@ class _TranslationsPagesPhotoOcrErrorsEs implements TranslationsPagesPhotoOcrErr
 	@override String get failed_processing_image => 'Error al procesar la imagen';
 	@override String get failed_taking_photo => 'Error al tomar la foto';
 	@override String get no_result => 'Sin resultado';
+	@override late final _TranslationsPagesPhotoOcrErrorsProcessEs process = _TranslationsPagesPhotoOcrErrorsProcessEs._(_root);
 }
 
 // Path: pages.home.create_folder_dialog
@@ -584,6 +585,22 @@ class _TranslationsPagesDropboxConfirmDownloadFilesEs implements TranslationsPag
 	@override String get message => '¿Desea descargar los siguientes archivos? Los archivos duplicados serán renombrados ligeramente y las carpetas serán ignoradas.';
 }
 
+// Path: pages.photo_ocr.errors.process
+class _TranslationsPagesPhotoOcrErrorsProcessEs implements TranslationsPagesPhotoOcrErrorsProcessEn {
+	_TranslationsPagesPhotoOcrErrorsProcessEs._(this._root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get image_decode_failed => 'Failed to decode image. Please try again.';
+	@override String get not_enough_corners => 'No se pudo detectar el tablero de ajedrez. Por favor, asegúrese de que el tablero sea claramente visible y esté bien iluminado.';
+	@override String get board_too_small => 'El tablero es demasiado pequeño. Por favor, acérquese más al tablero de ajedrez.';
+	@override String get board_too_distorted => 'El tablero parece demasiado distorsionado. Por favor, capture el tablero de forma más frontal.';
+	@override String get output_size_too_small => 'El área detectada del tablero es demasiado pequeña. Por favor, acérquese más al tablero.';
+	@override String get encoding_failed => 'No se pudo procesar la imagen. Por favor, inténtelo de nuevo.';
+	@override String get misc_error => 'Ocurrió un error inesperado. Por favor, inténtelo de nuevo.';
+}
+
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 extension on TranslationsEs {
@@ -636,6 +653,13 @@ extension on TranslationsEs {
 			case 'pages.photo_ocr.errors.failed_processing_image': return 'Error al procesar la imagen';
 			case 'pages.photo_ocr.errors.failed_taking_photo': return 'Error al tomar la foto';
 			case 'pages.photo_ocr.errors.no_result': return 'Sin resultado';
+			case 'pages.photo_ocr.errors.process.image_decode_failed': return 'Failed to decode image. Please try again.';
+			case 'pages.photo_ocr.errors.process.not_enough_corners': return 'No se pudo detectar el tablero de ajedrez. Por favor, asegúrese de que el tablero sea claramente visible y esté bien iluminado.';
+			case 'pages.photo_ocr.errors.process.board_too_small': return 'El tablero es demasiado pequeño. Por favor, acérquese más al tablero de ajedrez.';
+			case 'pages.photo_ocr.errors.process.board_too_distorted': return 'El tablero parece demasiado distorsionado. Por favor, capture el tablero de forma más frontal.';
+			case 'pages.photo_ocr.errors.process.output_size_too_small': return 'El área detectada del tablero es demasiado pequeña. Por favor, acérquese más al tablero.';
+			case 'pages.photo_ocr.errors.process.encoding_failed': return 'No se pudo procesar la imagen. Por favor, inténtelo de nuevo.';
+			case 'pages.photo_ocr.errors.process.misc_error': return 'Ocurrió un error inesperado. Por favor, inténtelo de nuevo.';
 			case 'pages.home.title': return 'Inicio';
 			case 'pages.home.create_folder_dialog.title': return 'Crear carpeta';
 			case 'pages.home.create_folder_dialog.folder_name_placeholder': return 'Nombre de la carpeta';
