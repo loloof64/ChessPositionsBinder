@@ -9,6 +9,7 @@ import 'package:oauth2_client/access_token_response.dart';
 import 'package:oauth2_client/oauth2_helper.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:http/http.dart' as http;
+import '../dropbox_config.dart';
 
 part 'dropbox_login_provider.g.dart';
 
@@ -28,7 +29,7 @@ class DropboxLogin extends _$DropboxLogin {
     final client = DropboxOAuth2Client();
     _helper = OAuth2Helper(
       client,
-      clientId: "usfv4o96598z2lj",
+      clientId: appId,
       scopes: [
         'files.metadata.read',
         'files.content.read',

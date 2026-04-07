@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:oauth2_client/oauth2_client.dart';
+import '../../dropbox_config.dart';
 
 final isDesktop =
     Platform.isWindows ||
@@ -8,9 +9,7 @@ final isDesktop =
     Platform.isFuchsia;
 
 final redirectUri =
-    isDesktop
-        ? 'http://localhost:53682/oauth2redirect'
-        : 'https://loloof64.github.io/ChessPositionsBinder/oauth2redirect';
+    isDesktop ? 'http://localhost:53682/oauth2redirect' : redirectAdress;
 
 final callbackUrlScheme =
     isDesktop ? 'http://localhost:53682' : 'chess-positions-binder';

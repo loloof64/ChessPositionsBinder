@@ -45,6 +45,6 @@ app.*.map.json
 /android/app/release
 
 
-/lib/services/dropbox/secrets.dart
+/lib/dropbox_config.dart
 
 .vscode/
