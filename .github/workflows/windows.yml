@@ -5,7 +5,7 @@ on:
     secrets:
       DROPBOX_CLIENT_ID:
         required: true
-      DROPBOX_SECRET:
+      DROPBOX_REDIRECT_URI:
         required: true
 
 jobs:
@@ -17,12 +17,9 @@ jobs:
 
       - name: Add Dropbox secrets
         run: |
-          # Create folder 'lib/services/dropbox' if needed
-          New-Item -ItemType Directory -Force -Path ".\lib\services\dropbox"
-
-          # Create file 'secrets.dart' and insert secrets
-          "final identifier = '${{ secrets.DROPBOX_CLIENT_ID }}';" | Out-File -FilePath ".\lib\services\dropbox\secrets.dart"
-          "final secret = '${{ secrets.DROPBOX_SECRET }}';" | Out-File -FilePath ".\lib\services\dropbox\secrets.dart" -Append
+          # Create file 'lib/dropbox_config.dart' and insert data
+          "final appId = '${{ secrets.DROPBOX_CLIENT_ID }}';" | Out-File -FilePath ".\lib\dropbox_config.dart"
+          "final redirectAdress = '${{ secrets.DROPBOX_REDIRECT_URI }}';" | Out-File -FilePath ".\lib\dropbox_config.dart" -Append
         shell: pwsh
 
       - name: Install yq

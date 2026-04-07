@@ -95,6 +95,13 @@ const redirectAdress =
 
 And use its hosted adress as the alternative redirect Uri
 
+5. Add the 2 repository Action secrets:
+
+- DROPBOX_CLIENT_ID
+- DROPBOX_REDIRECT_URI
+
+so that the Github Action will be able to run correctly.
+
 ### Riverpod files generation
 
 ```bash
