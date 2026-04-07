@@ -9,13 +9,17 @@ script:
   - cp ChessPositionsBinder.desktop AppDir/usr/share/applications/
   - mkdir -p AppDir/usr/share/metainfo
   - cp ChessPositionsBinder.metainfo.xml AppDir/usr/share/metainfo/ChessPositionsBinder.metainfo.xml
+  # Regenerate gdk-pixbuf loaders cache for SVG support
+  - if [ -d AppDir/usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders ]; then \
+    gdk-pixbuf-query-loaders AppDir/usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders/*.so > AppDir/usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders.cache; \
+    fi
 AppDir:
   path: ./AppDir
   app_info:
     id: com.loloof64.ChessPositionsBinder
     name: Chess Positions Binder
     icon: logo
-    version: 1.2.8
+    version: 1.2.9
     exec: chess_position_binder
     exec_args: $@
   apt:
@@ -37,6 +41,13 @@ AppDir:
       - libwebkit2gtk-4.1
       - libudev1
       - libgudev-1.0-0
+      - libcanberra-gtk3-module
+      - packagekit-gtk3-module
+      - gdk-pixbuf2.0
+      - gdk-pixbuf2.0-svg
+      - adwaita-icon-theme
+      - colorreload-gtk-module
+      - libsecret-1-0
     exclude:
       - humanity-icon-theme
       - hicolor-icon-theme

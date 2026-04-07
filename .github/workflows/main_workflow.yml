@@ -11,7 +11,6 @@ jobs:
     secrets: inherit
 
   run-windows:
-    needs: run-linux
     uses: ./.github/workflows/windows.yml
     secrets: inherit
 

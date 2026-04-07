@@ -1,1 +1,1 @@
-- better Dropbox synchronization
+- fix AppImage errors
