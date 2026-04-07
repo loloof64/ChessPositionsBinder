@@ -219,99 +219,105 @@ class _CommonDrawerState extends ConsumerState<CommonDrawer> {
     final accountAvatarUrl = dropboxAccount?.profilePhotoUrl;
 
     return Drawer(
-      child: Column(
-        spacing: 15.0,
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          DrawerHeader(child: Text(t.options.title)),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            spacing: 10.0,
-            children: [
-              Text(t.options.dark_mode_label),
-              Switch(
-                value: inDarkMode,
-                onChanged: (newValue) => darkModeNotifier.toggle(),
-              ),
-            ],
-          ),
-          if (_isRestoring)
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: SizedBox(
-                width: 50,
-                height: 50,
-                child: const Center(
-                  child: CircularProgressIndicator(strokeWidth: 2.5),
+      child: SingleChildScrollView(
+        child: Column(
+          spacing: 15.0,
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            DrawerHeader(child: Text(t.options.title)),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              spacing: 10.0,
+              children: [
+                Text(t.options.dark_mode_label),
+                Switch(
+                  value: inDarkMode,
+                  onChanged: (newValue) => darkModeNotifier.toggle(),
                 ),
-              ),
-            )
-          else ...[
-            if (!_isLoggedIn)
-              ElevatedButton(
-                onPressed: _loginDropbox,
-                child: Text(t.options.dropbox.login_button),
-              ),
-            if (_isLoggedIn)
-              ElevatedButton(
-                onPressed: _logoutDropbox,
-                child: Text(t.options.dropbox.logout_button),
-              ),
-            if (accountUserName != null) Text(accountUserName),
-            if (accountAvatarUrl != null)
-              Image.network(
-                accountAvatarUrl,
-                width: 50.0,
-                height: 50.0,
-                fit: BoxFit.cover,
-              ),
-            if (_isLoggedIn) ...[
-              if (isSyncing)
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: CircularProgressIndicator(strokeWidth: 2.5),
-                      ),
-                      if (syncState.totalActions > 0)
-                        Padding(
-                          padding: const EdgeInsets.only(top: 4.0),
-                          child: Text(
-                            '${syncState.completedActions}/${syncState.totalActions}',
-                            style: Theme.of(context).textTheme.bodySmall,
-                          ),
-                        ),
-                    ],
+              ],
+            ),
+            if (_isRestoring)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: SizedBox(
+                  width: 50,
+                  height: 50,
+                  child: const Center(
+                    child: CircularProgressIndicator(strokeWidth: 2.5),
                   ),
-                )
-              else
-                ElevatedButton.icon(
-                  onPressed:
-                      () => ref.read(syncProvider.notifier).sync().then((_) {
-                        if (!context.mounted) return;
-                        final state = ref.read(syncProvider);
-                        final snackKey =
-                            state.status == SyncStatus.error
-                                ? t.options.snack_messages.dropbox.sync_error
-                                : t.options.snack_messages.dropbox.sync_success;
-                        ScaffoldMessenger.of(
-                          context,
-                        ).showSnackBar(SnackBar(content: Text(snackKey)));
-                      }),
-                  icon: const Icon(Icons.sync),
-                  label: Text(t.options.dropbox.sync_button),
                 ),
+              )
+            else ...[
+              if (!_isLoggedIn)
+                ElevatedButton(
+                  onPressed: _loginDropbox,
+                  child: Text(t.options.dropbox.login_button),
+                ),
+              if (_isLoggedIn)
+                ElevatedButton(
+                  onPressed: _logoutDropbox,
+                  child: Text(t.options.dropbox.logout_button),
+                ),
+              if (accountUserName != null) Text(accountUserName),
+              if (accountAvatarUrl != null)
+                Image.network(
+                  accountAvatarUrl,
+                  width: 50.0,
+                  height: 50.0,
+                  fit: BoxFit.cover,
+                ),
+              if (_isLoggedIn) ...[
+                if (isSyncing)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: CircularProgressIndicator(strokeWidth: 2.5),
+                        ),
+                        if (syncState.totalActions > 0)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 4.0),
+                            child: Text(
+                              '${syncState.completedActions}/${syncState.totalActions}',
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                          ),
+                      ],
+                    ),
+                  )
+                else
+                  ElevatedButton.icon(
+                    onPressed:
+                        () => ref.read(syncProvider.notifier).sync().then((_) {
+                          if (!context.mounted) return;
+                          final state = ref.read(syncProvider);
+                          final snackKey =
+                              state.status == SyncStatus.error
+                                  ? t.options.snack_messages.dropbox.sync_error
+                                  : t
+                                      .options
+                                      .snack_messages
+                                      .dropbox
+                                      .sync_success;
+                          ScaffoldMessenger.of(
+                            context,
+                          ).showSnackBar(SnackBar(content: Text(snackKey)));
+                        }),
+                    icon: const Icon(Icons.sync),
+                    label: Text(t.options.dropbox.sync_button),
+                  ),
+              ],
             ],
           ],
-        ],
+        ),
       ),
     );
   }
