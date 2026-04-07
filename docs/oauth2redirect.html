@@ -5,48 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chess Positions Binder - Oauth2 redirect</title>
     <script>
-      if (typeof window === "undefined") return;
-      const hash = window.location.hash || "";
-      const search = window.location.search || "";
-      const params = hash || search;
-      const scheme = "chess-positions-binder://oauth2redirect";
-      const redirectUrl = scheme + params;
+      function init() {
+        if (typeof window === "undefined") return;
+        const hash = window.location.hash || "";
+        const search = window.location.search || "";
+        const params = hash || search;
+        const scheme = "chess-positions-binder://oauth2redirect";
+        const redirectUrl = scheme + params;
 
-      // Add a link to close the application manually
-      const manualLink = document.createElement("a");
-      manualLink.href = redirectUrl;
-      manualLink.textContent = "Close manually";
-      manualLink.style.display = "block";
-      manualLink.style.marginTop = "1em";
-      document.body.appendChild(manualLink);
+        // Add a link to close the application manually
+        const manualLink = document.createElement("a");
+        manualLink.href = redirectUrl;
+        manualLink.textContent = "Close manually";
+        manualLink.style.display = "block";
+        manualLink.style.marginTop = "1em";
+        document.body.appendChild(manualLink);
 
-      // If opened as popup, send params back to opener; otherwise open app via deep link
-      if (window.opener) {
-        // Cherche le code d'abord dans la query, puis dans le hash
-        let code = new URLSearchParams(window.location.search).get("code");
-        if (!code && window.location.hash) {
-          code = new URLSearchParams(
-            window.location.hash.replace(/^#/, ""),
-          ).get("code");
-        }
-        if (code) {
-          window.opener.postMessage(
-            { type: "oauth2_code", code },
-            window.location.origin,
-          );
+        // If opened as popup, send params back to opener; otherwise open app via deep link
+        if (window.opener) {
+          // Cherche le code d'abord dans la query, puis dans le hash
+          let code = new URLSearchParams(window.location.search).get("code");
+          if (!code && window.location.hash) {
+            code = new URLSearchParams(
+              window.location.hash.replace(/^#/, ""),
+            ).get("code");
+          }
+          if (code) {
+            window.opener.postMessage(
+              { type: "oauth2_code", code },
+              window.location.origin,
+            );
+          } else {
+            window.opener.postMessage(
+              { type: "oauth2_params", params },
+              window.location.origin,
+            );
+          }
+          window.close();
         } else {
-          window.opener.postMessage(
-            { type: "oauth2_params", params },
-            window.location.origin,
-          );
+          window.location.replace(redirectUrl);
         }
-        window.close();
-      } else {
-        window.location.replace(redirectUrl);
       }
     </script>
   </head>
-  <body>
+  <body onload="init()">
     <div>
       <h1>Chess positions binder : Dropbox authentication</h1>
       <p>Returning to the app…</p>
