@@ -185,7 +185,7 @@ class DropboxApiService {
     if (response.statusCode == 409) {
       // path/not_found — folder doesn't exist yet on Dropbox (or was deleted)
       debugPrint(
-        'Dropbox list_folder: /books not found (409) — remote folder missing.',
+        'Dropbox list_folder: /positions not found (409) — remote folder missing.',
       );
       return {"entries": [], "has_more": false};
     }

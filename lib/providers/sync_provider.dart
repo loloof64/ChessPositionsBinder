@@ -36,13 +36,13 @@ class Sync extends _$Sync {
       }
 
       final appSupportDir = await getApplicationSupportDirectory();
-      final booksDir = Directory(
+      final positionsDir = Directory(
         p.join(appSupportDir.path, positionsRootFolderName),
       );
 
-      // Ensure local books directory exists
-      if (!await booksDir.exists()) {
-        await booksDir.create(recursive: true);
+      // Ensure local positions directory exists
+      if (!await positionsDir.exists()) {
+        await positionsDir.create(recursive: true);
       }
 
       final manifestService = SyncManifestService(appSupportDir: appSupportDir);
@@ -51,7 +51,7 @@ class Sync extends _$Sync {
       final api = DropboxApiService(accessToken);
       final engine = SyncEngine(
         api: api,
-        localBooksDir: booksDir,
+        localPositionsDir: positionsDir,
         previousManifest: previousManifest,
         onProgress: (total, completed) {
           state = SyncState(

@@ -1,1 +1,2 @@
 - fix some translation messages
+- fix Dropbox synchronization issues

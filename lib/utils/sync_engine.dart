@@ -60,17 +60,17 @@ class _RemoteFileInfo {
 
 class SyncEngine {
   final DropboxApiService _api;
-  final Directory _localBooksDir;
+  final Directory _localPositionsDir;
   final Set<String> _previousManifest;
   final void Function(int total, int completed)? onProgress;
 
   SyncEngine({
     required DropboxApiService api,
-    required Directory localBooksDir,
+    required Directory localPositionsDir,
     required Set<String> previousManifest,
     this.onProgress,
   }) : _api = api,
-       _localBooksDir = localBooksDir,
+       _localPositionsDir = localPositionsDir,
        _previousManifest = previousManifest;
 
   /// Run the full bidirectional sync.
@@ -107,7 +107,7 @@ class SyncEngine {
     }
 
     // Guard 2: remote scan empty but local has files + non-empty manifest.
-    // Means the remote /books folder was deleted (e.g. by a previous bad sync).
+    // Means the remote /positions folder was deleted (e.g. by a previous bad sync).
     // Recover by treating this as a first-sync so all local files get uploaded
     // and nothing is deleted locally.
     final remoteRootDeleted =
@@ -116,7 +116,7 @@ class SyncEngine {
         _previousManifest.isNotEmpty;
     if (remoteRootDeleted) {
       debugPrint(
-        'Sync: remote /books folder appears deleted '
+        'Sync: remote /positions folder appears deleted '
         '(0 remote entries, ${_previousManifest.length} manifest entries, '
         '${localFiles.length} local entries). '
         'Recovering: treating as first-sync and uploading all local files.',
@@ -147,24 +147,24 @@ class SyncEngine {
   Future<Map<String, _LocalFileInfo>> _scanLocalFiles() async {
     final map = <String, _LocalFileInfo>{};
 
-    if (!await _localBooksDir.exists()) return map;
+    if (!await _localPositionsDir.exists()) return map;
 
-    // Parent dir is the appSupportDir; relative paths start with "books/..."
-    final baseDir = _localBooksDir.parent;
+    // Parent dir is the appSupportDir; relative paths start with "positions/..."
+    final baseDir = _localPositionsDir.parent;
 
-    // Include the books root dir itself. Dropbox list_folder('/books') returns
-    // '/books' as one of the entries (tag=folder), but Dart's Directory.list()
+    // Include the positions root dir itself. Dropbox list_folder('/positions') returns
+    // '/positions' as one of the entries (tag=folder), but Dart's Directory.list()
     // only returns the *contents*, not the directory itself. Without this entry
-    // the engine sees books as "present remote, absent local" → deleteRemote.
+    // the engine sees positions as "present remote, absent local" → deleteRemote.
     final rootRelative = p
-        .relative(_localBooksDir.path, from: baseDir.path)
+        .relative(_localPositionsDir.path, from: baseDir.path)
         .replaceAll('\\', '/');
     map[rootRelative.toLowerCase()] = _LocalFileInfo(
       isFolder: true,
       originalRelativePath: rootRelative,
     );
 
-    await for (final entity in _localBooksDir.list(recursive: true)) {
+    await for (final entity in _localPositionsDir.list(recursive: true)) {
       final originalRelative = p
           .relative(entity.path, from: baseDir.path)
           .replaceAll('\\', '/');
@@ -194,7 +194,7 @@ class SyncEngine {
   // ---------------------------------------------------------------------------
 
   Future<Map<String, _RemoteFileInfo>> _scanRemoteFiles() async {
-    final entries = await _api.listAllFilesForSync('/books');
+    final entries = await _api.listAllFilesForSync('/positions');
     final map = <String, _RemoteFileInfo>{};
 
     for (final entry in entries) {
@@ -249,9 +249,9 @@ class SyncEngine {
     // we want to upload all local files without planning any deletions.
     final isFirstSync = _previousManifest.isEmpty || forceFirstSync;
 
-    // The sync root folder ('books') must never be deleted — it is the anchor
+    // The sync root folder ('positions') must never be deleted — it is the anchor
     // of the whole sync tree. Deleting it would remove all content from Dropbox.
-    const syncRoot = 'books';
+    const syncRoot = 'positions';
 
     for (final path in allPaths) {
       // Belt-and-suspenders: never plan a deletion of the sync root itself.
@@ -380,7 +380,7 @@ class SyncEngine {
     // If we have a remote content hash, compute local hash and compare.
     if (remote.contentHash != null) {
       final localFile = File(
-        p.join(_localBooksDir.parent.path, local.originalRelativePath),
+        p.join(_localPositionsDir.parent.path, local.originalRelativePath),
       );
       final localBytes = localFile.readAsBytesSync();
       final localHash = _computeDropboxContentHash(localBytes);
@@ -445,7 +445,7 @@ class SyncEngine {
       switch (action.type) {
         case _SyncActionType.upload:
           final file = File(
-            p.join(_localBooksDir.parent.path, action.operationPath),
+            p.join(_localPositionsDir.parent.path, action.operationPath),
           );
           final bytes = await file.readAsBytes();
           await _api.uploadFile('/${action.operationPath}', bytes);
@@ -453,7 +453,7 @@ class SyncEngine {
 
         case _SyncActionType.download:
           final file = File(
-            p.join(_localBooksDir.parent.path, action.operationPath),
+            p.join(_localPositionsDir.parent.path, action.operationPath),
           );
           await file.parent.create(recursive: true);
           final bytes = await _api.downloadFile('/${action.operationPath}');
@@ -462,7 +462,7 @@ class SyncEngine {
 
         case _SyncActionType.createLocalFolder:
           final dir = Directory(
-            p.join(_localBooksDir.parent.path, action.operationPath),
+            p.join(_localPositionsDir.parent.path, action.operationPath),
           );
           await dir.create(recursive: true);
           debugPrint('Sync 📁 created local folder ${action.operationPath}');
@@ -473,7 +473,7 @@ class SyncEngine {
 
         case _SyncActionType.deleteLocal:
           final absPath = p.join(
-            _localBooksDir.parent.path,
+            _localPositionsDir.parent.path,
             action.operationPath,
           );
           if (action.isFolder) {
