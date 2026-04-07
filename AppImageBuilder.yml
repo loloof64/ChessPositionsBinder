@@ -10,8 +10,9 @@ script:
   - mkdir -p AppDir/usr/share/metainfo
   - cp ChessPositionsBinder.metainfo.xml AppDir/usr/share/metainfo/ChessPositionsBinder.metainfo.xml
   # Regenerate gdk-pixbuf loaders cache for SVG support
-  - if [ -d AppDir/usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders ]; then \
-    gdk-pixbuf-query-loaders AppDir/usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders/*.so > AppDir/usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders.cache; \
+  - |
+    if [ -d AppDir/usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders ]; then
+      gdk-pixbuf-query-loaders AppDir/usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders/*.so > AppDir/usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders.cache
     fi
 AppDir:
   path: ./AppDir
@@ -19,7 +20,7 @@ AppDir:
     id: com.loloof64.ChessPositionsBinder
     name: Chess Positions Binder
     icon: logo
-    version: 1.2.10
+    version: 1.2.11
     exec: chess_position_binder
     exec_args: $@
   apt:
