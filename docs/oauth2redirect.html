@@ -12,9 +12,23 @@
       const scheme = "chess-positions-binder://oauth2redirect";
       const redirectUrl = scheme + params;
 
+      // Add a link to close the application manually
+      const manualLink = document.createElement("a");
+      manualLink.href = redirectUrl;
+      manualLink.textContent = "Close manually";
+      manualLink.style.display = "block";
+      manualLink.style.marginTop = "1em";
+      document.body.appendChild(manualLink);
+
       // If opened as popup, send params back to opener; otherwise open app via deep link
       if (window.opener) {
-        const code = new URLSearchParams(window.location.search).get("code");
+        // Cherche le code d'abord dans la query, puis dans le hash
+        let code = new URLSearchParams(window.location.search).get("code");
+        if (!code && window.location.hash) {
+          code = new URLSearchParams(
+            window.location.hash.replace(/^#/, ""),
+          ).get("code");
+        }
         if (code) {
           window.opener.postMessage(
             { type: "oauth2_code", code },
@@ -36,7 +50,6 @@
     <div>
       <h1>Chess positions binder : Dropbox authentication</h1>
       <p>Returning to the app…</p>
-      <a href="chess-positions-binder://oauth2redirect">Close manually</>
     </div>
   </body>
 </html>
