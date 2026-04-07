@@ -1,1 +1,1 @@
-- fix AppImage error (libudev)
+- fix some translation messages

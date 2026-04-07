@@ -300,8 +300,8 @@ class _CommonDrawerState extends ConsumerState<CommonDrawer> {
                         final state = ref.read(syncProvider);
                         final snackKey =
                             state.status == SyncStatus.error
-                                ? "options.snack_messages.dropbox.sync_error"
-                                : "options.snack_messages.dropbox.sync_success";
+                                ? t.options.snack_messages.dropbox.sync_error
+                                : t.options.snack_messages.dropbox.sync_success;
                         ScaffoldMessenger.of(
                           context,
                         ).showSnackBar(SnackBar(content: Text(snackKey)));
