@@ -6,6 +6,8 @@ Store and classify your favorite chess positions.
 
 You can also save/download them into/from your Dropbox account.
 
+Note : changed the Dropbox connection workflow : you will probably need to move your current positions in your Dropbox Account from the `Applications/ChessPositionsBinder` to the folder `Applications/ChessPositionsBinder/positions` for them to be recognized by the application.
+
 ## For developers
 
 ### Locales
