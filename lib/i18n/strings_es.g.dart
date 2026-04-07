@@ -338,6 +338,7 @@ class _TranslationsPagesPhotoOcrButtonsEs implements TranslationsPagesPhotoOcrBu
 	// Translations
 	@override String get take_photo => 'Tomar foto';
 	@override String get pick_image => 'Seleccionar imagen';
+	@override String get use_it => 'Utilizar';
 }
 
 // Path: pages.photo_ocr.errors
@@ -628,6 +629,7 @@ extension on TranslationsEs {
 			case 'pages.photo_ocr.processing_picture': return 'Procesando imagen ...';
 			case 'pages.photo_ocr.buttons.take_photo': return 'Tomar foto';
 			case 'pages.photo_ocr.buttons.pick_image': return 'Seleccionar imagen';
+			case 'pages.photo_ocr.buttons.use_it': return 'Utilizar';
 			case 'pages.photo_ocr.errors.failed_picking_image': return 'Error al seleccionar imagen';
 			case 'pages.photo_ocr.errors.failed_extracting_chessboard': return 'Error al extraer el tablero de la imagen';
 			case 'pages.photo_ocr.errors.failed_decoding_chessboard_image': return 'Error al decodificar la imagen del tablero aislado';

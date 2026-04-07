@@ -69,7 +69,8 @@
       "processing_picture": "Traitement de l'image ...",
       "buttons": {
         "take_photo": "Photo",
-        "pick_image": "Gallerie"
+        "pick_image": "Gallerie",
+        "use_it": "Utiliser"
       },
       "errors": {
         "failed_picking_image": "Erreur de sélection de l'image",

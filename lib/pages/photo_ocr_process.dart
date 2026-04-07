@@ -327,7 +327,7 @@ class _PhotoOcrProcessPageState extends State<PhotoOcrProcessPage> {
                 ),
                 ElevatedButton(
                   onPressed: _validatePosition,
-                  child: Text(t.misc.buttons.validate),
+                  child: Text(t.pages.photo_ocr.buttons.use_it),
                 ),
               ],
             ),

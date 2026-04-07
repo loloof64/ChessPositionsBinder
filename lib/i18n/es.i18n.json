@@ -69,7 +69,8 @@
       "processing_picture": "Procesando imagen ...",
       "buttons": {
         "take_photo": "Tomar foto",
-        "pick_image": "Seleccionar imagen"
+        "pick_image": "Seleccionar imagen",
+        "use_it": "Utilizar"
       },
       "errors": {
         "failed_picking_image": "Error al seleccionar imagen",

@@ -474,6 +474,9 @@ class TranslationsPagesPhotoOcrButtonsEn {
 
 	/// en: 'Pick image'
 	String get pick_image => 'Pick image';
+
+	/// en: 'Use it'
+	String get use_it => 'Use it';
 }
 
 // Path: pages.photo_ocr.errors
@@ -908,6 +911,7 @@ extension on Translations {
 			case 'pages.photo_ocr.processing_picture': return 'Processing image ...';
 			case 'pages.photo_ocr.buttons.take_photo': return 'Take photo';
 			case 'pages.photo_ocr.buttons.pick_image': return 'Pick image';
+			case 'pages.photo_ocr.buttons.use_it': return 'Use it';
 			case 'pages.photo_ocr.errors.failed_picking_image': return 'Failed to pick image';
 			case 'pages.photo_ocr.errors.failed_extracting_chessboard': return 'Failed to extract chessboard from image';
 			case 'pages.photo_ocr.errors.failed_decoding_chessboard_image': return 'Failed to decode isolated chessboard image';
