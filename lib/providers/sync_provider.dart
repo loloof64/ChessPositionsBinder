@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:chess_position_binder/models/synchronisation_items/sync_state.dart';
 import 'package:chess_position_binder/providers/dropbox_login_provider.dart';
-import 'package:chess_position_binder/utils/constants.dart';
 import 'package:chess_position_binder/utils/dropbox_api_service.dart';
+import 'package:chess_position_binder/utils/filesystem.dart';
 import 'package:chess_position_binder/utils/sync_engine.dart';
 import 'package:chess_position_binder/utils/sync_manifest_service.dart';
 import 'package:flutter/foundation.dart';

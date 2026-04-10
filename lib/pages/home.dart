@@ -6,6 +6,7 @@ import 'package:chess_position_binder/core/read_positions.dart';
 import 'package:chess_position_binder/pages/position_details.dart';
 import 'package:chess_position_binder/pages/position_editor.dart';
 import 'package:chess_position_binder/utils/constants.dart';
+import 'package:chess_position_binder/utils/filesystem.dart';
 import 'package:chess_position_binder/widgets/common_drawer.dart';
 import 'package:chessground/chessground.dart';
 import 'package:dartchess/dartchess.dart' as chess;
@@ -96,7 +97,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
     final (pgn, selectedName) = result;
 
-    final savedFile = File("${_currentDirectory!.path}/$selectedName");
+    final securedName = secureFileItemName(selectedName);
+
+    final savedFile = File("${_currentDirectory!.path}/$securedName");
     await savedFile.writeAsString(pgn);
 
     _reloadContent();
@@ -136,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 controller: TextEditingController(text: ""),
                 onChanged: (value) {
-                  newName = value;
+                  newName = secureFileItemName(value);
                 },
               ),
               actions: [
@@ -418,7 +421,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       t.pages.home.rename_position_dialog.name_placeholder,
                 ),
                 controller: TextEditingController(text: currentValue),
-                onChanged: (value) => currentValue = value,
+                onChanged: (value) => currentValue = secureFileItemName(value),
               ),
               actions: [
                 TextButton(
@@ -548,12 +551,13 @@ class _MyHomePageState extends State<MyHomePage> {
       context: context,
       builder: (context) {
         String newFolderName = path.split(Platform.pathSeparator).last;
+        String securedName = secureFileItemName(newFolderName);
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
               title: Text(
                 t.pages.home.rename_folder_dialog.title(
-                  newFolderName: newFolderName,
+                  newFolderName: securedName,
                 ),
               ),
               content: TextField(
@@ -561,8 +565,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 decoration: InputDecoration(
                   labelText: t.pages.home.rename_folder_dialog.name_placeholder,
                 ),
-                controller: TextEditingController(text: newFolderName),
-                onChanged: (value) => newFolderName = value,
+                controller: TextEditingController(text: securedName),
+                onChanged: (value) => securedName = secureFileItemName(value),
               ),
               actions: [
                 TextButton(
@@ -581,7 +585,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   onPressed: () async {
                     Navigator.of(context).pop();
-                    await _renameFolder(path, newFolderName.trim());
+                    await _renameFolder(path, securedName.trim());
                   },
                 ),
               ],

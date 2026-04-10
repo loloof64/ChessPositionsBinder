@@ -1,1 +1,1 @@
-- fix AppImage errors
+- secure folders and exercises names
