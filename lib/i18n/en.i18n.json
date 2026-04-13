@@ -16,7 +16,9 @@
       "login_button": "Login Dropbox",
       "logout_button": "Logout Dropbox",
       "sync_button": "Sync files",
-      "reset_tokens": "Clear connection data"
+      "reset_tokens": "Clear connection data",
+      "tokens_reseted": "Dropbox data reset. Please login again.",
+      "failed_reseting_tokens": "Failed to reset Dropbox data: $err"
     }
   },
   "misc": {

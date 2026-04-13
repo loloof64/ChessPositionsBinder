@@ -115,6 +115,8 @@ class _TranslationsOptionsDropboxEs implements TranslationsOptionsDropboxEn {
 	@override String get logout_button => 'Cerrar sesión en Dropbox';
 	@override String get sync_button => 'Sincronizar archivos';
 	@override String get reset_tokens => 'Borrar datos de conexión';
+	@override String get tokens_reseted => 'Datos de Dropbox borrados. Por favor, inicie sesión de nuevo.';
+	@override String failed_reseting_tokens({required Object err}) => 'No se pudo borrar los datos de Dropbox: ${err}';
 }
 
 // Path: misc.buttons
@@ -619,6 +621,8 @@ extension on TranslationsEs {
 			case 'options.dropbox.logout_button': return 'Cerrar sesión en Dropbox';
 			case 'options.dropbox.sync_button': return 'Sincronizar archivos';
 			case 'options.dropbox.reset_tokens': return 'Borrar datos de conexión';
+			case 'options.dropbox.tokens_reseted': return 'Datos de Dropbox borrados. Por favor, inicie sesión de nuevo.';
+			case 'options.dropbox.failed_reseting_tokens': return ({required Object err}) => 'No se pudo borrar los datos de Dropbox: ${err}';
 			case 'misc.buttons.ok': return 'De Acuerdo';
 			case 'misc.buttons.cancel': return 'Anular';
 			case 'misc.buttons.save': return 'Guardar';

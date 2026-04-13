@@ -1,1 +1,1 @@
-- add an option to clear Dropbox connection data
+- make permanent access to button for clearing Dropbox data

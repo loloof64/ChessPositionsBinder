@@ -16,7 +16,9 @@
       "login_button": "Connexion Dropbox",
       "logout_button": "Déconnexion Dropbox",
       "sync_button": "Synchroniser les fichiers",
-      "reset_tokens": "Effacer données de connexion"
+      "reset_tokens": "Effacer données de connexion",
+      "tokens_reseted": "Données Dropbox effacées. Veuillez vous reconnecter.",
+      "failed_reseting_tokens": "Échec de la réinitialisation des données Dropbox : $err"
     }
   },
   "misc": {

@@ -198,9 +198,9 @@ class _CommonDrawerState extends ConsumerState<CommonDrawer> {
     try {
       await dropboxLogin.forceResetSecureStorage();
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Dropbox tokens reset. Please login again.')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(t.options.dropbox.tokens_reseted)));
       setState(() {
         _isLoggedIn = false;
       });
@@ -208,7 +208,9 @@ class _CommonDrawerState extends ConsumerState<CommonDrawer> {
       debugPrint("Error while resetting Dropbox tokens: $e");
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to reset Dropbox tokens: $e')),
+        SnackBar(
+          content: Text(t.options.dropbox.failed_reseting_tokens(err: e)),
+        ),
       );
     }
   }
@@ -272,6 +274,11 @@ class _CommonDrawerState extends ConsumerState<CommonDrawer> {
                 ),
               )
             else ...[
+              ElevatedButton(
+                onPressed: _forceResetDropboxTokens,
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
+                child: Text(t.options.dropbox.reset_tokens),
+              ),
               if (!_isLoggedIn)
                 ElevatedButton(
                   onPressed: _loginDropbox,
@@ -281,14 +288,6 @@ class _CommonDrawerState extends ConsumerState<CommonDrawer> {
                 ElevatedButton(
                   onPressed: _logoutDropbox,
                   child: Text(t.options.dropbox.logout_button),
-                ),
-              if (_isLoggedIn)
-                ElevatedButton(
-                  onPressed: _forceResetDropboxTokens,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange,
-                  ),
-                  child: Text(t.options.dropbox.reset_tokens),
                 ),
               if (accountUserName != null) Text(accountUserName),
               if (accountAvatarUrl != null)

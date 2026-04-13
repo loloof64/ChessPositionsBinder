@@ -4,5 +4,6 @@
     "string": "cpp",
     "string_view": "cpp",
     "span": "cpp"
-  }
+  },
+  "cmake.sourceDirectory": "/home/laurent/Documents/GitHub/ChessPositionsBinder/linux"
 }

@@ -16,7 +16,9 @@
       "login_button": "Iniciar sesión en Dropbox",
       "logout_button": "Cerrar sesión en Dropbox",
       "sync_button": "Sincronizar archivos",
-      "reset_tokens": "Borrar datos de conexión"
+      "reset_tokens": "Borrar datos de conexión",
+      "tokens_reseted": "Datos de Dropbox borrados. Por favor, inicie sesión de nuevo.",
+      "failed_reseting_tokens": "No se pudo borrar los datos de Dropbox: $err"
     }
   },
   "misc": {

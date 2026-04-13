@@ -135,6 +135,12 @@ class TranslationsOptionsDropboxEn {
 
 	/// en: 'Clear connection data'
 	String get reset_tokens => 'Clear connection data';
+
+	/// en: 'Dropbox data reset. Please login again.'
+	String get tokens_reseted => 'Dropbox data reset. Please login again.';
+
+	/// en: 'Failed to reset Dropbox data: $err'
+	String failed_reseting_tokens({required Object err}) => 'Failed to reset Dropbox data: ${err}';
 }
 
 // Path: misc.buttons
@@ -918,6 +924,8 @@ extension on Translations {
 			case 'options.dropbox.logout_button': return 'Logout Dropbox';
 			case 'options.dropbox.sync_button': return 'Sync files';
 			case 'options.dropbox.reset_tokens': return 'Clear connection data';
+			case 'options.dropbox.tokens_reseted': return 'Dropbox data reset. Please login again.';
+			case 'options.dropbox.failed_reseting_tokens': return ({required Object err}) => 'Failed to reset Dropbox data: ${err}';
 			case 'misc.buttons.ok': return 'Ok';
 			case 'misc.buttons.cancel': return 'Cancel';
 			case 'misc.buttons.save': return 'Save';

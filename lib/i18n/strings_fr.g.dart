@@ -115,6 +115,8 @@ class _TranslationsOptionsDropboxFr implements TranslationsOptionsDropboxEn {
 	@override String get logout_button => 'Déconnexion Dropbox';
 	@override String get sync_button => 'Synchroniser les fichiers';
 	@override String get reset_tokens => 'Effacer données de connexion';
+	@override String get tokens_reseted => 'Données Dropbox effacées. Veuillez vous reconnecter.';
+	@override String failed_reseting_tokens({required Object err}) => 'Échec de la réinitialisation des données Dropbox : ${err}';
 }
 
 // Path: misc.buttons
@@ -619,6 +621,8 @@ extension on TranslationsFr {
 			case 'options.dropbox.logout_button': return 'Déconnexion Dropbox';
 			case 'options.dropbox.sync_button': return 'Synchroniser les fichiers';
 			case 'options.dropbox.reset_tokens': return 'Effacer données de connexion';
+			case 'options.dropbox.tokens_reseted': return 'Données Dropbox effacées. Veuillez vous reconnecter.';
+			case 'options.dropbox.failed_reseting_tokens': return ({required Object err}) => 'Échec de la réinitialisation des données Dropbox : ${err}';
 			case 'misc.buttons.ok': return 'Ok';
 			case 'misc.buttons.cancel': return 'Annuler';
 			case 'misc.buttons.save': return 'Sauvegarder';
