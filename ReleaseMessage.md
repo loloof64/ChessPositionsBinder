@@ -1,1 +1,1 @@
-- fixed some Dropbox authentication issues
+- add an option to clear Dropbox connection data

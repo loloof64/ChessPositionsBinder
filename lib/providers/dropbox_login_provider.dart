@@ -347,4 +347,26 @@ class DropboxLogin extends _$DropboxLogin {
       debugPrint('Error while fetching Dropbox account: $e');
     }
   }
+
+  /// Force a complete reset of all stored Dropbox tokens and account data
+  /// Use this to clear corrupted or invalid tokens
+  Future<void> forceResetSecureStorage() async {
+    debugPrint('Forcing complete reset of secure storage...');
+
+    // Clear our custom secure storage
+    await _clearStoredTokens();
+
+    // Clear oauth2_client's stored tokens
+    await _helper.removeAllTokens();
+
+    // Clear account data
+    try {
+      ref.read(dropboxAccountProvider.notifier).clear();
+    } catch (_) {}
+
+    // Reset state
+    state = const AsyncValue.data(null);
+
+    debugPrint('Secure storage reset complete. User must login again.');
+  }
 }

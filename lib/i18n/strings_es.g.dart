@@ -114,6 +114,7 @@ class _TranslationsOptionsDropboxEs implements TranslationsOptionsDropboxEn {
 	@override String get login_button => 'Iniciar sesión en Dropbox';
 	@override String get logout_button => 'Cerrar sesión en Dropbox';
 	@override String get sync_button => 'Sincronizar archivos';
+	@override String get reset_tokens => 'Borrar datos de conexión';
 }
 
 // Path: misc.buttons
@@ -617,6 +618,7 @@ extension on TranslationsEs {
 			case 'options.dropbox.login_button': return 'Iniciar sesión en Dropbox';
 			case 'options.dropbox.logout_button': return 'Cerrar sesión en Dropbox';
 			case 'options.dropbox.sync_button': return 'Sincronizar archivos';
+			case 'options.dropbox.reset_tokens': return 'Borrar datos de conexión';
 			case 'misc.buttons.ok': return 'De Acuerdo';
 			case 'misc.buttons.cancel': return 'Anular';
 			case 'misc.buttons.save': return 'Guardar';

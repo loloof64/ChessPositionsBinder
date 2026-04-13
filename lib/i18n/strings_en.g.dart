@@ -132,6 +132,9 @@ class TranslationsOptionsDropboxEn {
 
 	/// en: 'Sync files'
 	String get sync_button => 'Sync files';
+
+	/// en: 'Clear connection data'
+	String get reset_tokens => 'Clear connection data';
 }
 
 // Path: misc.buttons
@@ -914,6 +917,7 @@ extension on Translations {
 			case 'options.dropbox.login_button': return 'Login Dropbox';
 			case 'options.dropbox.logout_button': return 'Logout Dropbox';
 			case 'options.dropbox.sync_button': return 'Sync files';
+			case 'options.dropbox.reset_tokens': return 'Clear connection data';
 			case 'misc.buttons.ok': return 'Ok';
 			case 'misc.buttons.cancel': return 'Cancel';
 			case 'misc.buttons.save': return 'Save';

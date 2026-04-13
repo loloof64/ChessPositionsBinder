@@ -15,7 +15,8 @@
     "dropbox": {
       "login_button": "Login Dropbox",
       "logout_button": "Logout Dropbox",
-      "sync_button": "Sync files"
+      "sync_button": "Sync files",
+      "reset_tokens": "Clear connection data"
     }
   },
   "misc": {

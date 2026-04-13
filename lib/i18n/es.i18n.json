@@ -15,7 +15,8 @@
     "dropbox": {
       "login_button": "Iniciar sesión en Dropbox",
       "logout_button": "Cerrar sesión en Dropbox",
-      "sync_button": "Sincronizar archivos"
+      "sync_button": "Sincronizar archivos",
+      "reset_tokens": "Borrar datos de conexión"
     }
   },
   "misc": {
