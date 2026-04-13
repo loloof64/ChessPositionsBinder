@@ -176,6 +176,7 @@ class DropboxLogin extends _$DropboxLogin {
       final success = await _refreshWithRefreshToken(refresh);
       if (!success) {
         await _clearStoredTokens();
+        await _helper.removeAllTokens();
         state = const AsyncValue.data(null);
       }
 
@@ -197,6 +198,7 @@ class DropboxLogin extends _$DropboxLogin {
     } catch (e) {
       debugPrint('Silent session restore failed: $e');
       await _clearStoredTokens();
+      await _helper.removeAllTokens();
       state = const AsyncValue.data(null);
     }
   }
@@ -208,7 +210,7 @@ class DropboxLogin extends _$DropboxLogin {
       body: {
         'grant_type': 'refresh_token',
         'refresh_token': refreshToken,
-        'client_id': 'oja5n3i5ibq4mdp',
+        'client_id': appId,
       },
     );
     debugPrint(

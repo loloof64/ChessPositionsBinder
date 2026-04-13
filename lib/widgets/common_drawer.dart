@@ -39,7 +39,6 @@ class _CommonDrawerState extends ConsumerState<CommonDrawer> {
   Future<void> _loginDropbox() async {
     final dropboxAccount = ref.read(dropboxAccountProvider.notifier);
     final dropboxLogin = ref.read(dropboxLoginProvider.notifier);
-    if (_isLoggedIn) return;
 
     try {
       final tokenResponse = await dropboxLogin.login(); // interactive login

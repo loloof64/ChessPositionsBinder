@@ -1,1 +1,1 @@
-- secure folders and exercises names
+- fixed some Dropbox authentication issues
