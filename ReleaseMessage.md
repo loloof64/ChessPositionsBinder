@@ -1,1 +1,1 @@
-- show alert dialog on Dropbox connection error
+- removed clear Dropbox connection button

@@ -207,29 +207,6 @@ class _CommonDrawerState extends ConsumerState<CommonDrawer> {
     }
   }
 
-  Future<void> _forceResetDropboxTokens() async {
-    final dropboxLogin = ref.read(dropboxLoginProvider.notifier);
-
-    try {
-      await dropboxLogin.forceResetSecureStorage();
-      if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(t.options.dropbox.tokens_reseted)));
-      setState(() {
-        _isLoggedIn = false;
-      });
-    } catch (e) {
-      debugPrint("Error while resetting Dropbox tokens: $e");
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(t.options.dropbox.failed_reseting_tokens(err: e)),
-        ),
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final inDarkMode = ref.watch(darkThemeProvider);
@@ -289,11 +266,6 @@ class _CommonDrawerState extends ConsumerState<CommonDrawer> {
                 ),
               )
             else ...[
-              ElevatedButton(
-                onPressed: _forceResetDropboxTokens,
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
-                child: Text(t.options.dropbox.reset_tokens),
-              ),
               if (!_isLoggedIn)
                 ElevatedButton(
                   onPressed: _loginDropbox,
