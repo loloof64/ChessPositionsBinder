@@ -1,1 +1,1 @@
-- make permanent access to button for clearing Dropbox data
+- show alert dialog on Dropbox connection error

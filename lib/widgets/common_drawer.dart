@@ -156,10 +156,25 @@ class _CommonDrawerState extends ConsumerState<CommonDrawer> {
     } catch (e, st) {
       debugPrint("Error while login Dropbox account : $e\n$st");
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(t.options.snack_messages.dropbox.connection_error),
-        ),
+      final errorMsg = e.toString();
+      showDialog(
+        context: context,
+        builder:
+            (context) => AlertDialog(
+              title: Text(t.options.snack_messages.dropbox.connection_error),
+              content: SingleChildScrollView(
+                child: SelectableText(
+                  errorMsg,
+                  style: const TextStyle(fontSize: 13),
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text(t.misc.buttons.ok),
+                ),
+              ],
+            ),
       );
     }
   }
